@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalhando com Barber Grid</title>
+    <style>
+        form div{
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulação de Agendamento</h1>
+        <form id="form_agendamento">
+        <div>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+            <!--button type="submit" value="enviar"></button--> 
+        </div>
+        <div>
+            <label for="serviço">Serviço</label>
+            <!--input type="serviço" id="serviço" name="serviço" placeholder="Serviço" required!-->
+            <select id="servico" name="servico" required>
+                <option value="corte">Corte de cabelo</option>
+                <option value="barba">Barba</option>
+                <option value="sobrancelha">Sobrancelhas</option>
+            </select>
+        </div>
+            <button id="meubotao" type="submit" value="enviar">Clique aqui</button>
+    </form>
+    <p id="meuparagrafo">É aqui onde aparece o resultado...</p>
+    
+    
+    <script>
+        const form_agendamento = document.getElementById("form_agendamento")
+        const meuparagrafo = document.getElementById("meuparagrafo")
+
+    form_agendamento.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const nome = document.getElementById("nome").value
+        const servico = document.getElementById("servico").value
+
+        const agora = new Date()
+        const hora_formatada = agora.toLocaleTimeString('pt-BR', {hour: "2-digit", minute: "2-digit"})
+
+        meuparagrafo.textContent = `O cliente ${nome} foi agendado para o serviço de ${servico} às ${hora_formatada}`
+    })
+    </script>
+</body>
+</html>
