@@ -1,6 +1,7 @@
 venv/
 env/
 __pycache()__/
-__pycache/
+__pycache__/
 barber_grid/migrations/00*.py
 db.sqlite3
+.pic*/
