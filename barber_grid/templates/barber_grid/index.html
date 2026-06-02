@@ -1,52 +1,30 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trabalhando com Barber Grid</title>
-    <style>
-        form div{
-            margin-bottom: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static/estilo.css %}">
+    <title>Página Inicial</title>
 </head>
 <body>
-    <h1>Simulação de Agendamento</h1>
-        <form id="form_agendamento">
-        <div>
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
-            <!--button type="submit" value="enviar"></button--> 
-        </div>
-        <div>
-            <label for="serviço">Serviço</label>
-            <!--input type="serviço" id="serviço" name="serviço" placeholder="Serviço" required!-->
-            <select id="servico" name="servico" required>
-                <option value="corte">Corte de cabelo</option>
-                <option value="barba">Barba</option>
-                <option value="sobrancelha">Sobrancelhas</option>
-            </select>
-        </div>
-            <button id="meubotao" type="submit" value="enviar">Clique aqui</button>
-    </form>
-    <p id="meuparagrafo">É aqui onde aparece o resultado...</p>
-    
-    
-    <script>
-        const form_agendamento = document.getElementById("form_agendamento")
-        const meuparagrafo = document.getElementById("meuparagrafo")
-
-    form_agendamento.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const nome = document.getElementById("nome").value
-        const servico = document.getElementById("servico").value
-
-        const agora = new Date()
-        const hora_formatada = agora.toLocaleTimeString('pt-BR', {hour: "2-digit", minute: "2-digit"})
-
-        meuparagrafo.textContent = `O cliente ${nome} foi agendado para o serviço de ${servico} às ${hora_formatada}`
-    })
-    </script>
+         <a href="#" class="logo">Logo</a>
+    <nav>
+         <a href="#" class="ativo">Início</a>
+         <a href="#" class="ativo">Agendamento</a>
+         <a href="#" class="ativo">Contato</a>
+    </nav>
+    <section class="home">
+        <h1>Estilo e Tradição em cada corte</h3>
+        <p>A melhor experiência de barbearia de São Paulo do Potengi</p>
+        <p>Agendar horário</p>
+    </section>
+    <div class="servicos">
+        <h2>Nossos serviços</h2>
+        <h3>Corte Social R$ 20</h3>
+        <h3>Barba Completa</h3>
+        <h3>Degradê Disfarçado R$ 20</h3>
+        <h3>Combo R$ 50</h3>
+    </div>
 </body>
 </html>
