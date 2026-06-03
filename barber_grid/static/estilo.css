@@ -11,10 +11,12 @@
 
 body{
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     background-color: black;
     color: white;
-    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .logo{
@@ -25,23 +27,36 @@ body{
 
 header{
     display: flex;
-    width: 100%;
     justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 2rem 9%;
 
 
 }
 nav a{
     color: white;
+    margin-left: 20px;
     
+}
+
+nav a:hover{
+    color: gray
 }
 
 .home button{
     color: black;
     border-radius: 15px;
     background-color: gold;
-    width: 100px;
-    padding: 10px 20px;
+    width: 150px;
+    padding: 10px 10px;
+    height: 50px;
 
+}
+
+
+.ativo:first-of-type{
+    color: rgb(255, 255, 255);
 }
 
 
@@ -51,6 +66,7 @@ nav a{
     display: flex;
     align-items: center;
 }
+
 
 section{
     padding: 5rem 9%;
@@ -78,6 +94,30 @@ h3{
     width: 300px;
     border-radius: 25px;
     color: rgb(194, 194, 194);
-    padding: 10px 15px;
+    text-align: center;
+    padding: 24px 20px;
     
+}
+
+footer{
+    background-color: rgb(15, 15, 15);
+    text-align: center;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+footer p{
+      color: rgb(255, 255, 255);
+}
+
+
+.fa-github{
+    color: rgb(255, 255, 255);
+    border-radius: 25px;
+}
+
+.redes-sociais{
+    font-size: 2rem;
 }
