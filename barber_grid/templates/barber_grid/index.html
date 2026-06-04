@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="vibugewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilo.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"">
-    <title>Página Inicial</title>
-</head>
-<body>
-<header>
-         <a href="#" class="logo">Barber Grid</a>
-    <nav>
-         <a href="#" class="ativo">Início</a>
-         <a href="#" class="ativo">Agendamento</a>
-         <a href="#" class="ativo">Contato</a>
-    </nav>
-</header>
-    <section class="home">
+{% extends "barber_grid/base.html" %}
+    {% block content %}
+      <section class="home">
             <h1>Estilo e Tradição em cada corte</h1>
             <p>A melhor experiência de barbearia</p>
             <br>
@@ -31,19 +15,6 @@
             <h3>Combo R$ 50</h3>
         </div>
       </section>
-        <div class="gradient">
-        </div>
-        <footer>
-              <div class="redes-sociais">
-                <a href="https://www.github.com/alvarogit-ops" target="blank">
-                    <i class="fa fa-github">
-                    </i>
-                </a>
-            </div>
-             <p>Desenvolvido por alvarogit-ops</p>
-             <br>
-             <p &copy;>2026 alvarogit-ops - Todos direitos reservados</p>
-           
-        </footer>
-</body>
-</html>
+       {% endblock content %}
+
+  
