@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'barber_grid/estilo.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Página Inicial</title>
+</head>
+    <body>
+        <header>
+                <a href="{% url 'index' %}" class="logo">Barber Grid</a>
+             <nav>
+                <a href="{% url 'index' %}" class={% if request.resolver_match.url_name == 'index' %}ativo{% endif %}>Início</a>
+                <a href="{% url 'agendamento' %}" class={% if request.resolver_match.url_name == 'agendamento'%}ativo{% endif %}>Agendamento</a>
+                <a href="#" class={% if request.resolver_match.url_name == 'contato'%}ativo{% endif%}>Contato</a>
+             </nav> 
+        </header>
+       
+        {%block content %}
+        {%endblock content %}
+        <footer>
+            <div class="redes-sociais">
+                <a href="https://www.github.com/alvarogit-ops" target="blank">
+                    <i class="fa fa-github">
+                    </i>
+                </a>
+            </div>
+            <p>Desenvolvido por alvarogit-ops</p>
+            <br>
+            <p> &copy; 2026 alvarogit-ops - Todos direitos reservados</p>
+        </footer>
+    </body>
+</html>
+ 
+
+
+
