@@ -8,7 +8,7 @@
 </p>
 
 Barber Grid is a web application for managing barbershops, driven by the growing demand in the men's grooming sector and the need for accessible tools that optimize scheduling and customer management.
-Currently, many small business owners still use physical agendas, which makes data analysis and customer loyalty difficult.
+Currently, many small business owners still use physical planners, which makes data analysis and customer loyalty difficult.
 
 ## 🛠️ Installation & Setup
 
