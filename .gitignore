@@ -1,7 +1,10 @@
 venv/
 env/
-__pycache()__/
+.venv/
+**__pycache()__/
 __pycache__/
 barber_grid/migrations/00*.py
 db.sqlite3
-.pic*/
+*.pyc*/
+.vscode/
+.DS_Store
