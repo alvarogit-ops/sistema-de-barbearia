@@ -138,3 +138,23 @@ li{
     justify-content: center;
     flex-direction: column;
 }
+
+
+@media (max-width: 768px){
+    header{
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+
+    .servicos{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 90%;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+}
