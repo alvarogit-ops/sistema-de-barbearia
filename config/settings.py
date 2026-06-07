@@ -77,7 +77,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-    default = 'postgresql://barber_grid_postgres_user:edrB60mzLYfSrecrjxxDBKOXujtox7cX@dpg-d8iq7btckfvc73c3tgbg-a.frankfurt-postgres.render.com/barber_grid_postgres',
     conn_max_age = 600
     )
 }
