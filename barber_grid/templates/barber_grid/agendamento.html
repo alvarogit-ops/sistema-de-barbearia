@@ -4,8 +4,11 @@
 {% block content %}
 
     <ul>
-        {% for agendamento in agendamentos %}
-        <li>{{ agendamento }}</li>
+        <li>
+        {% for agendamento in agendamentos %} 
+        Cliente: {{agendamento.cliente_nome}} | Barbeiro: {{agendamento.barbeiro}} |Serviço: {{agendamento.servico.nome}} |
+
+        </li>
         {% empty %}
         <div class="sem-agendamento">
             <li>Não há agendamentos adicionados.</li>
