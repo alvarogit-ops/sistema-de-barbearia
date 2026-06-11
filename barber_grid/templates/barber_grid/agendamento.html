@@ -2,17 +2,22 @@
 
 
 {% block content %}
+                {% for agendamento in agendamentos %}  
+                <div class="agendamento-cliente">
+                    <p>Nome: {{agendamento.cliente_nome}}</p>
+                    <p>Barbeiro: {{agendamento.barbeiro}}</p>
+                    <p>Serviço: {{agendamento.servico.nome}}</p>
+                    <p>Tipo: {{agendamento.tipo}}</p>
+                </div>
+                {% empty %}
+                    <div class="sem-agendamento">       
+                            <li>Não há agendamentos adicionados.</li>
+                        <br>
+                            <button>Agendar horário</button>
+                    </div>
+                {% endfor %}
+               
 
-    <ul>
-        {% for agendamento in agendamentos %}
-        <li>{{ agendamento }}</li>
-        {% empty %}
-        <div class="sem-agendamento">
-            <li>Não há agendamentos adicionados.</li>
-            <br>
-            <button>Agendar horário</button>
-        </div>
-        {% endfor %}
-    </ul>
+       
 
 {% endblock content%}

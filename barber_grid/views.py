@@ -12,3 +12,5 @@ def agendamento(request):
 
     context = {'agendamentos': agendamento}
     return render(request, 'barber_grid/agendamento.html', context)
+
+#quem é o cliente_id? como vou pegar ele?

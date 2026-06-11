@@ -11,11 +11,20 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import dj_database_url
 import os
+import environ
 from pathlib import Path
+
+
+env = environ.Env(
+    DEBUG = (bool, False)
+
+)
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+environ.Env.read_env(os.path.join(BASE_DIR / '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -24,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-zs)p)jxcn7+ru8b)^8mq&8m0=jv*#^x6$&&40%_=_@#41u2(3)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -75,11 +84,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-    conn_max_age = 600,
-    )
-}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3'
+        }
+    }
+else:
+
+    DATABASES = {
+        'default': env.db('DATABASE_URL')
+    }
 
 
 
@@ -120,3 +136,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_FILE_DIRS = [
+    BASE_DIR / 'static',
+]
