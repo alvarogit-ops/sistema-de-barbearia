@@ -7,6 +7,8 @@
   <img src="https://img.shields.io/badge/CSS-101419.svg?style=for-the-badge&logo=CSS&logoColor=%231572B6" alt="CSS3"/>
 </p>
 
+<img width="1919" height="881" alt="image" src="https://github.com/user-attachments/assets/2d4d167d-da86-457c-a249-1b46346b33e1" />
+
 Barber Grid is a web application for managing barbershops, driven by the growing demand in the men's grooming sector and the need for accessible tools that optimize scheduling and customer management.
 Currently, many small business owners still use physical planners, which makes data analysis and customer loyalty difficult.
 
