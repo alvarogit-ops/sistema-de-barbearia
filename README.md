@@ -1,11 +1,6 @@
 # BarberShop Web Application
 
-<p align="left">
-  <img src="https://img.shields.io/badge/Python-101419.svg?style=for-the-badge&logo=Python&logoColor=%233776AB" alt="Python"/>
-  <img src="https://img.shields.io/badge/Django-101419.svg?style=for-the-badge&logo=Django&logoColor=%2344B78B" alt="Django"/>
-  <img src="https://img.shields.io/badge/HTML5-101419.svg?style=for-the-badge&logo=HTML5&logoColor=%23E34F26" alt="HTML5"/>
-  <img src="https://img.shields.io/badge/CSS-101419.svg?style=for-the-badge&logo=CSS&logoColor=%231572B6" alt="CSS3"/>
-</p>
+
 
 <img width="1919" height="881" alt="image" src="https://github.com/user-attachments/assets/2d4d167d-da86-457c-a249-1b46346b33e1" />
 
@@ -28,6 +23,16 @@ Barber Grid centralizes scheduling, customer records and service management in a
 - 👤 Customer management
 - 💈 Barber management
 - 📊 Dashboard and analytics
+
+ ## 🛠️ Tech Stack
+
+| Category | Technologies |
+|-----------|-------------|
+| Backend | Python 3.13, Django 6 |
+| Database | PostgreSQL |
+| Frontend | HTML5, CSS3 |
+| Deployment | Gunicorn, WhiteNoise |
+| Configuration | dj-database-url |
   
 ## 🚀 Roadmap
 
@@ -102,3 +107,15 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+### 👨‍💻 Author
+
+Developed with ❤️ by **alvarogit-ops**
+
+GitHub: https://github.com/alvarogit-ops
