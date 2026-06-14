@@ -11,7 +11,7 @@
 
 Barber Grid is a management platform designed for barbershops that need a simple and efficient way to organize appointments, clients and business operations.
 Many small barbershops still rely on paper schedules or WhatsApp messages, making customer management and business growth difficult.
-Barber Grid centralizes scheduling, customer records and service management in a single platform.
+Barber Grid centralizes scheduling, customer records and service management in a single platform. The current version includes the landing page and project foundation, while scheduling, authentication, and customer management features are under development.
 
 ## ✨ Current Features
 
