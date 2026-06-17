@@ -12,9 +12,8 @@
         <header>
                 <a href="{% url 'index' %}" class="logo">Barber Grid</a>
              <nav>
-                <a href="{% url 'index' %}" class={% if request.resolver_match.url_name == 'index' %}ativo{% endif %}>Início</a>
-                <a href="{% url 'agendamento' %}" class={% if request.resolver_match.url_name == 'agendamento'%}ativo{% endif %}>Agendamento</a>
-                <a href="#" class={% if request.resolver_match.url_name == 'contato'%}ativo{% endif%}>Contato</a>
+                <a href="{% url 'index' %}" class={% if request.resolver_match.url_name == 'login' %}ativo{% endif %}>Login</a>
+
              </nav> 
         </header>
        

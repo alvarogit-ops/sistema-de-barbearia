@@ -33,7 +33,7 @@ environ.Env.read_env(os.path.join(BASE_DIR / '.env'))
 SECRET_KEY = 'django-insecure-zs)p)jxcn7+ru8b)^8mq&8m0=jv*#^x6$&&40%_=_@#41u2(3)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -121,9 +121,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-BR'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
 

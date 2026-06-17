@@ -1,0 +1,11 @@
+{% extends 'barber_grid/base.html' %}
+
+{% block content %}
+
+<form action="{% url 'cadastro_clientes' %}" method="POST"> <!--tirei o html-->
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit">Cadastrar Agendamento</button>
+
+</form>
+{% endblock content %}
