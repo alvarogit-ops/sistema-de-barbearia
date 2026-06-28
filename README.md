@@ -1,6 +1,6 @@
 # Sistema de Barbearia 
 
-Autor: [Álvaro Yuri](https://github.com/alvarogitops)
+Autor: [Álvaro Yuri](https://github.com/alvarogit-ops)
 
 ## Um breve contexto: 
 
