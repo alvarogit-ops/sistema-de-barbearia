@@ -14,7 +14,7 @@ Este sistema tem como proposta simular um agendamento e gestão baseados em uma 
 ## Objetivos Gerais:
 
 Desenvolver um MVP estruturado e validado localmente,
-focando na otimização de processos de agendamento,
+focando na otimização de filas de clientes,
 para que o sistema possua uma arquitetura sólida o suficiente para, no futuro,
 ser escalado e transformado em um modelo SaaS (Software as a Service) comercial.
 
