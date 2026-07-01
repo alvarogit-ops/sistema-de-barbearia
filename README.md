@@ -6,7 +6,7 @@ Autor: [Álvaro Yuri](https://github.com/alvarogit-ops)
 
 Este projeto foi iniciado na fase de digitar código utilizando o Django, PostgreSQL, HTML5, CSS3, Python 3. 
 Só que eu não fiz um mapeamento de requisitos e uma modelagem de dados, então acabei usando muita IA sem entender o que eu estava fazendo. 
-Esse projeto foi remodelado para que cada funcionalidade fosse avançada conforme meu domínio sobre lógica e arquitetura de software.
+Esse projeto foi remodelado para que cada funcionalidade fosse testada conforme meu domínio sobre lógica e arquitetura de software. Ao invés de PostgreSQL, usei SQLite que é mais simples porque antes tive que manter um servidor no ar usando a Render.
 
 ## Qual é a proposta desse sistema?
 
