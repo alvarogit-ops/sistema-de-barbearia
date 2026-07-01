@@ -30,5 +30,5 @@ ser escalado e transformado em um modelo SaaS (Software as a Service) comercial.
 ## Desde então, o projeto se encontra nestas fases:
 
  - [x] Fluxograma da Arquitetura de Informação com FigJam para que eu possa mapear ideias;
- - [ ] Protótipos de Baixa e Alta Fidelidade no Figma para eu ter uma noção de como o sistema vai aparecer no celular;
+ - [ ] Protótipos de Baixa e Alta Fidelidade no Figma para eu ter uma noção de como o sistema vai aparecer no celular; (em Revisão)
  - [ ] _Em breve: Retorno ao Django com a base melhor em lógica;_
