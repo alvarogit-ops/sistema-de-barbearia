@@ -5,7 +5,8 @@ Autor: [Álvaro Yuri](https://github.com/alvarogit-ops)
 ## Um breve contexto: 
 
 Este projeto foi iniciado na fase de digitar código utilizando o Django, PostgreSQL, HTML5, CSS3, Python 3. 
-Só que eu não fiz um mapeamento de requisitos e uma modelagem de dados, então acabei usando muita IA sem entender o que eu estava fazendo.
+Só que eu não fiz um mapeamento de requisitos e uma modelagem de dados, então acabei usando muita IA sem entender o que eu estava fazendo. 
+Esse projeto foi remodelado para que cada funcionalidade fosse avançada conforme meu domínio sobre lógica e arquitetura de software.
 
 ## Qual é a proposta desse sistema?
 
