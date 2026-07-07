@@ -2,7 +2,7 @@
 
 ## 📌 Visão Geral
 
-O **Sistema de Barbearia** é um projeto acadêmico desenvolvido com o objetivo de simular o fluxo operacional de uma barbearia real, incluindo **agendamento**, **gestão de clientes** e **organização de serviços** com a orientação do professor [Diego Cirilo](https://github.com/dvcirilo).
+O **Sistema de Barbearia** é um projeto acadêmico desenvolvido com o objetivo de simular o fluxo operacional de uma barbearia real, incluindo **agendamento**, **gestão de clientes** e **organização de serviços*.
 
 O projeto é utilizado como base prática para o aprendizado progressivo de desenvolvimento de software, evoluindo junto com o domínio de lógica de programação e tecnologias web.
 
