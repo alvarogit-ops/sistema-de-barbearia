@@ -1,119 +1,25 @@
-# 💈 Sistema de Barbearia
+# Sistema de Barbearia
 
-## 📌 Visão Geral
+Este projeto está sendo desenvolvido como parte do TCC do curso de Informática.
 
-O **Sistema de Barbearia** é um projeto acadêmico desenvolvido com o objetivo de simular o fluxo operacional de uma barbearia real, incluindo **agendamento**, **gestão de clientes** e **organização de serviços*.
+O objetivo é criar um sistema de gerenciamento para uma barbearia, aplicando conceitos de desenvolvimento de software, organização de requisitos, prototipação e implementação incremental.
 
-O projeto é utilizado como base prática para o aprendizado progressivo de desenvolvimento de software, evoluindo junto com o domínio de lógica de programação e tecnologias web.
+## Etapas do Projeto
 
----
+- [x] Fase 1 - Levantamento e Análise de Requisitos
+- [x] Fase 2 - Prototipação de Telas
+- [ ] Fase 3 - Implementação incremental e testes em branch de estudo
+- [ ] Fase 4 - Desenvolvimento das principais funcionalidades 
+- [ ] Fase 5 - Refinamento e documentação
 
-## 🎯 Objetivo do Projeto
+## Organização e Desenvolvimento
 
-### Objetivo Geral
+O projeto será desenvolvido por etapas
 
-Desenvolver um **MVP (Minimum Viable Product)** funcional de um sistema para barbearia com uma arquitetura simples e evolutiva, permitindo expansão futura para um modelo mais completo, incluindo uma possível evolução para **SaaS**.
+A branch principal (`main`) representa o desenvolvimento do sistema, enquanto branches de estudo serão utilizadas para testes, exercícios e experimentos antes de integrar novas funcionalidades.
 
-### Objetivos Específicos
+## Objetivo
 
-- Simular regras de negócio de uma barbearia real;
-- Praticar o desenvolvimento incremental de software;
-- Aplicar versionamento utilizando Git e GitHub;
-- Evoluir habilidades em Backend e Frontend de forma progressiva;
-- Construir um portfólio técnico baseado em um projeto real.
+Construir um sistema funcional de barbearia, evoluindo gradualmente desde conceitos básicos de programação até a implementação web.
 
----
 
-## 🧠 Abordagem de Desenvolvimento
-
-O projeto segue uma abordagem **incremental**, onde cada funcionalidade é desenvolvida de acordo com o nível atual de conhecimento técnico.
-
-As etapas de desenvolvimento incluem:
-
-1. Modelagem inicial com fluxogramas (arquitetura da informação);
-2. Prototipação da interface utilizando Figma;
-3. Implementação progressiva das funcionalidades;
-4. Evolução técnica conforme o aprendizado em Python e Django.
-
----
-
-## 📊 Estado Atual do Projeto
-
-- ✅ Fluxograma da arquitetura em desenvolvimento (FigJam);
-- ✅ Protótipos de baixa e alta fidelidade em revisão (Figma);
-- ✅ Estrutura conceitual do sistema em definição;
-- 🔄 Retomada da implementação do backend planejada após consolidação da base em lógica de programação.
-
----
-
-## 🛠️ Tecnologias
-
-- Python 3
-- Django *(em fase de reintrodução)*
-- SQLite *(ambiente local de desenvolvimento)*
-- HTML5
-- CSS3
-- Git
-- GitHub
-- Figma
-- FigJam
-
----
-
-## 🚧 Fases do Projeto
-
-- [x] Levantamento de requisitos
-- [x] Arquitetura inicial
-- [ ] Protótipos de interface
-- [ ] Implementação incremental do Backend
-- [ ] Integração Frontend + Backend
-- [ ] Refinamentos e melhorias
-- [ ] Evolução para arquitetura escalável
-
----
-
-## 📚 Metodologia de Aprendizado
-
-Este projeto também funciona como um ambiente de aprendizagem prática.
-
-Cada funcionalidade é implementada de forma incremental, respeitando o nível atual de conhecimento técnico.
-
-### Ordem de evolução dos estudos
-
-1. Lógica de programação (Python)
-2. Estruturas de dados
-3. Funções e modularização
-4. Orientação a Objetos (POO)
-5. Desenvolvimento Web com Django
-
----
-
-## 🔮 Evolução Futura
-
-- Sistema de autenticação de usuários;
-- Agendamento com regras de disponibilidade;
-- Painel administrativo;
-- Melhorias de UX/UI;
-- Dashboard com métricas;
-- Notificações e lembretes;
-- Possível evolução para um modelo **SaaS**.
-
----
-
-## 📌 Observação
-
-Este projeto tem como objetivo não apenas entregar um sistema funcional, mas também documentar a evolução técnica ao longo do desenvolvimento.
-
-Cada etapa representa um avanço no aprendizado de conceitos relacionados à **Engenharia de Software**, **Arquitetura de Sistemas** e **Desenvolvimento Web**.
-
----
-
-## 📄 Licença
-
-Este projeto possui fins **acadêmicos e educacionais**, servindo como ambiente de estudo e evolução contínua.
-
----
-
-## 👨‍💻 Autor
-
-Desenvolvido como projeto de estudo e construção de portfólio, com foco na evolução contínua em desenvolvimento de software.
