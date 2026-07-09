@@ -1,3 +1,4 @@
+# Cadastrar clientes
 lista = []
 cont = 0
 n = int(input("Quantos clientes quer cadastrar? "))
