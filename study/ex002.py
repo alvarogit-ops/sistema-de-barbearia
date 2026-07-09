@@ -21,7 +21,8 @@ for cont in range(1, n + 1):
 
     
 for barbeiro in lista_principal:
-    print(lista_principal)
+    print(barbeiro)
+
 
 
 
