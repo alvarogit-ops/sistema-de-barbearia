@@ -3,24 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Login</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+
+        *{
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        font-family: Montserrat;
+        box-sizing: border-box;
+
+        }
+
+        .layout{
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+        body {
+            background-color: rgb(0, 0, 0);
+            flex-direction: column;
+            justify-content: center;
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            background-image: url(fundo-login-barbearia.png);
+            background-size: cover;
+            background-position: center;
+        
+        }
+
+        .lado-esquerdo{
+            width: 50%;
+            display: flex;
+            position: relative;
+            min-height: 100vh;
+       }
+        .container{
+            justify-content: start;
+            padding: 40px;   /*padding veio pra cá*/
+            background-color: rgb(27, 27, 27);
+            border-radius: 20px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .lado-direito{
+            width: 50%;
+            display: flex;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-group{
+            margin-bottom: 8px;
+        }
+
+
+        .logo{
+            color: rgb(255, 238, 143);
+            font-family: lato;
+            font-size: 42px;
+            font-weight: bold;
+            max-width: 500px;
+            padding: 50px;
+        }
+
+        .logo p{
+            color: rgb(223, 208, 125);
+            margin-top: 20px;
+            font-size: 25px;
+            font-weight: normal;
+        }
+        p{
+            color: white;
+            font-size: 16px;
+        }
+        
+        form{
+            /*sem padding pra todos lados*/
+            padding: 25px 0px 20px;
+            flex-direction: column;
+            gap: 10px;
+            display: flex;
+            width: 400px;
+        }
+
+        h2{
+            color: white;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .form-group input{
+            background-color: rgb(71, 71, 71);
+            border-radius: 8px;
+            padding: 12px 10px;
+            border: none;
+            margin-top: 10px;
+            width: 100%; /*deixa assim: email 
+                                       [     ] */
+            color: white;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .form-group label{
+            color: white;
+            font-size: 16px;
+        }
+
+        button{
+            height: 40px;
+            text-transform: uppercase;
+            border-radius: 15px;
+            background-color: rgb(255, 238, 143);
+            background-image:  linear-gradient(90deg rgb(255,238,143), rgb(223, 208, 125));
+            cursor: pointer;
+
+        }
+        button:hover{
+          
+            background-color: rgb(223, 208, 125);
+        }
+
+        a{
+            color: rgb(255, 238, 143);
+        }
+
+        footer{
+            width: 70%;
+        }
+
+        footer p{
+            text-align: left;
+        }
+        footer a{
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .lembrar-me{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Barber Grid</h1>
-    <h2>Entrar</h2>
-    <p>Acesse sua conta para continuar</p>
-    <form action="#" method="POST">
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+    <div class="layout">
+        <div class="lado-esquerdo">
+                <div class="logo">
+                  <a href="#">Barber Grid</a>
+                <p>Gerencie seus agendamentos
+                    de forma simples.
+                </p>
+                </div>
+        </div> 
+        <div class="lado-direito">
+            <div class="container">
+                    <h2>Entrar</h2>
+                    <p>Acesse sua conta para continuar</p>
+                <form action="#" method="POST">
+                        <div class="form-group">
+                        <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div> 
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha" required>
+                        </div>
+                        <div class="lembrar-me">
+                            <input type="checkbox">
+                            <p>Lembrar-me</p>
+                        </div> 
+                        <button type="submit">Entrar</button>
+                    <footer>
+                        <p><a href="esqueci-a-senha.html">Esqueceu a senha?</a></p>
+                        <p>Não tem uma conta? <a href="registro.html">Cadastre-se</a></p>
+                    </footer>
+                </form> <!--fechar antes do container-->
+            </div> 
+        </div>  
     </div>
-    <div class="form-group">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" required>
-    </div>
-       <button type="submit">Entrar</button>
-        <p><a href="esqueci-a-senha.html">Esqueceu a senha?</a></p>
-        <p>Não tem uma conta? <a href="registro.html">Cadastre-se</a></p>
-    </form>
 </body>
 </html>
