@@ -33,6 +33,7 @@
             min-height: 100vh;
             background-image: url(fundo-login-barbearia.png);
             background-size: cover;
+            object-fit: cover;
             background-position: center;
         
         }
@@ -49,6 +50,7 @@
             background-color: rgb(27, 27, 27);
             border-radius: 20px;
             box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+            width: 520px;
         }
 
         .lado-direito{
@@ -56,32 +58,99 @@
             display: flex;
             min-height: 100vh;
             justify-content: center;
-            align-items: center;
+            padding-top: 150px;
+            align-items: flex-start;    
         }
 
         .form-group{
             margin-bottom: 8px;
         }
 
+        @media (max-width:768px){
+                .layout{
+        flex-direction: column;
+        }
+
+        .lado-esquerdo,
+        .lado-direito{
+            width: 100%;
+        }
+
+        .lado-esquerdo{
+            min-height: 250px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lado-direito{
+            min-height: auto;
+            padding: 30px 20px;
+            align-items: center;
+        }
+
+        .container{
+            width: 90%;
+            max-width: 420px; /*equivalento ao form*/
+            padding: 25px;
+        }
+
+        .form-group{
+            padding-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-group input{
+            width: 100%; /*É importante colocar width 100% para que o site não fique com input e o resto fora do forn*/
+        }
+        form{
+            width: 100%;
+            
+    
+        }
 
         .logo{
+            text-align: center;
+        }
+
+        .logo p{
+            font-size: 22px;
+        }
+
+        h2{
+            font-size: 36px;
+        }
+
+        p,
+        footer a,
+        button{
+            font-size: 18px;
+            width: 100%;
+        }
+                
+            }
+
+        .logo{
+            padding: 100px;
+        }
+        
+        .logo a{
             color: rgb(255, 238, 143);
             font-family: lato;
-            font-size: 42px;
+            font-size: 54px;
             font-weight: bold;
-            max-width: 500px;
-            padding: 50px;
+            white-space: nowrap;
         }
 
         .logo p{
             color: rgb(223, 208, 125);
-            margin-top: 20px;
-            font-size: 25px;
+            font-size: 22px;
             font-weight: normal;
+            margin: 0;
+          
         }
         p{
             color: white;
-            font-size: 16px;
+            font-size: 18px;
         }
         
         form{
@@ -90,12 +159,12 @@
             flex-direction: column;
             gap: 10px;
             display: flex;
-            width: 400px;
+            width: 100%;
         }
 
         h2{
             color: white;
-            font-size: 32px;
+            font-size: 50px;
             margin-bottom: 10px;
         }
         .form-group input{
@@ -121,29 +190,37 @@
             text-transform: uppercase;
             border-radius: 15px;
             background-color: rgb(255, 238, 143);
-            background-image:  linear-gradient(90deg rgb(255,238,143), rgb(223, 208, 125));
+            background-image:  linear-gradient(90deg, rgb(255,238,143), rgb(223, 208, 125));
             cursor: pointer;
+            font-size: 24px;
 
         }
         button:hover{
           
-            background-color: rgb(223, 208, 125);
+            background-color: rgb(187, 174, 104);
         }
 
         a{
             color: rgb(255, 238, 143);
         }
 
-        footer{
-            width: 70%;
+        a:hover{
+            color: rgb(180, 168, 97);
         }
 
-        footer p{
-            text-align: left;
-        }
-        footer a{
+        footer{
+            padding-top: 20px;
             text-align: center;
-            font-size: 14px;
+        }
+
+         footer p{
+            text-align: center;
+            margin-top: 12px;
+
+        }
+
+        footer a{
+            font-size: 24px;
         }
 
         .lembrar-me{
@@ -158,14 +235,14 @@
         <div class="lado-esquerdo">
                 <div class="logo">
                   <a href="#">Barber Grid</a>
-                <p>Gerencie seus agendamentos
-                    de forma simples.
-                </p>
+                    <p>Gerencie seus agendamentos</p>
+                    <p>de forma simples e intuitiva.
+                    </p>
                 </div>
         </div> 
         <div class="lado-direito">
             <div class="container">
-                    <h2>Entrar</h2>
+                    <h2>Login</h2>
                     <p>Acesse sua conta para continuar</p>
                 <form action="#" method="POST">
                         <div class="form-group">
@@ -181,9 +258,12 @@
                             <p>Lembrar-me</p>
                         </div> 
                         <button type="submit">Entrar</button>
+                         <p><a href="esqueci-a-senha.html">Esqueceu a senha?</a></p>
                     <footer>
-                        <p><a href="esqueci-a-senha.html">Esqueceu a senha?</a></p>
-                        <p>Não tem uma conta? <a href="registro.html">Cadastre-se</a></p>
+                        <p>Não tem uma conta?</p>
+                        <p>
+                            <a href="registro.html">Cadastre-se</a>
+                        </p>    
                     </footer>
                 </form> <!--fechar antes do container-->
             </div> 

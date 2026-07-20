@@ -29,4 +29,3 @@ def cadastro_clientes(request):
 
     context = {'form': form}
     return render(request, 'barber_grid/cadastro_clientes.html', context)
-

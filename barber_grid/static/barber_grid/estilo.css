@@ -21,8 +21,9 @@ body{
 
 .logo{
     color: gold;
-    font-family: lato;
+    font-family: montserratt;
     font-size: 1.8rem;
+    font-weight: bold;
 }
 
 header{
