@@ -1,10 +1,10 @@
 from django.db import models
-
 # Create your models here.
 
 class Cliente(models.Model):
     nome_cliente = models.CharField(max_length=30)
     sobrenome_cliente = models.CharField(max_length=30)
+    telefone = models.CharField(max_length=20)
 
     def __str__(self):
         return self.nome
@@ -25,3 +25,7 @@ class Agendamento(models.Model):
                 fields=['data_agendamento', 'horario_agendamento'], name='unico_agendamento'
             )
         ]
+
+    def __str__(self):
+        return (f'ID:{self.id} DE {self.usuario} PARA {self.servico}, {self.data_agendamento}, {self.horario_agendamento}')
+    
