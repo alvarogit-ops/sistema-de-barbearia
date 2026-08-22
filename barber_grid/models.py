@@ -27,5 +27,7 @@ class Agendamento(models.Model):
         ]
 
     def __str__(self):
-        return (f'ID:{self.id} DE {self.usuario} PARA {self.servico}, {self.data_agendamento}, {self.horario_agendamento}')
+
+        # Como será mostrado no site, n tem nada haver com o que será mostrado no terminal
+        return (f'ID:{self.id} Usuário: {self.usuario} Serviço: {self.servico}, {self.data_agendamento}, {self.horario_agendamento}')
     
