@@ -7,15 +7,18 @@ class Cliente(models.Model):
     telefone = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.nome
+        return self.nome_cliente
 
 class Servico(models.Model):
     nome_servico = models.CharField(max_length=80)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return self.nome_servico
+
 class Agendamento(models.Model):
     usuario = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
-    servico = models.ManyToManyField(Servico)
+    servico = models.ManyToManyField(Servico) 
     data_agendamento = models.DateField(auto_now_add=True)
     horario_agendamento = models.TimeField()
 
@@ -28,6 +31,7 @@ class Agendamento(models.Model):
 
     def __str__(self):
 
+        servicos = ' '.join(servico.nome_servico for servico in self.servico.all())
         # Como será mostrado no site, n tem nada haver com o que será mostrado no terminal
-        return (f'ID:{self.id} Usuário: {self.usuario} Serviço: {self.servico}, {self.data_agendamento}, {self.horario_agendamento}')
+        return (f'ID:{self.id} Usuário: {self.usuario} Serviço: {servicos}, {self.data_agendamento}, {self.horario_agendamento}')
     
