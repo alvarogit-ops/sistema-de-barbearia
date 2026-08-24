@@ -40,3 +40,10 @@ Status:
 4. Mostrar vários agendamentos com Django Template
 5. No shell, usar agendamento.servico.add(servico1) pq é um Many to Many Field
 6. Para exibição dos registros, usar expressão geradora para pegar todos serviços relacionados, para cada serviço pegar o nome do serviço.
+
+
+## Painel Admin
+
+Importar a classe Agendamento em admin.py e colocar register admin para Agendamento
+python manage.py createsuperuser
+Adicionar agendamento

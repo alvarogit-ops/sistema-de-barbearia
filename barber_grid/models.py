@@ -19,7 +19,7 @@ class Servico(models.Model):
 class Agendamento(models.Model):
     usuario = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     servico = models.ManyToManyField(Servico) 
-    data_agendamento = models.DateField(auto_now_add=True)
+    data_agendamento = models.DateField()
     horario_agendamento = models.TimeField()
 
     class Meta:
