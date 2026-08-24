@@ -47,3 +47,14 @@ Status:
 Importar a classe Agendamento em admin.py e colocar register admin para Agendamento
 python manage.py createsuperuser
 Adicionar agendamento
+
+## Static assets
+
+criar pasta static
+importar os
+configurar staticfile_dirs
+configurar media_url = 'images/'
+python
+>>> import os
+>>> base_dir = os.getcwd()
+>>> print(base_dir)

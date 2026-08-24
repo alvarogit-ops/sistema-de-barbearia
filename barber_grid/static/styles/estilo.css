@@ -11,6 +11,11 @@ body{
    
 }
 
+.logotipo{
+    width: 250px;
+    height: 250px;
+    background-image: none;
+}
 
 .container{
     display: flex;
