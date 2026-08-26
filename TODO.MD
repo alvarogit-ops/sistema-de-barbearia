@@ -58,3 +58,19 @@ python
 >>> import os
 >>> base_dir = os.getcwd()
 >>> print(base_dir)
+
+## Autenticação
+
+formulario de senha
+
+## Forms
+
+Arquivo forms.py dentro do app importando forms do django
+importar forms dentro de views.py
+
+Criar registro.html, protegido.html, login.html
+Em home, request.user.username
+usar Csrf token, form as p
+Usar javascript para exibir cores e mensagens de erro
+Adicionar path authApp.urls e accounts login importando as views de authApp
+Adicionar em settings LOGIN_REDIRECT_URL = 'home'
