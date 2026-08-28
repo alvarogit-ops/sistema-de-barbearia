@@ -55,7 +55,8 @@ def registro(request):
     #Geralmente no navegador nós acessamos com a requisição GET
 
 def logoutForm(request):
-    logout(request, redirect='Sucess')
+    logout(request)
+    return redirect('login') #não deve ser um html
 
 @login_required
 def index(request):

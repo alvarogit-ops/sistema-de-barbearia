@@ -1,15 +1,5 @@
-let botaoTema = document.querySelector('#mudartema')
-const body = document.body
-const icone = document.querySelector('i')
+const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-
-
-botaoTema.addEventListener('click', () => {
-    body.classList.toggle('dark')
-
-    if (body.classList.contains('dark'))
-        icone.classList.replace('bi-moon','bi-sun')
-    else{
-        icone.classList.replace('bi-sun', 'bi-moon')
-    }
-})
+if (temaEscuro) {
+        document.body.classList.add('dark');
+}

@@ -93,3 +93,8 @@ Caminho não apontava para static em arquivos html.
 A view de login deve receber somente request e obter o usuário depois da autenticação.
 Removida a opção de agendar pelo WhatsApp.
 Home passa a ser apenas para usuários autenticados
+
+
+## Funcionalidade de login
+
+usar a rota de logout e um formulário POST.
