@@ -59,7 +59,12 @@ def logoutForm(request):
 
 @login_required
 def index(request):
-    return render(request, 'barber_grid/home.html')
+    #aqui somente usuários comuns acessam a página home
+
+    if request.user.is_staff:
+        return redirect ('painel_admin')
+    else:
+        return render(request, 'barber_grid/home.html')
 
 class PerfilProtegido(LoginRequiredMixin):
     pass
