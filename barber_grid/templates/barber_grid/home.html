@@ -1,48 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barber Grid - Gestão de Barbearia</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="{% static 'estilo.css %"}> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <title>Barber Grid</title>
 </head>
 <body>
-    <div class="container">
-         <header>
-        <nav>
-            <div class="logo">
-                <a href="#">Barber Grid</a>
-            </div>
-        </nav>
-    </header>
-    <section>
-        <div class="conteudo">
-            <h1>Estilo e tradição em cada corte.</h1>
-        </div>
-        <div class="secao-botoes">
-            <a href="#" id="agendar">
-                <i class="bi bi-whatsapp"></i>
-                Agendar pelo WhatsApp</a>
-            <a href="#" id="admin">
-                <i class="bi bi-person-lock"></i>
-                Acessar Admin
-            </a>
-        </div>
-    </section>
-    <footer>
-        <p>&copy;2026 - Barber Grid</p>
-        <a href="#" id="mudartema">
-             <i class="bi bi-moon">
-                <span>Mudar tema</span></i>
-        </a>
-        <script src="js/script.js"></script>
-    </footer>
-    </div>
+    <img class="logotipo" src="{% static 'images/logo.png' %}" alt="Barber Grid logo">
+    <h1>Início</h1>
+    <ul>
+        {% for agendamento in agendamentos%}
+        <li>{{agendamento}}</li>
+        {% endfor %}
+    </ul>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

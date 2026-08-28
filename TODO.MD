@@ -74,3 +74,22 @@ usar Csrf token, form as p
 Usar javascript para exibir cores e mensagens de erro
 Adicionar path authApp.urls e accounts login importando as views de authApp
 Adicionar em settings LOGIN_REDIRECT_URL = 'home'
+
+
+## Corrigir erro de tipo user no Login:
+
+Importar login como auth login em views.py.
+
+Usar email ao invés de nome_usuario
+No html, o input recebe email, ao invés de nome_usuario
+def registro não está salvando email e telefone, precisa ter validação se a senha e confirmar senha não forem iguais
+Adicionar name = "index" em urls.py
+usar is_staff para identificar quem pode entrar no painel administrativo.
+Validar se email existe no registro pra impedir 2 emails cadastrados
+
+## Erros corrigidos e mudanças
+
+Caminho não apontava para static em arquivos html.
+A view de login deve receber somente request e obter o usuário depois da autenticação.
+Removida a opção de agendar pelo WhatsApp.
+Home passa a ser apenas para usuários autenticados

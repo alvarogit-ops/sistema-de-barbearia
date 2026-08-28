@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -11,23 +12,38 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
-    <title>Login</title>
-</head>
-<body>
-    <form method="POST" action="#">
-        {% csrf_token %}    
-        <h2>Login</h2>
-        <div class="form-group">
-            <label for="email">Email: </label>
-            <input type="email" name="email" id="email">
-        </div>
-        <div class="form-group">
-            <label for="senha">Senha: </label>
-            <input type="password" name="senha" id="senha">
-        </div>
-        <button>Enviar</button>
+<h2>Criar conta</h2>
 
-        <a href="{% url 'registro' %}">Criar uma conta</a>
-    </form>
-</body>
-</html>
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome_usuario" id="nome_usuario" required>
+    </div>
+
+    <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="tel" name="telefone" id="telefone" required>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input type="password" name="senha" id="senha" required>
+    </div>
+
+    <div class="form-group">
+        <label for="confirmar_senha">Confirmar senha:</label>
+        <input type="password" name="confirmar_senha" id="confirmar_senha" required>
+    </div>
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+
+<a href="{% url 'login' %}">Já tenho uma conta</a>
