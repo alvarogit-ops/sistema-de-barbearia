@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .forms import ClienteForm
-from .models import Cliente
+from .models import Agendamento, Cliente, Servico
 
 
 class CadastroClientesTests(TestCase):
@@ -82,3 +82,99 @@ class CadastroClientesTests(TestCase):
         resposta = self.client.get(self.url)
 
         self.assertEqual(resposta.status_code, 403)
+
+
+class AutenticacaoViewsTests(TestCase):
+    def setUp(self):
+        self.usuario = User.objects.create_user(
+            username='cliente',
+            email='cliente@example.com',
+            password='senha-segura',
+        )
+
+    def test_login_credenciais_invalidas_mostra_mensagem(self):
+        resposta = self.client.post(reverse('login'), {
+            'email': 'cliente@example.com',
+            'senha': 'errada',
+        })
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertContains(resposta, 'Credenciais inválidas!')
+
+    def test_registro_senhas_diferentes_nao_cria_usuario(self):
+        resposta = self.client.post(reverse('registro'), {
+            'nome_usuario': 'novo',
+            'email': 'novo@example.com',
+            'telefone': '11999999999',
+            'senha': 'abc12345',
+            'confirmar_senha': 'outra',
+        })
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertEqual(User.objects.filter(email='novo@example.com').count(), 0)
+        self.assertContains(resposta, 'As senhas não são iguais!')
+
+    def test_registro_username_duplicado_nao_gera_500(self):
+        resposta = self.client.post(reverse('registro'), {
+            'nome_usuario': 'cliente',
+            'email': 'outro@example.com',
+            'telefone': '11999999999',
+            'senha': 'abc12345',
+            'confirmar_senha': 'abc12345',
+        })
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertContains(resposta, 'Este nome de usuário já está cadastrado!')
+
+    def test_registro_persiste_telefone_e_redireciona(self):
+        resposta = self.client.post(reverse('registro'), {
+            'nome_usuario': 'maria',
+            'email': 'maria@example.com',
+            'telefone': '21988887777',
+            'senha': 'abc12345',
+            'confirmar_senha': 'abc12345',
+        }, follow=True)
+
+        self.assertRedirects(resposta, reverse('login'))
+        user = User.objects.get(email='maria@example.com')
+        cliente = Cliente.objects.get(user=user)
+        self.assertEqual(cliente.telefone, '21988887777')
+        self.assertContains(resposta, 'Conta criada com sucesso')
+
+    def test_home_lista_agendamentos_do_usuario(self):
+        cliente = Cliente.objects.create(
+            user=self.usuario,
+            nome_cliente='cliente',
+            telefone='11999999999',
+        )
+        servico = Servico.objects.create(nome_servico='Corte', preco='40.00')
+        agendamento = Agendamento.objects.create(
+            usuario=cliente,
+            data_agendamento='2026-09-01',
+            horario_agendamento='10:00:00',
+        )
+        agendamento.servico.add(servico)
+
+        outro = Cliente.objects.create(nome_cliente='Outro', telefone='11000000000')
+        outro_agendamento = Agendamento.objects.create(
+            usuario=outro,
+            data_agendamento='2026-09-02',
+            horario_agendamento='11:00:00',
+        )
+        outro_agendamento.servico.add(servico)
+
+        self.client.force_login(self.usuario)
+        resposta = self.client.get(reverse('index'))
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertContains(resposta, 'Corte')
+        self.assertEqual(list(resposta.context['agendamentos']), [agendamento])
+
+    def test_logout_get_nao_encerra_sessao(self):
+        self.client.force_login(self.usuario)
+
+        resposta = self.client.get(reverse('logout'))
+
+        self.assertEqual(resposta.status_code, 405)
+        self.assertTrue(resposta.wsgi_request.user.is_authenticated)
+

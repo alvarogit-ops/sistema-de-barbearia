@@ -1,7 +1,15 @@
+from django.conf import settings
 from django.db import models
 # Create your models here.
 
 class Cliente(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='cliente',
+    )
     nome_cliente = models.CharField(max_length=30)
     sobrenome_cliente = models.CharField(max_length=30, blank=True)
     telefone = models.CharField(max_length=20, verbose_name='Telefone ou contato')

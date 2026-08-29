@@ -16,6 +16,11 @@
 
 <form method="POST">
     {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="{% if message.tags == 'error' %}erro-campo{% else %}mensagem-sucesso{% endif %}">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
 
     <div class="form-group">
         <label for="nome">Nome:</label>
