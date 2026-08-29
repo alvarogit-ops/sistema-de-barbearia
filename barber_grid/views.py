@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.core.exceptions import PermissionDenied
-from .models import Agendamento
+from .forms import ClienteForm
+from .models import Agendamento, Cliente
 def login(request):
     # Verifico se um usuário existe e se a senha está correta
 
@@ -92,5 +94,29 @@ def painel_admin(request):
         request,
         'barber_grid/agendamentos.html',
         {'agendamentos': agendamentos}
+    )
+
+
+@login_required
+def clientes(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cliente cadastrado com sucesso.')
+            return redirect('clientes')
+    else:
+        form = ClienteForm()
+
+    return render(
+        request,
+        'barber_grid/clientes.html',
+        {
+            'form': form,
+            'clientes': Cliente.objects.all(),
+        },
     )
 

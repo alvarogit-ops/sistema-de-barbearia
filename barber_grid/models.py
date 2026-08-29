@@ -3,11 +3,17 @@ from django.db import models
 
 class Cliente(models.Model):
     nome_cliente = models.CharField(max_length=30)
-    sobrenome_cliente = models.CharField(max_length=30)
-    telefone = models.CharField(max_length=20)
+    sobrenome_cliente = models.CharField(max_length=30, blank=True)
+    telefone = models.CharField(max_length=20, verbose_name='Telefone ou contato')
+
+    class Meta:
+        ordering = ['nome_cliente', 'sobrenome_cliente']
+
+    def nome_completo(self):
+        return f'{self.nome_cliente} {self.sobrenome_cliente}'.strip()
 
     def __str__(self):
-        return self.nome_cliente
+        return self.nome_completo()
 
 class Servico(models.Model):
     nome_servico = models.CharField(max_length=80)

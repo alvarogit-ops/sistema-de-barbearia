@@ -8,6 +8,7 @@ urlpatterns = [
     path('login/', views.login, name='login'), #aponta para uma função que existe em views. 
     path('registro', views.registro, name='registro'),
     path('painel_admin', views.painel_admin, name="painel_admin"),
+    path('clientes/', views.clientes, name='clientes'),
     path('logout/', views.logoutForm, name='logout'),
 ]
 

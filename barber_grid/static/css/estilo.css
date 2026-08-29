@@ -145,6 +145,100 @@ body.dark #admin{
     color: black;
 }
 
+body.dark .marca,
+body.dark .nav-barbeiro a {
+    color: #fbd760;
+}
+
+body.dark .form-group input {
+    background-color: rgb(43, 43, 43);
+    color: white;
+    border-color: #555;
+}
+
+body.dark .lista-clientes li {
+    border-bottom-color: #555;
+}
+
+.pagina {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.marca {
+    color: #aa8408;
+    font-size: 28px;
+    font-family: Lato, sans-serif;
+    font-weight: bold;
+}
+
+.nav-barbeiro {
+    display: flex;
+    gap: 16px;
+    margin: 12px 0 20px;
+}
+
+.nav-barbeiro a {
+    color: #aa8408;
+    font-weight: 600;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.form-group input {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 12px;
+    border: 1px solid #b5b5b5;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.painel-cadastro,
+.painel-lista {
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.lista-clientes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-clientes li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.mensagem-sucesso {
+    color: rgb(70, 157, 51);
+    font-weight: 600;
+}
+
+.erro-campo,
+.erros {
+    color: #b42318;
+    font-size: 14px;
+    margin: 4px 0 0;
+    padding: 0;
+}
+
 /*Responsividade*/
 
 @media (max-width: 768px){

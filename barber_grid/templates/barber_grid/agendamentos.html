@@ -15,6 +15,10 @@
 </head>
 <body>
     <a>Barber Grid</a>
+    <nav class="nav-barbeiro">
+        <a href="{% url 'painel_admin' %}">Agendamentos</a>
+        <a href="{% url 'clientes' %}">Clientes</a>
+    </nav>
     <h1>Agendamentos</h1>
     <ul>
         <h2>Olá, {{ request.user.username }}!</h2>
