@@ -372,3 +372,55 @@ body.dark .lista-agendamentos li {
         row-gap: 4px;
     }
 }
+
+html.dark {
+    color-scheme: dark;
+}
+
+html.dark body,
+body.dark {
+    background-color: rgb(18, 18, 18);
+    color: #f3f3f3;
+}
+
+html.dark .marca,
+html.dark .nav-barbeiro a,
+body.dark .marca,
+body.dark .nav-barbeiro a {
+    color: #fbd760;
+}
+
+html.dark .lista-agendamentos li,
+html.dark .lista-clientes li,
+html.dark .lista-servicos li,
+body.dark .lista-agendamentos li,
+body.dark .lista-clientes li,
+body.dark .lista-servicos li {
+    border-bottom-color: #555;
+}
+
+html.dark button,
+body.dark button,
+html.dark .botao-status,
+body.dark .botao-status {
+    background-color: rgb(43, 43, 43);
+    color: #f3f3f3;
+    border-color: #555;
+}
+
+html.dark .botao-excluir,
+body.dark .botao-excluir {
+    color: #ff8a80;
+    border-color: #ff8a80;
+    background: transparent;
+}
+
+html.dark .status-pendente,
+body.dark .status-pendente {
+    color: #fbd760;
+}
+
+html.dark .status-confirmado,
+body.dark .status-confirmado {
+    color: rgb(140, 210, 120);
+}

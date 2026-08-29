@@ -98,3 +98,28 @@ Home passa a ser apenas para usuários autenticados
 ## Funcionalidade de login
 
 usar a rota de logout e um formulário POST.
+
+## Bugbot
+
+Severity	Location (file:line)	Finding
+high
+barber_grid/views.py:23
+Login lança ValidationError sem tratamento; credenciais inválidas viram HTTP 500 em vez de mensagem no formulário.
+high
+barber_grid/views.py:48
+Registro lança ValidationError sem captura; senhas diferentes ou e-mail já cadastrado viram HTTP 500.
+medium
+barber_grid/views.py:54
+Após create_user bem-sucedido, a view só re-renderiza o cadastro, sem redirecionar nem autenticar.
+medium
+barber_grid/views.py:45
+O campo telefone é lido do POST e não é persistido em nenhum model.
+medium
+barber_grid/views.py:69
+A view index renderiza home.html sem agendamentos no contexto; usuários não staff não veem agendamentos.
+medium
+barber_grid/views.py:54
+Registro valida só e-mail duplicado; username único pode gerar IntegrityError e 500.
+medium
+barber_grid/views.py:59
+logoutForm aceita GET; um recurso malicioso pode encerrar a sessão sem POST/CSRF.
