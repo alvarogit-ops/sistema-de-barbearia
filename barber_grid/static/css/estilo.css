@@ -150,13 +150,17 @@ body.dark .nav-barbeiro a {
     color: #fbd760;
 }
 
-body.dark .form-group input {
+body.dark .form-group input,
+body.dark .form-group select,
+body.dark .lista-opcoes {
     background-color: rgb(43, 43, 43);
     color: white;
     border-color: #555;
 }
 
-body.dark .lista-clientes li {
+body.dark .lista-clientes li,
+body.dark .lista-servicos li,
+body.dark .lista-agendamentos li {
     border-bottom-color: #555;
 }
 
@@ -197,7 +201,17 @@ body.dark .lista-clientes li {
     width: 100%;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 12px;
+    border: 1px solid #b5b5b5;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.lista-opcoes {
     width: 100%;
     max-width: 420px;
     padding: 10px 12px;
@@ -212,39 +226,40 @@ body.dark .lista-clientes li {
     margin-bottom: 28px;
 }
 
-.lista-clientes {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.lista-clientes li,
-.lista-servicos li {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 12px 0;
-    border-bottom: 1px solid #d6d6d6;
-}
-
-.lista-servicos {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
+.lista-clientes,
+.lista-servicos,
 .lista-agendamentos {
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
 
+.lista-clientes li,
+.lista-servicos li,
 .lista-agendamentos li {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
+    display: grid;
+    align-items: start;
+    column-gap: 16px;
     padding: 12px 0;
     border-bottom: 1px solid #d6d6d6;
+}
+
+.lista-clientes li,
+.lista-agendamentos.lista-2-colunas li {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+
+.lista-servicos li,
+.lista-agendamentos.lista-3-colunas li {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr) minmax(0, 1fr);
+}
+
+.lista-clientes li > *,
+.lista-servicos li > *,
+.lista-agendamentos li > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .form-group ul {
@@ -309,5 +324,12 @@ body.dark .lista-clientes li {
 
     #mudarTema i{
         font-size: 20px;
+    }
+
+    .lista-clientes li,
+    .lista-servicos li,
+    .lista-agendamentos li {
+        grid-template-columns: 1fr;
+        row-gap: 4px;
     }
 }

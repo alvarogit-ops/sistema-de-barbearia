@@ -143,7 +143,7 @@ def painel_admin(request):
     if not request.user.is_staff:
         raise PermissionDenied
 
-    agendamentos = Agendamento.objects.all()
+    agendamentos = Agendamento.objects.select_related('usuario').prefetch_related('servico')
 
     return render(
         request,

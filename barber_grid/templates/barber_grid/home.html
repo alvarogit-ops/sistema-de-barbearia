@@ -38,7 +38,9 @@
 
                 <div class="form-group">
                     <label>Serviço *</label>
-                    {{ form.servico }}
+                    <div class="lista-opcoes">
+                        {{ form.servico }}
+                    </div>
                     {% if form.servico.errors %}
                         <p class="erro-campo">{{ form.servico.errors.0 }}</p>
                     {% endif %}
@@ -67,7 +69,7 @@
         <section class="painel-lista">
             <h2>Meus agendamentos</h2>
             {% if agendamentos %}
-                <ul class="lista-agendamentos">
+                <ul class="lista-agendamentos lista-2-colunas">
                     {% for agendamento in agendamentos %}
                         <li>
                             <strong>{{ agendamento.data_agendamento }} às {{ agendamento.horario_agendamento }}</strong>
@@ -82,7 +84,7 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>Não há agendamentos feitos.</p>
+                <p>Nenhum agendamento cadastrado ainda.</p>
             {% endif %}
         </section>
 
