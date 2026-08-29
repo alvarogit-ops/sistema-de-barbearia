@@ -316,6 +316,8 @@ class AgendamentoClienteTests(TestCase):
         self.assertEqual(list(agendamento.servico.all()), [self.servico])
         self.assertContains(resposta, 'Agendamento realizado com sucesso.')
         self.assertContains(resposta, 'Corte')
+        self.assertContains(resposta, 'Pendente')
+        self.assertEqual(agendamento.status, Agendamento.Status.PENDENTE)
 
     def test_horario_ocupado_nao_cria_agendamento(self):
         ocupado = Agendamento.objects.create(
@@ -367,4 +369,84 @@ class AgendamentoClienteTests(TestCase):
         agendamento = Agendamento.objects.get()
         self.assertEqual(agendamento.usuario, cliente)
         self.assertEqual(cliente.nome_cliente, 'semperfil')
+
+
+class ExclusaoClienteEStatusTests(TestCase):
+    def setUp(self):
+        self.barbeiro = User.objects.create_user(
+            username='barbeiro',
+            email='barbeiro@example.com',
+            password='senha-segura',
+            is_staff=True,
+        )
+        self.cliente_app = User.objects.create_user(
+            username='cliente',
+            email='cliente@example.com',
+            password='senha-segura',
+        )
+        self.cliente = Cliente.objects.create(
+            nome_cliente='Maria',
+            sobrenome_cliente='Souza',
+            telefone='21988887777',
+        )
+        self.servico = Servico.objects.create(
+            nome_servico='Corte',
+            preco='40.00',
+            duracao_minutos=30,
+        )
+
+    def test_barbeiro_exclui_cliente(self):
+        self.client.force_login(self.barbeiro)
+
+        resposta = self.client.post(
+            reverse('excluir_cliente', args=[self.cliente.pk]),
+            follow=True,
+        )
+
+        self.assertEqual(Cliente.objects.count(), 0)
+        self.assertContains(resposta, 'Cliente Maria Souza excluído.')
+
+    def test_usuario_comum_nao_exclui_cliente(self):
+        self.client.force_login(self.cliente_app)
+
+        resposta = self.client.post(reverse('excluir_cliente', args=[self.cliente.pk]))
+
+        self.assertEqual(resposta.status_code, 403)
+        self.assertTrue(Cliente.objects.filter(pk=self.cliente.pk).exists())
+
+    def test_barbeiro_confirma_agendamento(self):
+        agendamento = Agendamento.objects.create(
+            usuario=self.cliente,
+            data_agendamento='2026-09-01',
+            horario_agendamento='10:00:00',
+        )
+        agendamento.servico.add(self.servico)
+        self.client.force_login(self.barbeiro)
+
+        resposta = self.client.post(
+            reverse('atualizar_status_agendamento', args=[agendamento.pk]),
+            {'status': Agendamento.Status.CONFIRMADO},
+            follow=True,
+        )
+
+        agendamento.refresh_from_db()
+        self.assertEqual(agendamento.status, Agendamento.Status.CONFIRMADO)
+        self.assertContains(resposta, 'Confirmado')
+
+    def test_lista_agendamentos_do_mais_recente_para_o_mais_antigo(self):
+        antigo = Agendamento.objects.create(
+            usuario=self.cliente,
+            data_agendamento='2026-09-01',
+            horario_agendamento='10:00:00',
+        )
+        recente = Agendamento.objects.create(
+            usuario=self.cliente,
+            data_agendamento='2026-09-03',
+            horario_agendamento='09:00:00',
+        )
+        self.client.force_login(self.barbeiro)
+
+        resposta = self.client.get(reverse('painel_admin'))
+
+        self.assertEqual(list(resposta.context['agendamentos']), [recente, antigo])
 

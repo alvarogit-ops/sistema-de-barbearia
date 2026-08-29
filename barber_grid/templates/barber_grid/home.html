@@ -69,7 +69,7 @@
         <section class="painel-lista">
             <h2>Meus agendamentos</h2>
             {% if agendamentos %}
-                <ul class="lista-agendamentos lista-2-colunas">
+                <ul class="lista-agendamentos lista-3-colunas">
                     {% for agendamento in agendamentos %}
                         <li>
                             <strong>{{ agendamento.data_agendamento }} às {{ agendamento.horario_agendamento }}</strong>
@@ -80,6 +80,7 @@
                                     Sem serviço
                                 {% endfor %}
                             </span>
+                            <span class="status status-{{ agendamento.status }}">{{ agendamento.get_status_display }}</span>
                         </li>
                     {% endfor %}
                 </ul>

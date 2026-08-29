@@ -64,12 +64,22 @@ class Servico(models.Model):
         return self.nome_servico
 
 class Agendamento(models.Model):
+    class Status(models.TextChoices):
+        PENDENTE = 'pendente', 'Pendente'
+        CONFIRMADO = 'confirmado', 'Confirmado'
+
     usuario = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     servico = models.ManyToManyField(Servico) 
     data_agendamento = models.DateField()
     horario_agendamento = models.TimeField()
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDENTE,
+    )
 
     class Meta:
+        ordering = ['-data_agendamento', '-horario_agendamento']
         constraints = [
             models.UniqueConstraint(
                 fields=['data_agendamento', 'horario_agendamento'], name='unico_agendamento'

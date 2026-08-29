@@ -245,9 +245,8 @@ body.dark .lista-agendamentos li {
     border-bottom: 1px solid #d6d6d6;
 }
 
-.lista-clientes li,
-.lista-agendamentos.lista-2-colunas li {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+.lista-clientes.lista-3-colunas li {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
 }
 
 .lista-servicos li,
@@ -255,11 +254,51 @@ body.dark .lista-agendamentos li {
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr) minmax(0, 1fr);
 }
 
+.lista-agendamentos.lista-4-colunas li {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr) minmax(0, 1fr) minmax(9rem, 0.9fr);
+}
+
 .lista-clientes li > *,
 .lista-servicos li > *,
 .lista-agendamentos li > * {
     min-width: 0;
     overflow-wrap: anywhere;
+}
+
+.celula-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.status {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.status-pendente {
+    color: #aa8408;
+}
+
+.status-confirmado {
+    color: rgb(70, 157, 51);
+}
+
+.botao-excluir,
+.botao-status {
+    padding: 6px 10px;
+    border: 1px solid #b5b5b5;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+}
+
+.botao-excluir {
+    color: #b42318;
+    border-color: #b42318;
 }
 
 .form-group ul {

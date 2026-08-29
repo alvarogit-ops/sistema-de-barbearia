@@ -23,10 +23,16 @@
         <h1>Agendamentos</h1>
         <p>Olá, {{ request.user.username }}!</p>
 
+        {% if messages %}
+            {% for message in messages %}
+                <p class="{% if message.tags == 'error' %}erro-campo{% else %}mensagem-sucesso{% endif %}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
         <section class="painel-lista">
             <h2>Lista de agendamentos</h2>
             {% if agendamentos %}
-                <ul class="lista-agendamentos lista-3-colunas">
+                <ul class="lista-agendamentos lista-4-colunas">
                     {% for agendamento in agendamentos %}
                         <li>
                             <strong>
@@ -44,6 +50,19 @@
                                     Sem serviço
                                 {% endfor %}
                             </span>
+                            <div class="celula-status">
+                                <span class="status status-{{ agendamento.status }}">{{ agendamento.get_status_display }}</span>
+                                <form action="{% url 'atualizar_status_agendamento' agendamento.id %}" method="post">
+                                    {% csrf_token %}
+                                    {% if agendamento.status == 'pendente' %}
+                                        <input type="hidden" name="status" value="confirmado">
+                                        <button type="submit" class="botao-status">Confirmar</button>
+                                    {% else %}
+                                        <input type="hidden" name="status" value="pendente">
+                                        <button type="submit" class="botao-status">Marcar pendente</button>
+                                    {% endif %}
+                                </form>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>

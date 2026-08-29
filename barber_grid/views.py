@@ -199,3 +199,34 @@ def servicos(request):
         },
     )
 
+
+@login_required
+@require_POST
+def excluir_cliente(request, cliente_id):
+    if not request.user.is_staff:
+        raise PermissionDenied
+
+    cliente = get_object_or_404(Cliente, pk=cliente_id)
+    nome = cliente.nome_completo()
+    cliente.delete()
+    messages.success(request, f'Cliente {nome} excluído.')
+    return redirect('clientes')
+
+
+@login_required
+@require_POST
+def atualizar_status_agendamento(request, agendamento_id):
+    if not request.user.is_staff:
+        raise PermissionDenied
+
+    agendamento = get_object_or_404(Agendamento, pk=agendamento_id)
+    novo_status = request.POST.get('status')
+    if novo_status not in Agendamento.Status.values:
+        messages.error(request, 'Status inválido.')
+        return redirect('painel_admin')
+
+    agendamento.status = novo_status
+    agendamento.save(update_fields=['status'])
+    messages.success(request, f'Agendamento marcado como {agendamento.get_status_display().lower()}.')
+    return redirect('painel_admin')
+

@@ -9,6 +9,12 @@ urlpatterns = [
     path('registro', views.registro, name='registro'),
     path('painel_admin', views.painel_admin, name="painel_admin"),
     path('clientes/', views.clientes, name='clientes'),
+    path('clientes/<int:cliente_id>/excluir/', views.excluir_cliente, name='excluir_cliente'),
+    path(
+        'agendamentos/<int:agendamento_id>/status/',
+        views.atualizar_status_agendamento,
+        name='atualizar_status_agendamento',
+    ),
     path('servicos/', views.servicos, name='servicos'),
     path('logout/', views.logoutForm, name='logout'),
 ]
