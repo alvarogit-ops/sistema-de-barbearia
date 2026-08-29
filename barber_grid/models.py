@@ -1,4 +1,7 @@
+from decimal import Decimal
+
 from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
 # Create your models here.
 
@@ -23,9 +26,39 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nome_completo()
 
+    @classmethod
+    def para_usuario(cls, user):
+        cliente = cls.objects.filter(user=user).first()
+        if cliente:
+            return cliente
+
+        nome = (user.get_username() or '').strip()[:30] or 'Cliente'
+        orfao = cls.objects.filter(user__isnull=True, nome_cliente=nome).first()
+        if orfao:
+            orfao.user = user
+            orfao.save(update_fields=['user'])
+            return orfao
+
+        return cls.objects.create(
+            user=user,
+            nome_cliente=nome,
+            telefone='Não informado',
+        )
+
 class Servico(models.Model):
     nome_servico = models.CharField(max_length=80)
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    preco = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal('0.01'))],
+    )
+    duracao_minutos = models.PositiveIntegerField(
+        verbose_name='Duração estimada (minutos)',
+        validators=[MinValueValidator(1)],
+    )
+
+    class Meta:
+        ordering = ['nome_servico']
 
     def __str__(self):
         return self.nome_servico

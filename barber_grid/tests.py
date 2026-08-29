@@ -1,8 +1,11 @@
+from datetime import timedelta
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
-from .forms import ClienteForm
+from .forms import AgendamentoForm, ClienteForm, ServicoForm
 from .models import Agendamento, Cliente, Servico
 
 
@@ -147,7 +150,11 @@ class AutenticacaoViewsTests(TestCase):
             nome_cliente='cliente',
             telefone='11999999999',
         )
-        servico = Servico.objects.create(nome_servico='Corte', preco='40.00')
+        servico = Servico.objects.create(
+            nome_servico='Corte',
+            preco='40.00',
+            duracao_minutos=30,
+        )
         agendamento = Agendamento.objects.create(
             usuario=cliente,
             data_agendamento='2026-09-01',
@@ -177,4 +184,187 @@ class AutenticacaoViewsTests(TestCase):
 
         self.assertEqual(resposta.status_code, 405)
         self.assertTrue(resposta.wsgi_request.user.is_authenticated)
+
+
+class CadastroServicosTests(TestCase):
+    def setUp(self):
+        self.barbeiro = User.objects.create_user(
+            username='barbeiro',
+            email='barbeiro@example.com',
+            password='senha-segura',
+            is_staff=True,
+        )
+        self.cliente_app = User.objects.create_user(
+            username='cliente',
+            email='cliente@example.com',
+            password='senha-segura',
+        )
+        self.url = reverse('servicos')
+
+    def test_formulario_exige_nome_preco_e_duracao(self):
+        form = ServicoForm(data={
+            'nome_servico': '   ',
+            'preco': '',
+            'duracao_minutos': '',
+        })
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('nome_servico', form.errors)
+        self.assertIn('preco', form.errors)
+        self.assertIn('duracao_minutos', form.errors)
+
+    def test_formulario_rejeita_preco_e_duracao_invalidos(self):
+        form = ServicoForm(data={
+            'nome_servico': 'Barba',
+            'preco': '0',
+            'duracao_minutos': '0',
+        })
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('preco', form.errors)
+        self.assertIn('duracao_minutos', form.errors)
+
+    def test_barbeiro_cadastra_servico_e_ve_na_lista(self):
+        self.client.force_login(self.barbeiro)
+
+        resposta = self.client.post(self.url, {
+            'nome_servico': 'Corte',
+            'preco': '45.50',
+            'duracao_minutos': '40',
+        }, follow=True)
+
+        self.assertEqual(Servico.objects.count(), 1)
+        servico = Servico.objects.get()
+        self.assertEqual(servico.nome_servico, 'Corte')
+        self.assertEqual(str(servico.preco), '45.50')
+        self.assertEqual(servico.duracao_minutos, 40)
+        self.assertContains(resposta, 'Corte')
+        self.assertContains(resposta, '45.50')
+        self.assertContains(resposta, '40 min')
+        self.assertContains(resposta, 'Serviço cadastrado com sucesso.')
+
+    def test_barbeiro_visualiza_servicos_cadastrados(self):
+        Servico.objects.create(
+            nome_servico='Barba',
+            preco='25.00',
+            duracao_minutos=20,
+        )
+        self.client.force_login(self.barbeiro)
+
+        resposta = self.client.get(self.url)
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertContains(resposta, 'Barba')
+        self.assertContains(resposta, '25.00')
+        self.assertContains(resposta, '20 min')
+
+    def test_cadastro_sem_obrigatorios_nao_cria_servico(self):
+        self.client.force_login(self.barbeiro)
+
+        resposta = self.client.post(self.url, {
+            'nome_servico': '',
+            'preco': '',
+            'duracao_minutos': '',
+        })
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertEqual(Servico.objects.count(), 0)
+        self.assertContains(resposta, 'Informe o nome do serviço.')
+        self.assertContains(resposta, 'Informe o preço do serviço.')
+        self.assertContains(resposta, 'Informe a duração estimada do atendimento.')
+
+    def test_usuario_sem_permissao_nao_acessa_cadastro(self):
+        self.client.force_login(self.cliente_app)
+
+        resposta = self.client.get(self.url)
+
+        self.assertEqual(resposta.status_code, 403)
+
+
+class AgendamentoClienteTests(TestCase):
+    def setUp(self):
+        self.usuario = User.objects.create_user(
+            username='cliente',
+            email='cliente@example.com',
+            password='senha-segura',
+        )
+        self.cliente = Cliente.objects.create(
+            user=self.usuario,
+            nome_cliente='cliente',
+            telefone='11999999999',
+        )
+        self.servico = Servico.objects.create(
+            nome_servico='Corte',
+            preco='40.00',
+            duracao_minutos=30,
+        )
+        self.data = timezone.localdate() + timedelta(days=1)
+        self.horario = '10:00'
+
+    def test_cliente_agenda_e_ve_na_lista(self):
+        self.client.force_login(self.usuario)
+
+        resposta = self.client.post(reverse('index'), {
+            'servico': [self.servico.pk],
+            'data_agendamento': self.data.isoformat(),
+            'horario_agendamento': self.horario,
+        }, follow=True)
+
+        self.assertEqual(Agendamento.objects.count(), 1)
+        agendamento = Agendamento.objects.get()
+        self.assertEqual(agendamento.usuario, self.cliente)
+        self.assertEqual(list(agendamento.servico.all()), [self.servico])
+        self.assertContains(resposta, 'Agendamento realizado com sucesso.')
+        self.assertContains(resposta, 'Corte')
+
+    def test_horario_ocupado_nao_cria_agendamento(self):
+        ocupado = Agendamento.objects.create(
+            usuario=self.cliente,
+            data_agendamento=self.data,
+            horario_agendamento=self.horario,
+        )
+        ocupado.servico.add(self.servico)
+        self.client.force_login(self.usuario)
+
+        resposta = self.client.post(reverse('index'), {
+            'servico': [self.servico.pk],
+            'data_agendamento': self.data.isoformat(),
+            'horario_agendamento': self.horario,
+        })
+
+        self.assertEqual(resposta.status_code, 200)
+        self.assertEqual(Agendamento.objects.count(), 1)
+        self.assertContains(resposta, 'Este horário já está ocupado')
+
+    def test_formulario_exige_servico_data_e_horario(self):
+        form = AgendamentoForm(data={
+            'servico': [],
+            'data_agendamento': '',
+            'horario_agendamento': '',
+        })
+
+        self.assertFalse(form.is_valid())
+        self.assertIn('servico', form.errors)
+        self.assertIn('data_agendamento', form.errors)
+        self.assertIn('horario_agendamento', form.errors)
+
+    def test_usuario_sem_cliente_vinculado_consegue_agendar(self):
+        solto = User.objects.create_user(
+            username='semperfil',
+            email='semperfil@example.com',
+            password='senha-segura',
+        )
+        self.client.force_login(solto)
+
+        resposta = self.client.post(reverse('index'), {
+            'servico': [self.servico.pk],
+            'data_agendamento': self.data.isoformat(),
+            'horario_agendamento': self.horario,
+        }, follow=True)
+
+        self.assertContains(resposta, 'Agendamento realizado com sucesso.')
+        cliente = Cliente.objects.get(user=solto)
+        agendamento = Agendamento.objects.get()
+        self.assertEqual(agendamento.usuario, cliente)
+        self.assertEqual(cliente.nome_cliente, 'semperfil')
 

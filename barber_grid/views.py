@@ -7,8 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
 from django.views.decorators.http import require_POST
-from .forms import ClienteForm
-from .models import Agendamento, Cliente
+from .forms import AgendamentoForm, ClienteForm, ServicoForm
+from .models import Agendamento, Cliente, Servico
 def login(request):
     # Verifico se um usuário existe e se a senha está correta
 
@@ -95,16 +95,33 @@ def index(request):
     if request.user.is_staff:
         return redirect ('painel_admin')
 
-    cliente = Cliente.objects.filter(user=request.user).first()
-    agendamentos = (
-        Agendamento.objects.filter(usuario=cliente)
-        if cliente
-        else Agendamento.objects.none()
-    )
+    cliente = Cliente.para_usuario(request.user)
+    agendamentos = Agendamento.objects.filter(usuario=cliente).prefetch_related('servico')
+
+    if request.method == 'POST':
+        form = AgendamentoForm(request.POST)
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    agendamento = form.save(commit=False)
+                    agendamento.usuario = cliente
+                    agendamento.save()
+                    form.save_m2m()
+            except IntegrityError:
+                form.add_error(None, 'Este horário já está ocupado. Escolha outro.')
+            else:
+                messages.success(request, 'Agendamento realizado com sucesso.')
+                return redirect('index')
+    else:
+        form = AgendamentoForm()
+
     return render(
         request,
         'barber_grid/home.html',
-        {'agendamentos': agendamentos},
+        {
+            'agendamentos': agendamentos,
+            'form': form,
+        },
     )
 
 class PerfilProtegido(LoginRequiredMixin):
@@ -155,6 +172,30 @@ def clientes(request):
         {
             'form': form,
             'clientes': Cliente.objects.all(),
+        },
+    )
+
+
+@login_required
+def servicos(request):
+    if not request.user.is_staff:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = ServicoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Serviço cadastrado com sucesso.')
+            return redirect('servicos')
+    else:
+        form = ServicoForm()
+
+    return render(
+        request,
+        'barber_grid/servicos.html',
+        {
+            'form': form,
+            'servicos': Servico.objects.all(),
         },
     )
 

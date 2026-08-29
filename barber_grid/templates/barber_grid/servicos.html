@@ -10,22 +10,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
-    <title>Início | Barber Grid</title>
+    <title>Serviços | Barber Grid</title>
 </head>
 <body>
     <div class="pagina">
         <a class="marca">Barber Grid</a>
-        <h1>Início</h1>
+        <nav class="nav-barbeiro">
+            <a href="{% url 'painel_admin' %}">Agendamentos</a>
+            <a href="{% url 'clientes' %}">Clientes</a>
+            <a href="{% url 'servicos' %}">Serviços</a>
+        </nav>
+        <h1>Serviços</h1>
         <p>Olá, {{ request.user.username }}!</p>
 
         {% if messages %}
             {% for message in messages %}
-                <p class="{% if message.tags == 'error' %}erro-campo{% else %}mensagem-sucesso{% endif %}">{{ message }}</p>
+                <p class="mensagem-sucesso">{{ message }}</p>
             {% endfor %}
         {% endif %}
 
         <section class="painel-cadastro">
-            <h2>Agendar atendimento</h2>
+            <h2>Cadastrar serviço</h2>
             <form method="post" novalidate>
                 {% csrf_token %}
                 {% if form.non_field_errors %}
@@ -37,52 +42,47 @@
                 {% endif %}
 
                 <div class="form-group">
-                    <label>Serviço *</label>
-                    {{ form.servico }}
-                    {% if form.servico.errors %}
-                        <p class="erro-campo">{{ form.servico.errors.0 }}</p>
+                    <label for="{{ form.nome_servico.id_for_label }}">Nome do serviço *</label>
+                    {{ form.nome_servico }}
+                    {% if form.nome_servico.errors %}
+                        <p class="erro-campo">{{ form.nome_servico.errors.0 }}</p>
                     {% endif %}
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.data_agendamento.id_for_label }}">Data *</label>
-                    {{ form.data_agendamento }}
-                    {% if form.data_agendamento.errors %}
-                        <p class="erro-campo">{{ form.data_agendamento.errors.0 }}</p>
+                    <label for="{{ form.preco.id_for_label }}">Preço *</label>
+                    {{ form.preco }}
+                    {% if form.preco.errors %}
+                        <p class="erro-campo">{{ form.preco.errors.0 }}</p>
                     {% endif %}
                 </div>
 
                 <div class="form-group">
-                    <label for="{{ form.horario_agendamento.id_for_label }}">Horário *</label>
-                    {{ form.horario_agendamento }}
-                    {% if form.horario_agendamento.errors %}
-                        <p class="erro-campo">{{ form.horario_agendamento.errors.0 }}</p>
+                    <label for="{{ form.duracao_minutos.id_for_label }}">Duração estimada (minutos) *</label>
+                    {{ form.duracao_minutos }}
+                    {% if form.duracao_minutos.errors %}
+                        <p class="erro-campo">{{ form.duracao_minutos.errors.0 }}</p>
                     {% endif %}
                 </div>
 
-                <button type="submit">Agendar</button>
+                <button type="submit">Cadastrar serviço</button>
             </form>
         </section>
 
         <section class="painel-lista">
-            <h2>Meus agendamentos</h2>
-            {% if agendamentos %}
-                <ul class="lista-agendamentos">
-                    {% for agendamento in agendamentos %}
+            <h2>Lista de serviços</h2>
+            {% if servicos %}
+                <ul class="lista-servicos">
+                    {% for servico in servicos %}
                         <li>
-                            <strong>{{ agendamento.data_agendamento }} às {{ agendamento.horario_agendamento }}</strong>
-                            <span>
-                                {% for servico in agendamento.servico.all %}
-                                    {{ servico.nome_servico }}{% if not forloop.last %}, {% endif %}
-                                {% empty %}
-                                    Sem serviço
-                                {% endfor %}
-                            </span>
+                            <strong>{{ servico.nome_servico }}</strong>
+                            <span>R$ {{ servico.preco }}</span>
+                            <span>{{ servico.duracao_minutos }} min</span>
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>Não há agendamentos feitos.</p>
+                <p>Nenhum serviço cadastrado ainda.</p>
             {% endif %}
         </section>
 
