@@ -3,7 +3,14 @@ from decimal import Decimal
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils import timezone
+
+
 # Create your models here.
+
+
+def horario_atual():
+    return timezone.localtime().time()
 
 class Cliente(models.Model):
     user = models.OneToOneField(
@@ -70,8 +77,8 @@ class Agendamento(models.Model):
 
     usuario = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     servico = models.ManyToManyField(Servico) 
-    data_agendamento = models.DateField()
-    horario_agendamento = models.TimeField()
+    data_agendamento = models.DateField(default=timezone.localdate)
+    horario_agendamento = models.TimeField(default=horario_atual)
     status = models.CharField(
         max_length=20,
         choices=Status.choices,
