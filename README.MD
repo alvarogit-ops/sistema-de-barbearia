@@ -8,79 +8,97 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-750014?style=for-the-badge&labelColor=750014)](https://opensource.org/licenses/MIT)
 
 
-Sistema web para gestão de estabelecimentos de estética masculina, desenvolvido com o objetivo de auxiliar no gerenciamento de clientes, serviços e agendamentos. O **Barber Grid** facilita a organização da barbearia, permitindo o controle de informações vitais e a redução de conflitos de horários.
 
----
+Sistema web para gestão de estabelecimentos de estética masculina, desenvolvido com o objetivo de auxiliar na organização de informações e processos relacionados à rotina da barbearia.
+O Barber Grid encontra-se em desenvolvimento acadêmico e busca centralizar funcionalidades administrativas de acordo com as necessidades identificadas no levantamento de requisitos do estabelecimento.
 
 ## 📋 Sobre o projeto
 
-O **Barber Grid** é um sistema de gestão acadêmico projetado para otimizar rotinas de barbearias. A arquitetura da aplicação é baseada no framework **Django**, utilizando o padrão **MVT (Model-View-Template)**.
-
+O Barber Grid é um sistema de gestão acadêmico voltado para a organização das rotinas operacionais de barbearias.
+A aplicação está sendo desenvolvida com Django e segue o padrão arquitetural MVT (Model-View-Template). Os requisitos e funcionalidades do sistema são definidos e refinados a partir do levantamento das necessidades do estabelecimento.
 | Atributo | Detalhes do Projeto |
-| :--- | :--- |
-| **Framework** | Django (Python) |
-| **Arquitetura** | MVT (Model-View-Template) |
-| **Banco de Dados** | SQLite (Desenvolvimento) |
-| **Front-end** | HTML5, CSS3, JavaScript, Bootstrap 5 |
-| **Controle de Versão** | Git & GitHub |
+|---|---|
+| Framework | Django (Python) |
+| Arquitetura | MVT (Model-View-Template) |
+| Banco de Dados | SQLite (Desenvolvimento) |
+| Front-end | HTML5, CSS3, JavaScript e Bootstrap 5 |
+| Controle de Versão | Git e GitHub |
 
----
+##🎯 Contexto do Projeto
 
-## 🎯 Problema & Solução
-
-| Desafios do Gerenciamento Manual | Soluções Propostas pelo Barber Grid |
-| :--- | :--- |
-| Conflitos frequentes entre horários | Sistema automatizado de checagem de disponibilidade |
-| Dificuldade no controle de clientes | Centralização de cadastros e histórico |
-| Desorganização dos serviços ofertados | Catálogo estruturado de procedimentos e durações |
-| Falta de centralização de dados | Plataforma web unificada para equipe e gestores |
-
----
+O gerenciamento das atividades de uma barbearia pode envolver diferentes processos, como organização dos profissionais, serviços oferecidos, atendimentos e outras informações operacionais.
+O Barber Grid está sendo desenvolvido para investigar e atender necessidades identificadas no funcionamento real do estabelecimento.
+O levantamento e a validação dos requisitos são utilizados para definir quais problemas devem ser solucionados pelo sistema e quais funcionalidades fazem sentido para a operação da barbearia.
+Entre os aspectos considerados inicialmente estão:
+•
+Organização das informações do estabelecimento;
+•
+Gerenciamento dos profissionais;
+•
+Organização dos serviços oferecidos;
+•
+Controle e acompanhamento dos atendimentos;
+•
+Possível organização de horários, conforme a necessidade identificada;
+•
+Centralização de informações operacionais.
 
 ## 🚀 Funcionalidades
 
+As funcionalidades do sistema encontram-se em desenvolvimento e refinamento conforme o levantamento de requisitos.
 | Funcionalidade | Status |
-| :--- | :---: |
-| Cadastro de clientes |  Em desenvolvimento |
-| Cadastro de serviços |  Em desenvolvimento |
-| Cadastro de barbeiros |  Em desenvolvimento |
-| Sistema de agendamentos |  Em desenvolvimento |
-| Controle de status de agendamentos |  Em desenvolvimento |
+|---|---|
 | Autenticação de usuários | Em desenvolvimento |
 | Área restrita de gerenciamento | Em desenvolvimento |
-| Prevenção de conflitos de horários | Em desenvolvimento |
+| Gerenciamento de serviços | Em desenvolvimento |
+| Gerenciamento de profissionais | Em desenvolvimento |
+| Organização dos atendimentos | Em validação |
+| Sistema de agendamentos | Em validação |
+| Cadastro e gerenciamento de clientes | Em validação |
+| Controle de status dos atendimentos/agendamentos | Em validação |
+| Prevenção de conflitos de horários | Em validação |
+As funcionalidades marcadas como Em validação poderão ser modificadas, substituídas ou removidas conforme os resultados do levantamento de requisitos.
 
----
+## 👥 Usuários do Sistema
 
-## 👥 Perfis de Usuários
-
-* **Cliente:** Visualiza serviços disponíveis e realiza agendamentos online.
-* **Barbeiro / Administrador:** Gerencia o fluxo de atendimento, clientes, serviços e horários da barbearia.
-
----
+Os perfis e níveis de acesso do Barber Grid estão sendo definidos e refinados de acordo com as necessidades identificadas no estabelecimento.
+Inicialmente, o sistema possui uma área destinada à utilização pelos responsáveis e profissionais da barbearia.
+A necessidade de acesso direto por clientes, bem como possíveis formas de interação externa com o sistema, será definida após a validação dos requisitos e da rotina real do estabelecimento.
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Linguagem Backend:** Python
-* **Framework Web:** Django
-* **Linguagem Frontend:** JavaScript
-* **Estilização:** CSS, Bootstrap
-* **Banco de Dados:** SQLite
-* **Ferramentas:** Git, GitHub, Figma
+| Categoria | Tecnologia |
+|---|---|
+| Linguagem Backend | Python |
+| Framework Web | Django |
+| Linguagem Front-end | JavaScript |
+| Estruturação | HTML5 |
+| Estilização | CSS3 e Bootstrap 5 |
+| Banco de Dados | SQLite |
+| Controle de Versão | Git e GitHub |
+| Prototipação | Figma |
 
----
+## 🏗️ Arquitetura — MVT
 
-## 🏗️ Arquitetura (MVT)
-
-* **Model:** Responsável pela estrutura de dados e regras de negócio com o ORM do Django.
-* **View:** Processa as requisições HTTP, executa a lógica e interage com os Models.
-* **Template:** Renderiza a interface visual para o usuário utilizando HTML, Bootstrap e scripts em JavaScript.
-
----
+A aplicação utiliza o padrão arquitetural MVT (Model-View-Template) do Django.
+| Componente | Responsabilidade |
+|---|---|
+| Model | Representação e organização dos dados da aplicação, além das regras relacionadas à persistência e aos relacionamentos entre entidades. |
+| View | Processamento das requisições HTTP, execução da lógica da aplicação e comunicação entre Models e Templates. |
+| Template | Apresentação da interface visual para o usuário utilizando HTML, Bootstrap e scripts em JavaScript. |
+🗃️ Modelagem Inicial
+A modelagem de dados do Barber Grid encontra-se em evolução e será refinada conforme o levantamento e a validação dos requisitos do estabelecimento.
+Entre as entidades inicialmente consideradas estão:
+| Entidade | Possível Responsabilidade |
+|---|---|
+| Profissional / Barbeiro | Representar os profissionais responsáveis pelos atendimentos. |
+| Serviço | Representar os serviços oferecidos pelo estabelecimento. |
+| Cliente | Entidade em validação, cuja necessidade e responsabilidade serão definidas conforme os requisitos identificados. |
+| Atendimento | Representar informações relacionadas ao fluxo de atendimento da barbearia. |
+| Agendamento | Entidade em validação, cuja necessidade dependerá da forma como o estabelecimento organiza seus horários e atendimentos. |
+A estrutura definitiva das entidades e seus relacionamentos será definida e refinada conforme a evolução do levantamento de requisitos.
 
 ## 📁 Estrutura do Projeto
-
-```text
 barber-grid/
 │
 ├── .github/
@@ -91,16 +109,29 @@ barber-grid/
 │   ├── diagramas/
 │   └── prototipos/
 │
-├── config/             # Configurações do projeto Django (settings, urls, etc.)
-├── barber_grid/        # App principal (models, views, forms, migrations)
-├── static/             # Arquivos estáticos (CSS, JS, imagens)
-├── templates/          # Arquivos HTML globais e específicos
+├── config/             # Configurações do projeto Django
+│
+├── barber_grid/        # Aplicação principal
+│   ├── models.py
+│   ├── views.py
+│   ├── forms.py
+│   ├── migrations/
+│   └── ...
+│
+├── static/             # Arquivos estáticos
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── templates/          # Templates HTML
+│
 ├── .env.example        # Exemplo de variáveis de ambiente
 ├── .gitignore          # Arquivos ignorados pelo Git
 ├── manage.py           # Utilitário de linha de comando do Django
 ├── README.md           # Documentação principal
 └── requirements.txt    # Dependências do projeto
-```
+
+
 ## ⚙️ Como Executar o Projeto
 
 
