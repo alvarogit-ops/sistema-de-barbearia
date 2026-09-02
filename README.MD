@@ -161,6 +161,7 @@ barber-grid/
 ├── manage.py               # Utilitário de linha de comando do Django
 ├── README.md               # Documentação principal
 └── requirements.txt        # Dependências do projeto
+```
 
 
 ## ⚙️ Como Executar o Projeto
