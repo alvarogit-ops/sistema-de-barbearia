@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Início
 
 - Iniciar o aplicativo Django.
@@ -184,3 +185,9 @@
 - Criar a imagem Docker do Barber Grid.
 - Executar o container.
 - Resolver o problema de inicialização do Docker Engine no Windows.
+=======
+## Improve Ui/Ux:
+
+1. Adicionar favicon
+2. Rota para logotipo: carregar apenas com static, sem a url
+>>>>>>> a3678fd (style: ajusta espaçamento da seção de agendamentos)
