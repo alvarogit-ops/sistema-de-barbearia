@@ -107,7 +107,7 @@ barber-grid/
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/alvarogit-ops/barber-management-system-grid.git
+git clone https://github.com/alvarogit-ops/sistema-de-barbearia.git
 cd barber-grid
 ```
 
