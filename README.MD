@@ -163,55 +163,68 @@ barber-grid/
 └── requirements.txt        # Dependências do projeto
 ```
 
-
 ## ⚙️ Como Executar o Projeto
 
 1. Clone o repositório
 
+```bash
 git clone https://github.com/alvarogit-ops/sistema-de-barbearia.git
 cd barber-grid
+```
 
-«Nota: Certifique-se de que o nome da pasta criada pelo clone corresponde a "barber-grid". Caso contrário, utilize o nome correto da pasta ao executar o comando "cd".»
+> **Nota:** Certifique-se de que o nome da pasta criada pelo clone corresponde a `barber-grid`. Caso contrário, utilize o nome correto da pasta ao executar o comando `cd`.
 
 2. Crie e ative o ambiente virtual
 
-Windows
+**Windows**
 
+```bash
 python -m venv venv
 venv\Scripts\activate
+```
 
-Linux ou macOS
+**Linux ou macOS**
 
+```bash
 python3 -m venv venv
 source venv/bin/activate
+```
 
 3. Instale as dependências
 
+```bash
 pip install -r requirements.txt
+```
 
 4. Configure as variáveis de ambiente
 
-Crie um arquivo ".env" na raiz do projeto com base no arquivo ".env.example".
+Crie um arquivo `.env` na raiz do projeto com base no arquivo `.env.example`.
 
-Exemplo:
+**Exemplo:**
 
+```env
 SECRET_KEY=sua_chave_secreta_aqui
 DEBUG=True
+```
 
-«Importante: Em ambientes de produção, utilize uma "SECRET_KEY" segura e mantenha "DEBUG=False".»
+> **Importante:** Em ambientes de produção, utilize uma `SECRET_KEY` segura e mantenha `DEBUG=False`.
 
 5. Execute as migrações
 
 Aplique as migrações do banco de dados:
 
+```bash
 python manage.py makemigrations
 python manage.py migrate
+```
 
 6. Inicie o servidor
 
 Execute o servidor de desenvolvimento:
 
+```bash
 python manage.py runserver
+```
 
 Acesse o sistema pelo endereço:
 
@@ -219,45 +232,46 @@ http://127.0.0.1:8000/
 
 ---
 
-🗃️ Modelos Principais
+## 🗃️ Modelos Principais
 
 Os principais modelos considerados inicialmente no sistema são:
 
-Modelo| Descrição
-Cliente| Armazena dados cadastrais e de contato dos clientes.
-Barbeiro| Representa os profissionais prestadores de serviços.
-Serviço| Define os procedimentos oferecidos, como corte e barba, além de seus respectivos preços.
-Agendamento| Relaciona cliente, barbeiro, serviço, data, horário e status do agendamento.
+| Modelo | Descrição |
+|---|---|
+| Cliente | Armazena dados cadastrais e de contato dos clientes. |
+| Barbeiro | Representa os profissionais prestadores de serviços. |
+| Serviço | Define os procedimentos oferecidos, como corte e barba, além de seus respectivos preços. |
+| Agendamento | Relaciona cliente, barbeiro, serviço, data, horário e status do agendamento. |
 
-«A estrutura dos modelos poderá ser alterada conforme a evolução do levantamento e da validação dos requisitos.»
-
----
-
-📚 Documentação e Links
-
-- 🔗 "Protótipo no Figma" (https://www.figma.com/design/wg6zSJiM4ZmavHRpLdMBUp/Barber-Grid---Alta-Fidelidade?node-id=0-1&p=f&t=QkXnF0ZuE4NUrFYx-0)
-- 📁 Documentação complementar e diagramas estão disponíveis, ou serão disponibilizados, na pasta "docs/".
+> **Nota:** A estrutura dos modelos poderá ser alterada conforme a evolução do levantamento e da validação dos requisitos.
 
 ---
 
-👨‍💻 Equipe
+## 📚 Documentação e Links
 
-Nome| Função
-Álvaro Yuri| Project Owner, Scrum Master e Desenvolvedor
-
----
-
-📌 Informações Acadêmicas
-
-- Instituição: IFRN
-- Disciplina: Projeto de Desenvolvimento de Sistemas para Internet
-- Professora: Fernanda Lígia
-- Orientador: Diego Cirilo
+- 🔗 [Protótipo no Figma](https://www.figma.com/design/wg6zSJiM4ZmavHRpLdMBUp/Barber-Grid---Alta-Fidelidade?node-id=0-1&p=f&t=QkXnF0ZuE4NUrFYx-0)
+- 📁 Documentação complementar e diagramas estão disponíveis, ou serão disponibilizados, na pasta `docs/`.
 
 ---
 
-📄 Licença
+## 👨‍💻 Equipe
 
-Este projeto é desenvolvido para fins acadêmicos e está disponibilizado sob os termos da Licença MIT.
+| Nome | Função |
+|---|---|
+| Álvaro Yuri | Project Owner, Scrum Master e Desenvolvedor |
 
-Consulte o arquivo "LICENSE" para obter os termos completos da licença.
+---
+
+## 📌 Informações Acadêmicas
+
+- **Instituição:** IFRN
+- **Disciplina:** Projeto de Desenvolvimento de Sistemas para Internet
+- **Professora:** Fernanda Lígia
+- **Orientador:** Diego Cirilo
+
+---
+
+## 📄 Licença
+
+Este projeto é desenvolvido para fins acadêmicos e está disponibilizado sob os termos da **Licença MIT**.
+Confira o arquivo "LICENSE" para obter os termos completos da licença.
