@@ -199,13 +199,6 @@ Acesse o sistema em:
 * 🔗 **[Protótipo no Figma](https://www.figma.com/design/wg6zSJiM4ZmavHRpLdMBUp/Barber-Grid---Alta-Fidelidade?node-id=0-1&p=f&t=QkXnF0ZuE4NUrFYx-0)**
 * Documentação complementar e diagramas disponíveis na pasta `docs/`.
 
----
-
-## 👨‍💻 Equipe
-
-| Nome | Função |
-| :--- | :--- |
-| **Álvaro Yuri** | Project Owner, Scrum Master, Desenvolvedor |
 
 ---
 
