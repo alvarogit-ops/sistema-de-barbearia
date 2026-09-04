@@ -39,15 +39,7 @@ O **Barber Grid** é um sistema de gestão acadêmico projetado para otimizar ro
 
 ## 🚀 Funcionalidades
 
-| Funcionalidade | Status |
-| :--- | :---: |
-<<<<<<< HEAD
-| Cadastro de clientes | Concluído |
-| Cadastro de serviços | Concluído |
-| Cadastro de barbeiros | Concluído |
-| Sistema de agendamentos | Concluído |
-| Controle de status de agendamentos | Concluído |
-=======
+
 | Cadastro de clientes |  Em desenvolvimento |
 | Cadastro de serviços |  Em desenvolvimento |
 | Cadastro de barbeiros |  Em desenvolvimento |
