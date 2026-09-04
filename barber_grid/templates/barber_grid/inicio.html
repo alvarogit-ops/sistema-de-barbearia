@@ -8,27 +8,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
-    <link rel="shortcut icon"
-          type="image/png"
-          href="{% static 'images/favicon.ico' %}">
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
 
-    <link rel="stylesheet"
-          href="{% static 'css/estilo.css' %}">
+    <!-- CSS próprio -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Favicon -->
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{% static 'images/favicon.ico' %}"
+    >
 
+    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100..900&family=Tangerine:wght@400;700&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
 
     <title>Agendamentos | Barber Grid</title>
 </head>
+
 
 <body class="bg-body text-body">
 
@@ -45,8 +61,7 @@
                         id="icone-logotipo"
                         src="{% static 'images/logo_tema_escuro.png' %}"
                         alt="Barber Grid"
-                        class="img-fluid"
-                        style="max-width: 55px;"
+                        style="max-height: 45px;"
                     >
 
                     <a class="marca text-decoration-none">
@@ -55,9 +70,32 @@
 
                 </div>
 
-                <nav class="nav-barbeiro text-center text-md-end">
 
-                    <p id="data_exibicao" class="mb-0"></p>
+                <nav class="nav-barbeiro d-flex flex-wrap justify-content-center gap-2">
+
+                    <a
+                        href="{% url 'painel_admin' %}"
+                        class="btn btn-primary btn-sm"
+                    >
+                        <i class="bi bi-calendar-check"></i>
+                        Agendamentos
+                    </a>
+
+                    <a
+                        href="{% url 'clientes' %}"
+                        class="btn btn-outline-secondary btn-sm"
+                    >
+                        <i class="bi bi-people"></i>
+                        Clientes
+                    </a>
+
+                    <a
+                        href="{% url 'servicos' %}"
+                        class="btn btn-outline-secondary btn-sm"
+                    >
+                        <i class="bi bi-scissors"></i>
+                        Serviços
+                    </a>
 
                 </nav>
 
@@ -66,21 +104,20 @@
         </header>
 
 
-        <!-- Conteúdo principal -->
+        <!-- Conteúdo -->
         <main class="container pb-5">
 
-            <!-- Saudação -->
-            <section class="mb-4">
+            <div class="mb-4">
 
-                <h2 class="h3 fw-bold">
-                    Olá, {{ request.user.username }} 👋!
-                </h2>
-
-                <h1 class="titulo-da-pagina h2 mt-3">
+                <h1 class="h2 fw-bold mb-2">
                     Agendamentos
                 </h1>
 
-            </section>
+                <p class="text-body-secondary mb-0">
+                    Olá, {{ request.user.username }}! 👋
+                </p>
+
+            </div>
 
 
             <!-- Mensagens -->
@@ -110,18 +147,25 @@
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
 
                     <h2 class="h4 mb-0">
+                        <i class="bi bi-calendar3"></i>
                         Lista de agendamentos
                     </h2>
 
-                    <span class="text-body-secondary">
-                        {{ agendamentos|length }} agendamento{{ agendamentos|length|pluralize }}
-                    </span>
+                    {% if agendamentos %}
+
+                        <span class="text-body-secondary">
+                            {{ agendamentos|length }}
+                            agendamento{{ agendamentos|length|pluralize }}
+                        </span>
+
+                    {% endif %}
 
                 </div>
 
 
                 {% if agendamentos %}
 
+                    <!-- Grade responsiva -->
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
 
                         {% for agendamento in agendamentos %}
@@ -132,72 +176,80 @@
 
                                     <div class="card-body d-flex flex-column">
 
+
                                         <!-- Cliente -->
-                                        <h3 class="card-title h5">
+                                        <div class="mb-3">
 
-                                            {% if agendamento.usuario %}
+                                            <div class="d-flex align-items-center gap-2 mb-2">
 
-                                                {{ agendamento.usuario.nome_completo }}
+                                                <i class="bi bi-person-circle fs-4"></i>
 
-                                            {% else %}
+                                                <h3 class="card-title h5 mb-0">
 
-                                                Anônimo
+                                                    {% if agendamento.usuario %}
 
-                                            {% endif %}
+                                                        {{ agendamento.usuario.nome_completo }}
 
-                                        </h3>
+                                                    {% else %}
 
+                                                        Anônimo
 
-                                        <!-- Data e horário -->
-                                        <div class="mb-2">
+                                                    {% endif %}
 
-                                            <div class="d-flex align-items-center gap-2">
-
-                                                <i class="bi bi-calendar-event"></i>
-
-                                                <span>
-                                                    {{ agendamento.data_agendamento }}
-                                                </span>
-
-                                            </div>
-
-                                            <div class="d-flex align-items-center gap-2 mt-1">
-
-                                                <i class="bi bi-clock"></i>
-
-                                                <span>
-                                                    {{ agendamento.horario_agendamento }}
-                                                </span>
+                                                </h3>
 
                                             </div>
 
                                         </div>
 
 
-                                        <!-- Serviços -->
+                                        <!-- Data e horário -->
                                         <div class="mb-3">
 
-                                            <small class="text-body-secondary">
-                                                Serviço
-                                            </small>
+                                            <p class="mb-1">
 
-                                            <div>
+                                                <i class="bi bi-calendar-event"></i>
+
+                                                <strong>Data:</strong>
+
+                                                {{ agendamento.data_agendamento }}
+
+                                            </p>
+
+                                            <p class="mb-0">
+
+                                                <i class="bi bi-clock"></i>
+
+                                                <strong>Horário:</strong>
+
+                                                {{ agendamento.horario_agendamento }}
+
+                                            </p>
+
+                                        </div>
+
+
+                                        <!-- Serviço -->
+                                        <div class="mb-3">
+
+                                            <p class="mb-1">
+                                                <i class="bi bi-scissors"></i>
+                                                <strong>Serviço:</strong>
+                                            </p>
+
+                                            <p class="text-body-secondary mb-0">
 
                                                 {% for servico in agendamento.servico.all %}
 
-                                                    <span>
-                                                        {{ servico.nome_servico }}{% if not forloop.last %}, {% endif %}
-                                                    </span>
+                                                    {{ servico.nome_servico }}{% if not forloop.last %}, {% endif %}
 
                                                 {% empty %}
 
-                                                    <span class="text-body-secondary">
-                                                        Sem serviço
-                                                    </span>
+                                                    Sem serviço
 
                                                 {% endfor %}
 
-                                            </div>
+                                            </p>
 
                                         </div>
 
@@ -205,9 +257,11 @@
                                         <!-- Status -->
                                         <div class="mt-auto">
 
-                                            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
+                                            <div class="d-flex flex-column gap-2">
 
-                                                <span class="status status-{{ agendamento.status }}">
+                                                <span
+                                                    class="status status-{{ agendamento.status }}"
+                                                >
                                                     {{ agendamento.get_status_display }}
                                                 </span>
 
@@ -219,6 +273,7 @@
 
                                                     {% csrf_token %}
 
+
                                                     {% if agendamento.status == 'pendente' %}
 
                                                         <input
@@ -229,8 +284,9 @@
 
                                                         <button
                                                             type="submit"
-                                                            class="btn btn-sm btn-primary w-100"
+                                                            class="btn btn-success btn-sm w-100"
                                                         >
+                                                            <i class="bi bi-check-circle"></i>
                                                             Confirmar
                                                         </button>
 
@@ -244,8 +300,9 @@
 
                                                         <button
                                                             type="submit"
-                                                            class="btn btn-sm btn-outline-secondary w-100"
+                                                            class="btn btn-outline-warning btn-sm w-100"
                                                         >
+                                                            <i class="bi bi-arrow-counterclockwise"></i>
                                                             Marcar pendente
                                                         </button>
 
@@ -267,6 +324,7 @@
 
                     </div>
 
+
                 {% else %}
 
                     <div class="alert alert-secondary text-center py-4">
@@ -287,7 +345,10 @@
             <!-- Logout -->
             <div class="mt-4">
 
-                <form action="{% url 'logout' %}" method="post">
+                <form
+                    action="{% url 'logout' %}"
+                    method="post"
+                >
 
                     {% csrf_token %}
 
@@ -308,18 +369,18 @@
     </div>
 
 
+    <!-- Scripts -->
     <script>
 
-        // Tema claro/escuro
-
+        // Tema baseado nas preferências do sistema
         const temaEscuro =
             window.matchMedia('(prefers-color-scheme: dark)');
 
         function aplicarTema(escuro) {
 
             document.documentElement.setAttribute(
-                "data-bs-theme",
-                escuro ? "dark" : "light"
+                'data-bs-theme',
+                escuro ? 'dark' : 'light'
             );
 
         }
@@ -327,16 +388,15 @@
         aplicarTema(temaEscuro.matches);
 
         temaEscuro.addEventListener(
-            "change",
+            'change',
             (evento) => aplicarTema(evento.matches)
         );
 
 
         // Data atual
-
         const data = new Date();
 
-        const dias_semana = [
+        const diasSemana = [
             "Domingo",
             "Segunda-feira",
             "Terça-feira",
@@ -361,21 +421,23 @@
             "dezembro"
         ];
 
-        const dia_Semana =
-            dias_semana[data.getDay()];
+        const diaSemana = diasSemana[data.getDay()];
+        const dia = String(data.getDate()).padStart(2, "0");
+        const mes = meses[data.getMonth()];
 
-        const dia =
-            String(data.getDate()).padStart(2, "0");
+        const elementoData =
+            document.getElementById("data_exibicao");
 
-        const mes =
-            meses[data.getMonth()];
+        if (elementoData) {
 
-        document.getElementById(
-            "data_exibicao"
-        ).textContent =
-            `${dia_Semana}, ${dia} de ${mes}`;
+            elementoData.textContent =
+                `${diaSemana}, ${dia} de ${mes}`;
+
+        }
 
     </script>
+
+    <script src="{% static 'js/script.js' %}"></script>
 
 </body>
 

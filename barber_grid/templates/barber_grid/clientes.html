@@ -1,99 +1,400 @@
+```html
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{% static 'images/favicon.ico' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
     <title>Clientes | Barber Grid</title>
 </head>
-<body>
-    <div class="pagina">
-        <a class="marca">Barber Grid</a>
-        <nav class="nav-barbeiro">
-            <a href="{% url 'painel_admin' %}">Agendamentos</a>
-            <a href="{% url 'clientes' %}">Clientes</a>
-            <a href="{% url 'servicos' %}">Serviços</a>
-        </nav>
-        <h1>Clientes</h1>
-        <p>Olá, {{ request.user.username }}!</p>
 
-        {% if messages %}
-            {% for message in messages %}
-                <p class="mensagem-sucesso">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
+<body class="bg-body text-body">
 
-        <section class="painel-cadastro">
-            <h2>Cadastrar cliente</h2>
-            <form method="post" novalidate>
-                {% csrf_token %}
-                {% if form.non_field_errors %}
-                    <ul class="erros">
-                        {% for error in form.non_field_errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+    <div class="container-fluid min-vh-100">
 
-                <div class="form-group">
-                    <label for="{{ form.nome_cliente.id_for_label }}">Nome *</label>
-                    {{ form.nome_cliente }}
-                    {% if form.nome_cliente.errors %}
-                        <p class="erro-campo">{{ form.nome_cliente.errors.0 }}</p>
-                    {% endif %}
-                </div>
+        <!-- Cabeçalho -->
+        <header class="container py-3 py-md-4">
 
-                <div class="form-group">
-                    <label for="{{ form.sobrenome_cliente.id_for_label }}">Sobrenome</label>
-                    {{ form.sobrenome_cliente }}
-                    {% if form.sobrenome_cliente.errors %}
-                        <p class="erro-campo">{{ form.sobrenome_cliente.errors.0 }}</p>
-                    {% endif %}
-                </div>
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
 
-                <div class="form-group">
-                    <label for="{{ form.telefone.id_for_label }}">Telefone ou contato *</label>
-                    {{ form.telefone }}
-                    {% if form.telefone.errors %}
-                        <p class="erro-campo">{{ form.telefone.errors.0 }}</p>
-                    {% endif %}
-                </div>
+                <a class="marca text-decoration-none">
+                    Barber Grid
+                </a>
 
-                <button type="submit">Cadastrar cliente</button>
-            </form>
-        </section>
+                <nav class="nav-barbeiro d-flex flex-wrap justify-content-center gap-2">
 
-        <section class="painel-lista">
-            <h2>Lista de clientes</h2>
-            {% if clientes %}
-                <ul class="lista-clientes lista-3-colunas">
-                    {% for cliente in clientes %}
-                        <li>
-                            <strong>{{ cliente.nome_completo }}</strong>
-                            <span>{{ cliente.telefone }}</span>
-                            <form action="{% url 'excluir_cliente' cliente.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="botao-excluir">Excluir</button>
-                            </form>
-                        </li>
+                    <a
+                        href="{% url 'painel_admin' %}"
+                        class="btn btn-outline-secondary btn-sm"
+                    >
+                        <i class="bi bi-calendar-check"></i>
+                        Agendamentos
+                    </a>
+
+                    <a
+                        href="{% url 'clientes' %}"
+                        class="btn btn-primary btn-sm"
+                    >
+                        <i class="bi bi-people"></i>
+                        Clientes
+                    </a>
+
+                    <a
+                        href="{% url 'servicos' %}"
+                        class="btn btn-outline-secondary btn-sm"
+                    >
+                        <i class="bi bi-scissors"></i>
+                        Serviços
+                    </a>
+
+                </nav>
+
+            </div>
+
+        </header>
+
+
+        <!-- Conteúdo -->
+        <main class="container pb-5">
+
+            <div class="mb-4">
+
+                <h1 class="h2 fw-bold mb-2">
+                    Clientes
+                </h1>
+
+                <p class="text-body-secondary mb-0">
+                    Olá, {{ request.user.username }}!
+                </p>
+
+            </div>
+
+
+            <!-- Mensagens -->
+            {% if messages %}
+
+                <div class="mb-4">
+
+                    {% for message in messages %}
+
+                        <div
+                            class="alert alert-success"
+                            role="alert"
+                        >
+                            {{ message }}
+                        </div>
+
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>Nenhum cliente cadastrado ainda.</p>
-            {% endif %}
-        </section>
 
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Sair da conta</button>
-        </form>
+                </div>
+
+            {% endif %}
+
+
+            <div class="row g-4">
+
+                <!-- Cadastro -->
+                <div class="col-12 col-lg-4">
+
+                    <section class="painel-cadastro h-100">
+
+                        <h2 class="h4 mb-4">
+                            Cadastrar cliente
+                        </h2>
+
+                        <form method="post" novalidate>
+
+                            {% csrf_token %}
+
+                            {% if form.non_field_errors %}
+
+                                <div class="alert alert-danger">
+
+                                    <ul class="mb-0">
+
+                                        {% for error in form.non_field_errors %}
+
+                                            <li>{{ error }}</li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- Nome -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="{{ form.nome_cliente.id_for_label }}"
+                                    class="form-label"
+                                >
+                                    Nome *
+                                </label>
+
+                                {{ form.nome_cliente }}
+
+                                {% if form.nome_cliente.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form.nome_cliente.errors.0 }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Sobrenome -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="{{ form.sobrenome_cliente.id_for_label }}"
+                                    class="form-label"
+                                >
+                                    Sobrenome
+                                </label>
+
+                                {{ form.sobrenome_cliente }}
+
+                                {% if form.sobrenome_cliente.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form.sobrenome_cliente.errors.0 }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Telefone -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="{{ form.telefone.id_for_label }}"
+                                    class="form-label"
+                                >
+                                    Telefone ou contato *
+                                </label>
+
+                                {{ form.telefone }}
+
+                                {% if form.telefone.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form.telefone.errors.0 }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary w-100"
+                            >
+                                <i class="bi bi-person-plus"></i>
+                                Cadastrar cliente
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                </div>
+
+
+                <!-- Lista -->
+                <div class="col-12 col-lg-8">
+
+                    <section class="painel-lista h-100">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
+
+                            <h2 class="h4 mb-0">
+                                Lista de clientes
+                            </h2>
+
+                            {% if clientes %}
+
+                                <span class="text-body-secondary">
+                                    {{ clientes|length }} cliente{{ clientes|length|pluralize }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if clientes %}
+
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
+
+                                {% for cliente in clientes %}
+
+                                    <div class="col">
+
+                                        <div class="card h-100 shadow-sm">
+
+                                            <div class="card-body d-flex flex-column">
+
+                                                <div class="mb-3">
+
+                                                    <h3 class="card-title h5 mb-2">
+                                                        {{ cliente.nome_completo }}
+                                                    </h3>
+
+                                                    <p class="card-text text-body-secondary mb-0">
+
+                                                        <i class="bi bi-telephone"></i>
+
+                                                        {{ cliente.telefone }}
+
+                                                    </p>
+
+                                                </div>
+
+
+                                                <form
+                                                    action="{% url 'excluir_cliente' cliente.id %}"
+                                                    method="post"
+                                                    class="mt-auto"
+                                                >
+
+                                                    {% csrf_token %}
+
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-outline-danger btn-sm w-100"
+                                                    >
+                                                        <i class="bi bi-trash"></i>
+                                                        Excluir
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="alert alert-secondary text-center py-4">
+
+                                <i class="bi bi-people fs-3 d-block mb-2"></i>
+
+                                <p class="mb-0">
+                                    Nenhum cliente cadastrado ainda.
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </section>
+
+                </div>
+
+            </div>
+
+
+            <!-- Logout -->
+            <div class="mt-4">
+
+                <form
+                    action="{% url 'logout' %}"
+                    method="post"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-outline-danger"
+                    >
+                        <i class="bi bi-box-arrow-right"></i>
+                        Sair da conta
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
     </div>
+
+
+    <!-- Tema -->
+    <script>
+
+        const temaEscuro =
+            window.matchMedia('(prefers-color-scheme: dark)');
+
+        function aplicarTema(escuro) {
+
+            document.documentElement.setAttribute(
+                "data-bs-theme",
+                escuro ? "dark" : "light"
+            );
+
+        }
+
+        aplicarTema(temaEscuro.matches);
+
+        temaEscuro.addEventListener(
+            "change",
+            (evento) => aplicarTema(evento.matches)
+        );
+
+    </script>
+
     <script src="{% static 'js/script.js' %}"></script>
+
 </body>
+
 </html>
+```

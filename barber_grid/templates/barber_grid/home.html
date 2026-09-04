@@ -1,47 +1,362 @@
+```html
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{% static 'images/favicon.ico' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
     <title>Início | Barber Grid</title>
 </head>
-<body>
-    <div class="pagina">
-        <a class="marca">Barber Grid</a>
-        <h1>Início</h1>
-        <p>Olá, {{ request.user.username }}!</p>
 
-        {% if messages %}
-            {% for message in messages %}
-                <p class="{% if message.tags == 'error' %}erro-campo{% else %}mensagem-sucesso{% endif %}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
+<body class="bg-body text-body">
 
-        <section class="painel-cadastro">
-            <h2>Agendar atendimento</h2>
-            {% include "barber_grid/partials/form_agendamento.html" %}
-        </section>
+    <div class="container-fluid min-vh-100">
 
-        <section class="painel-lista">
-            <h2>Meus agendamentos</h2>
+        <!-- Cabeçalho -->
+        <header class="container py-3 py-md-4">
 
-            <div id="lista-agendamentos">
-                {% include "barber_grid/partials/lista_agendamentos.html" %}
+            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+
+                <a class="marca text-decoration-none">
+                    Barber Grid
+                </a>
+
             </div>
-        </section>
 
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Sair da conta</button>
-        </form>
+        </header>
+
+
+        <!-- Conteúdo principal -->
+        <main class="container pb-5">
+
+            <div class="mb-4">
+
+                <h1 class="h2 fw-bold mb-2">
+                    Início
+                </h1>
+
+                <p class="text-body-secondary mb-0">
+                    Olá, {{ request.user.username }}!
+                </p>
+
+            </div>
+
+
+            <!-- Mensagens -->
+            {% if messages %}
+
+                <div class="mb-4">
+
+                    {% for message in messages %}
+
+                        <div
+                            class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}"
+                            role="alert"
+                        >
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="row g-4">
+
+                <!-- Formulário de agendamento -->
+                <div class="col-12 col-lg-5">
+
+                    <section class="painel-cadastro h-100">
+
+                        <h2 class="h4 mb-4">
+                            <i class="bi bi-calendar-plus"></i>
+                            Agendar atendimento
+                        </h2>
+
+                        <form method="post" novalidate>
+
+                            {% csrf_token %}
+
+
+                            {% if form.non_field_errors %}
+
+                                <div class="alert alert-danger">
+
+                                    <ul class="mb-0">
+
+                                        {% for error in form.non_field_errors %}
+
+                                            <li>{{ error }}</li>
+
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- Serviço -->
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Serviço *
+                                </label>
+
+                                <div class="lista-opcoes">
+
+                                    {{ form.servico }}
+
+                                </div>
+
+                                {% if form.servico.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form.servico.errors.0 }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Data -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="{{ form.data_agendamento.id_for_label }}"
+                                    class="form-label"
+                                >
+                                    Data *
+                                </label>
+
+                                {{ form.data_agendamento }}
+
+                                {% if form.data_agendamento.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form.data_agendamento.errors.0 }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Horário -->
+                            <div class="mb-3">
+
+                                <label
+                                    for="{{ form.horario_agendamento.id_for_label }}"
+                                    class="form-label"
+                                >
+                                    Horário *
+                                </label>
+
+                                {{ form.horario_agendamento }}
+
+                                {% if form.horario_agendamento.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ form.horario_agendamento.errors.0 }}
+                                    </div>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary w-100"
+                            >
+                                <i class="bi bi-calendar-check"></i>
+                                Agendar
+                            </button>
+
+                        </form>
+
+                    </section>
+
+                </div>
+
+
+                <!-- Lista de agendamentos -->
+                <div class="col-12 col-lg-7">
+
+                    <section class="painel-lista h-100">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
+
+                            <h2 class="h4 mb-0">
+                                <i class="bi bi-calendar3"></i>
+                                Meus agendamentos
+                            </h2>
+
+                            {% if agendamentos %}
+
+                                <span class="text-body-secondary">
+                                    {{ agendamentos|length }} agendamento{{ agendamentos|length|pluralize }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if agendamentos %}
+
+                            <div class="row row-cols-1 row-cols-md-2 g-3">
+
+                                {% for agendamento in agendamentos %}
+
+                                    <div class="col">
+
+                                        <div class="card h-100 shadow-sm">
+
+                                            <div class="card-body">
+
+                                                <div class="d-flex align-items-start gap-3 mb-3">
+
+                                                    <div>
+                                                        <i class="bi bi-calendar-event fs-4"></i>
+                                                    </div>
+
+                                                    <div>
+
+                                                        <h3 class="card-title h6 mb-1">
+                                                            {{ agendamento.data_agendamento }}
+                                                        </h3>
+
+                                                        <p class="card-text text-body-secondary mb-0">
+                                                            {{ agendamento.horario_agendamento }}
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <p class="mb-3">
+
+                                                    <strong>Serviço:</strong>
+
+                                                    {% for servico in agendamento.servico.all %}
+
+                                                        {{ servico.nome_servico }}{% if not forloop.last %}, {% endif %}
+
+                                                    {% empty %}
+
+                                                        Sem serviço
+
+                                                    {% endfor %}
+
+                                                </p>
+
+
+                                                <span
+                                                    class="status status-{{ agendamento.status }}"
+                                                >
+                                                    {{ agendamento.get_status_display }}
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="alert alert-secondary text-center py-4">
+
+                                <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
+
+                                <p class="mb-0">
+                                    Nenhum agendamento cadastrado ainda.
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </section>
+
+                </div>
+
+            </div>
+
+
+            <!-- Logout -->
+            <div class="mt-4">
+
+                <form
+                    action="{% url 'logout' %}"
+                    method="post"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-outline-danger"
+                    >
+                        <i class="bi bi-box-arrow-right"></i>
+                        Sair da conta
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
     </div>
+
+
     <script src="{% static 'js/script.js' %}"></script>
+
 </body>
+
 </html>
+```
