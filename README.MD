@@ -39,21 +39,12 @@ O **Barber Grid** é um sistema de gestão acadêmico projetado para otimizar ro
 
 ## 🚀 Funcionalidades
 
-| Funcionalidade | Status |
-| :--- | :---: |
-<<<<<<< HEAD
-| Cadastro de clientes | Concluído |
-| Cadastro de serviços | Concluído |
-| Cadastro de barbeiros | Concluído |
-| Sistema de agendamentos | Concluído |
-| Controle de status de agendamentos | Concluído |
-=======
+
 | Cadastro de clientes |  Em desenvolvimento |
 | Cadastro de serviços |  Em desenvolvimento |
 | Cadastro de barbeiros |  Em desenvolvimento |
 | Sistema de agendamentos |  Em desenvolvimento |
 | Controle de status de agendamentos |  Em desenvolvimento |
->>>>>>> ba26b46cc748937133edf3413853789ce3eaf8dd
 | Autenticação de usuários | Em desenvolvimento |
 | Área restrita de gerenciamento | Em desenvolvimento |
 | Prevenção de conflitos de horários | Em desenvolvimento |
@@ -111,11 +102,10 @@ barber-grid/
 ```
 ## ⚙️ Como Executar o Projeto
 
-
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/alvarogit-ops/barber-management-system-grid.git
+git clone https://github.com/alvarogit-ops/sistema-de-barbearia.git
 cd barber-grid
 ```
 
@@ -150,16 +140,33 @@ SECRET_KEY=sua_chave_secreta_aqui
 DEBUG=True
 ```
 
-### 5. Execute as migrações e inicie o servidor
-
-Execute as migrações do banco de dados:
+### 5. Execute as migrações do banco de dados
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-Inicie o servidor de desenvolvimento:
+### 6. Crie o superusuário
+
+Execute o comando:
+
+```bash
+python manage.py createsuperuser
+```
+
+Em seguida, informe o nome de usuário e a senha solicitados pelo terminal:
+
+```text
+Username: admin
+Password: ********
+Password (again): ********
+Superuser created successfully.
+```
+
+> Guarde as credenciais utilizadas, pois elas serão necessárias para acessar a área administrativa do sistema.
+
+### 7. Inicie o servidor de desenvolvimento
 
 ```bash
 python manage.py runserver
@@ -168,7 +175,6 @@ python manage.py runserver
 Acesse o sistema em:
 
 `http://127.0.0.1:8000/`
-
 ---
 
 ## 🗃️ Modelos Principais
@@ -199,11 +205,9 @@ Acesse o sistema em:
 
 ## 📌 Informações Acadêmicas
 
-<<<<<<< HEAD
 * **Instituição:** IFRN 
 =======
 * **Instituição:** IFRN Campus São Paulo do Potengi
->>>>>>> ba26b46cc748937133edf3413853789ce3eaf8dd
 * **Disciplina:** Projeto de Desenvolvimento de Sistemas para Internet
 * **Professora:** Fernanda Lígia
 * **Orientador:** Diego Cirilo
