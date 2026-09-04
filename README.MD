@@ -53,7 +53,6 @@ O **Barber Grid** é um sistema de gestão acadêmico projetado para otimizar ro
 | Cadastro de barbeiros |  Em desenvolvimento |
 | Sistema de agendamentos |  Em desenvolvimento |
 | Controle de status de agendamentos |  Em desenvolvimento |
->>>>>>> ba26b46cc748937133edf3413853789ce3eaf8dd
 | Autenticação de usuários | Em desenvolvimento |
 | Área restrita de gerenciamento | Em desenvolvimento |
 | Prevenção de conflitos de horários | Em desenvolvimento |
@@ -199,7 +198,6 @@ Acesse o sistema em:
 
 ## 📌 Informações Acadêmicas
 
-<<<<<<< HEAD
 * **Instituição:** IFRN 
 =======
 * **Instituição:** IFRN Campus São Paulo do Potengi
