@@ -102,11 +102,10 @@ barber-grid/
 ```
 ## ⚙️ Como Executar o Projeto
 
-
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/alvarogit-ops/barber-management-system-grid.git
+git clone https://github.com/alvarogit-ops/sistema-de-barbearia.git
 cd barber-grid
 ```
 
@@ -141,16 +140,33 @@ SECRET_KEY=sua_chave_secreta_aqui
 DEBUG=True
 ```
 
-### 5. Execute as migrações e inicie o servidor
-
-Execute as migrações do banco de dados:
+### 5. Execute as migrações do banco de dados
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-Inicie o servidor de desenvolvimento:
+### 6. Crie o superusuário
+
+Execute o comando:
+
+```bash
+python manage.py createsuperuser
+```
+
+Em seguida, informe o nome de usuário e a senha solicitados pelo terminal:
+
+```text
+Username: admin
+Password: ********
+Password (again): ********
+Superuser created successfully.
+```
+
+> Guarde as credenciais utilizadas, pois elas serão necessárias para acessar a área administrativa do sistema.
+
+### 7. Inicie o servidor de desenvolvimento
 
 ```bash
 python manage.py runserver
@@ -159,7 +175,6 @@ python manage.py runserver
 Acesse o sistema em:
 
 `http://127.0.0.1:8000/`
-
 ---
 
 ## 🗃️ Modelos Principais
