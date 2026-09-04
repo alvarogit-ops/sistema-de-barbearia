@@ -193,7 +193,6 @@ Acesse o sistema em:
 * **Instituição:** IFRN 
 =======
 * **Instituição:** IFRN Campus São Paulo do Potengi
->>>>>>> ba26b46cc748937133edf3413853789ce3eaf8dd
 * **Disciplina:** Projeto de Desenvolvimento de Sistemas para Internet
 * **Professora:** Fernanda Lígia
 * **Orientador:** Diego Cirilo
