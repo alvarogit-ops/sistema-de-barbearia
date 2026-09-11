@@ -24,33 +24,52 @@
   <!--navbar próprio do bootstrap e material design bootstrap-->
   <nav class="text-center">
   <img id="imagem_logotipo" src="{% static 'images/logo_tema_escuro.png' %}">
-     <a class="navbar-brand" href="#">Barber Grid</a>
+     <a class="navbar-brand" href="{% url 'setup' %}">Barber Grid</a>
  </nav>
         <div class="container">
             <h4>Selecione um serviço</h4>
             <hr>
-                   <h5>Serviços</h5>
-            <div class="card w-100">
-                <div class="card-body text-center">
-                  <h5 class="card-title">Card title</h5>
-                  <div class="d-flex flex-row">
-                    <img class="servico_img" src="{% static 'images/haircut.jpg'%}">
-                  </div>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Button</a>
-                  </div>
-            </div>
-            <div class="card w-100">
-                <div class="card-body text-center">
-                    <div class="d-flex flex-row">
-                          <img class="servico_img" src="{% static 'images/beard.jpg'%}">
+            <h5>Serviços</h5>
+            <div class="card">
+                <div class="card-img m-3 d-flex">
+                    <div class="d-flex">
+                         <img class="card-img-left" src="{% static 'images/haircut.jpg'%}" alt="Card image cap">
+                        <div class="d-flex justify-content-between">
+                            <div class="card-body w-100 text-left">
+                                <div class="justify-content-between">
+                                     <h5 class="card-title">Card title</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                     </div>
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-primary">Button</a>
-                  </div>
-            </div>
-        </div>
+                            </div>
+                                </div>
+                           
+                             <div id="chevron" class="d-flex">
+                                  <i class="bi bi-chevron-right"></i>
+                            </div>
+                            </div> 
+                        </div>
+                      
+                    </div>
+                </div>   
+                </div>
+                        
+           <div class="card">
+                <div class="card-img m-3">
+                    <div class="d-flex justify-content-between">
+                         <img class="card-img-left" src="{% static 'images/beard.jpg'%}" alt="Card image cap">
+                        <div class="d-flex justify-content-between">
+                            <div class="card-body text-left">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            </div>
+                             <div id="chevron" class="d-flex">
+                                  <i class="bi bi-chevron-right"></i>
+                            </div>
+                            </div> 
+                        </div>
+                      
+                    </div>
+                </div>
 <script>
     const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)');
         function aplicarTema(escuro) {

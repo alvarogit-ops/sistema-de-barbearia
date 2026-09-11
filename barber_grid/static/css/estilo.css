@@ -32,6 +32,18 @@ img{
     font-size: 20px;
 }
 
-.servico_img{
-    min-width: 100px;
+.card-img-left{
+    width: 100px;
+    height: 100px;
+    
 }
+
+#chevron i{
+    font-size: 2rem;
+}
+
+
+.d-flex{
+    align-items: center;
+}
+
