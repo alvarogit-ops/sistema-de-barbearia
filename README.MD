@@ -196,7 +196,7 @@ Acesse o sistema em:
 
 ## 📚 Documentação & Links
 
-* 🔗 **[Protótipo no Figma](https://www.figma.com/design/wg6zSJiM4ZmavHRpLdMBUp/Barber-Grid---Alta-Fidelidade?node-id=0-1&m=dev&t=xYS99G0iUZg1zB4p-1)**
+* 🔗 **[Protótipo no Figma](https://www.figma.com/proto/wg6zSJiM4ZmavHRpLdMBUp/Barber-Grid---Alta-Fidelidade?node-id=117-173&p=f&t=T7pBtsDGUjVJZ6Tk-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=117%3A173)**
 * Documentação complementar e diagramas disponíveis na pasta `docs/`.
 
 
