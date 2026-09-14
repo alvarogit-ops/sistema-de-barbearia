@@ -200,12 +200,16 @@ Acesse o sistema em:
 * Documentação complementar e diagramas disponíveis na pasta `docs/`.
 
 
+## 👨‍💻 Equipe
+
+| Nome | Função |
+| :--- | :--- |
+| **Álvaro Yuri** | Project Owner, Scrum Master, Desenvolvedor |
+
 ---
 
 ## 📌 Informações Acadêmicas
 
-* **Instituição:** IFRN 
-=======
 * **Instituição:** IFRN Campus São Paulo do Potengi
 * **Disciplina:** Projeto de Desenvolvimento de Sistemas para Internet
 * **Professora:** Fernanda Lígia
