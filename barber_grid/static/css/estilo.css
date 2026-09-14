@@ -29,7 +29,7 @@ img{
 
 
 .navbar-brand{
-    font-size: 20px;
+    font-size: 30px;
 }
 
 .card-img-left{
@@ -45,4 +45,39 @@ img{
 
 .d-flex{
     align-items: center;
+}
+
+#imagem_logotipo{
+    width: 50px;
+}
+
+.fundo-escuro-nav{
+   background-image: linear-gradient(
+  to bottom,
+  #21252955,
+  #181b1f35,
+  #0d0f1122
+);
+ backdrop-filter: blur(4px);
+}
+
+#calendar {
+    margin: auto;
+    width: 500px;
+}
+
+.fc-day-today {
+    background-color: var(--bg) !important;
+}
+
+.fc-day-today .fc .fc-daygrid-day-number {
+    color: black;
+}
+
+a{
+    text-decoration: none;
+}
+
+.data-selecionada{
+    background-color: rgb(47, 62, 96) !important;
 }

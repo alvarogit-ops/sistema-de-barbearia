@@ -16,6 +16,9 @@ def setup(request):
 def pagina_agendamento(request):
     return render(request, 'barber_grid/pagina_agendamento.html')
 
+def selecionar_data(request):
+    return render(request, 'barber_grid/selecionar_data.html')
+
 def login(request):
     # Verifico se um usuário existe e se a senha está correta
 

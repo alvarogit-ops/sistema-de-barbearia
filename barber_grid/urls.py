@@ -18,5 +18,6 @@ urlpatterns = [
     ),
     path('servicos/', views.servicos, name='servicos'),
     path('logout/', views.logoutForm, name='logout'),
+    path('selecionar_data', views.selecionar_data, name='selecionar_data')
 ]
 
