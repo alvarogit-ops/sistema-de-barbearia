@@ -212,7 +212,7 @@ Acesse o sistema em:
 
 Uma tarefa será considerada pronta quando:
 
-- o código estiver na branch `main` por meio de um Pull Request revisado por outro integrante da equipe;
+- o código estiver na branch `main` por meio de um Pull Request revisado.
 - a funcionalidade tiver sido testada manualmente;
 - todos os critérios de aceitação da Issue tiverem sido cumpridos;
 - a Issue tiver sido fechada e movida para `Done`.
