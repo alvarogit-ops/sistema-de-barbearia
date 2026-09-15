@@ -1,193 +1,59 @@
-<<<<<<< HEAD
-# Início
+# TODO — Atividade GitHub Project e Sprint 1
 
-- Iniciar o aplicativo Django.
-- Adicionar `barber_grid.app.BarberGridConfig` em `INSTALLED_APPS` no `settings.py`.
-- Criar `urls.py` dentro do app `barber_grid`.
-- Importar `HttpResponse` de `django.http`.
-- Criar uma resposta HTTP simples para testar o funcionamento do app.
-- Configurar as URLs do projeto para encaminhar as requisições para `barber_grid.urls`.
-- Criar os primeiros `urlpatterns` do projeto e do aplicativo.
+## 1. Pré-requisitos
 
-# Models
+- [ ] Repositório público
+- [ ] Conta utilizada não pertence à organização do IFRN
+- [ ] Documentação parcialmente concluída
+- [ ] Requisitos funcionais e não funcionais revisados
+- [ ] Projeto individual
+- [ ] Definir papéis: Scrum Master, Product Owner e Desenvolvedor
 
-## Status inicial
+### Pendente
 
-- Cliente estava como `None` em determinados agendamentos, representando um cliente anônimo.
-- Criar o model `Agendamento`.
-- Criar a regra para impedir dois agendamentos no mesmo horário.
-- Permitir inicialmente que `Cliente` pudesse ficar vazio, representando um agendamento anônimo.
-- Relacionar `Agendamento` com `Cliente`, `Barbeiro` e `Servico`.
-- Executar e aplicar as migrações do banco de dados.
-- Testar a criação de agendamentos com conflito de horário pelo terminal.
-- Utilizar relacionamentos `ManyToMany` quando necessário.
+- [ ] Finalizar documentação
 
-# Criação de dados pelo Shell
+## 2. Configuração do Project
 
-## Problemas identificados posteriormente
+- [ ] Preencher README com nome, descrição, tecnologias e integrante
+- [ ] Definir convenção para as Issues
+- [ ] Criar as User Stories como Issues
+- [ ] Criar sub-issues para as tarefas, quando necessário
+- [ ] Revisar labels
+- [ ] Criar campo Status
+- [ ] Criar campo Prioridade
+- [ ] Criar campo Estimativa
+- [ ] Criar campo Sprint como Iteration
+- [ ] Criar e salvar uma view no formato Board
+- [ ] Verificar permissões de acesso ao Project
 
-- Cliente não estava sendo criado corretamente.
-- Agendamento não exibia serviço e cliente.
-- Executar `python manage.py shell`.
-- Importar os models e classes necessárias.
-- Criar registros de clientes.
-- Criar registros de serviços.
-- Criar agendamentos manualmente.
-- Associar serviços aos agendamentos.
-- Testar os relacionamentos entre os models.
+## 3. Backlog
 
-# Exibição de registros
+- [ ] Inserir os requisitos no backlog
+- [ ] Organizar as User Stories do backlog
 
-- Criar a view responsável pela exibição dos agendamentos.
-- Definir a URL para a página de agendamentos.
-- Criar a estrutura de templates do projeto.
-- Criar `barber_grid/agendamentos.html`.
-- Buscar as instâncias de `Agendamento` em `views.py`.
-- Passar os agendamentos para o template através do contexto.
-- Utilizar Django Templates para percorrer e exibir vários agendamentos.
-- Utilizar `agendamento.servico.add(servico1)` para associar serviços ao `ManyToManyField`.
-- Utilizar expressões geradoras para obter os serviços relacionados e exibir seus nomes.
+## 4. Sprint 1
 
-# Painel Admin
+- [ ] Configurar Sprint 1 com duração de 2 semanas
+- [ ] Definir meta da Sprint 1: Disponibilizar as funcionalidades básicas de cadastro de clientes e agendamento do Barber Grid
+- [ ] Selecionar as User Stories que contribuem diretamente para a meta
+- [ ] Verificar se as User Stories cabem em 2 semanas
+- [ ] Verificar se as User Stories não dependem de algo que ainda não existe
+- [ ] Alterar o Status das User Stories selecionadas para Todo
+- [ ] Preencher o campo Sprint com Sprint 1
+- [ ] Criar sub-issues, se necessário
+- [ ] Atribuir responsáveis
+- [ ] Definir estimativas
+- [ ] Somar as estimativas
+- [ ] Verificar se o total é compatível com o tempo disponível
 
-- Importar `Agendamento` em `admin.py`.
-- Registrar `Agendamento` utilizando `admin.site.register()`.
-- Criar um superusuário com `python manage.py createsuperuser`.
-- Acessar o painel administrativo do Django.
-- Criar e visualizar agendamentos pelo Django Admin.
+## 5. Definition of Done
 
-# Static Assets
+- [ ] Registrar Definition of Done no README
+- [ ] Adaptar o processo de revisão para projeto individual
 
-- Criar a pasta `static`.
-- Importar `os`.
-- Configurar `STATICFILES_DIRS`.
-- Configurar `MEDIA_URL`.
-- Utilizar `os.getcwd()` para verificar o diretório atual pelo Python Shell.
-- Corrigir caminhos que não apontavam corretamente para os arquivos estáticos nos templates.
-- Configurar a utilização de CSS e JavaScript no projeto.
+## 6. Diagrama
 
-# Autenticação
-
-- Criar formulário de senha.
-- Criar página de login.
-- Criar página de registro.
-- Criar página protegida para usuários autenticados.
-- Utilizar autenticação nativa do Django.
-- Utilizar `request.user` para identificar o usuário autenticado.
-- Utilizar `{% csrf_token %}` nos formulários.
-- Utilizar `@login_required` para proteger páginas.
-- Configurar `LOGIN_REDIRECT_URL`.
-- Criar rota de logout utilizando requisição `POST`.
-- Utilizar `is_staff` para diferenciar usuários administrativos de usuários comuns.
-
-# Forms
-
-- Criar `forms.py` dentro do app.
-- Importar `forms` do Django.
-- Criar formulários utilizando Django Forms.
-- Importar os formulários em `views.py`.
-- Integrar os formulários aos templates.
-- Utilizar `{{ form }}` para renderização dos campos.
-- Exibir mensagens e erros de validação nos templates.
-- Utilizar JavaScript para auxiliar na exibição de mensagens e alterações visuais.
-
-# Registro e Login
-
-- Corrigir o tratamento do usuário durante o processo de autenticação.
-- Importar `login` como `auth_login` em `views.py` para evitar conflito de nomes.
-- Alterar o login para utilizar e-mail como credencial.
-- Alterar o campo HTML de `nome_usuario` para `email` no formulário de login.
-- Corrigir o cadastro para persistir e-mail e telefone.
-- Validar se senha e confirmação de senha são iguais.
-- Validar se o e-mail já está cadastrado.
-- Validar se o nome de usuário já está cadastrado.
-- Utilizar `create_user()` para criação dos usuários.
-- Criar o relacionamento entre `User` e `Cliente`.
-- Adicionar `name="index"` à URL da página inicial.
-- Utilizar `is_staff` para direcionar administradores ao painel administrativo.
-- Configurar o redirecionamento após o login.
-
-# Funcionalidade de Agendamento
-
-- Criar o formulário de agendamento.
-- Permitir seleção de serviço.
-- Permitir seleção de data.
-- Permitir seleção de horário.
-- Associar o agendamento ao cliente autenticado.
-- Validar os dados do formulário.
-- Impedir conflitos de horário.
-- Exibir mensagens de sucesso e erro.
-- Exibir os agendamentos do cliente na Home.
-- Remover a opção de agendamento pelo WhatsApp.
-- Tornar a Home acessível somente para usuários autenticados.
-
-# AJAX
-
-- Criar `script.js`.
-- Capturar o formulário de agendamento pelo JavaScript.
-- Interceptar o envio tradicional do formulário.
-- Utilizar `fetch()` para enviar o formulário via `POST`.
-- Enviar os dados utilizando `FormData`.
-- Identificar a requisição como AJAX através de `X-Requested-With`.
-- Criar respostas `JsonResponse` no Django.
-- Retornar o HTML da lista de agendamentos dentro do JSON.
-- Atualizar a lista de agendamentos sem recarregar a página.
-- Retornar o HTML atualizado do formulário quando houver erros de validação.
-- Substituir o formulário antigo pelo formulário atualizado.
-- Desabilitar o botão durante o processamento.
-- Exibir o estado `"Agendando..."`.
-- Tratar erros no JavaScript.
-- Corrigir o problema de resposta HTML sendo interpretada como JSON.
-- Finalizar a implementação do fluxo AJAX de agendamento.
-
-# Erros corrigidos e mudanças
-
-- Corrigir caminhos de arquivos estáticos nos templates.
-- Corrigir o fluxo de autenticação.
-- Corrigir o uso de `login` em `views.py`.
-- Corrigir persistência de e-mail e telefone no registro.
-- Adicionar validações no cadastro.
-- Adicionar proteção das páginas autenticadas.
-- Adicionar diferenciação entre usuário comum e administrador.
-- Remover a opção de agendamento pelo WhatsApp.
-- Corrigir a exibição dos agendamentos na Home.
-- Corrigir o logout para utilizar `POST`.
-- Corrigir o tratamento de conflitos de horário.
-- Corrigir o retorno das requisições AJAX.
-- Corrigir a interpretação de respostas HTML como JSON.
-
-# Bugbot
-
-## Problemas identificados
-
-### Alta prioridade
-
-- `barber_grid/views.py:23` — Login poderia lançar `ValidationError` sem tratamento, resultando em erro HTTP 500 em vez de mensagem no formulário.
-- `barber_grid/views.py:48` — Registro poderia lançar `ValidationError` sem captura, resultando em HTTP 500.
-
-### Média prioridade
-
-- `barber_grid/views.py:54` — Após `create_user()` bem-sucedido, o fluxo de registro precisava de redirecionamento/autenticação adequada.
-- `barber_grid/views.py:45` — O telefone era recebido pelo `POST`, mas não estava sendo persistido corretamente.
-- `barber_grid/views.py:69` — A Home precisava receber os agendamentos no contexto.
-- `barber_grid/views.py:54` — O username também precisava ser validado para evitar `IntegrityError`.
-- `barber_grid/views.py:59` — O logout deveria aceitar somente `POST`, evitando encerramento de sessão através de requisição `GET`.
-
-# Docker
-
-## Em andamento
-
-- Criar `Dockerfile`.
-- Criar `requirements.txt`.
-- Criar `.dockerignore`.
-- Configurar o Django para executar dentro de um container.
-- Expor a porta `8000`.
-- Criar a imagem Docker do Barber Grid.
-- Executar o container.
-- Resolver o problema de inicialização do Docker Engine no Windows.
-=======
-## Improve Ui/Ux:
-
-1. Adicionar favicon
-2. Rota para logotipo: carregar apenas com static, sem a url
->>>>>>> a3678fd (style: ajusta espaçamento da seção de agendamentos)
+- [ ] Criar diagrama de casos de uso
+- [ ] Revisar atores e casos de uso
+- [ ] Inserir o diagrama na documentação
