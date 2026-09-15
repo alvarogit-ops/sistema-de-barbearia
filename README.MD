@@ -208,6 +208,17 @@ Acesse o sistema em:
 
 ---
 
+## Definition of Done (DoD)
+
+Uma tarefa será considerada pronta quando:
+
+- o código estiver na branch `main` por meio de um Pull Request revisado.
+- a funcionalidade tiver sido testada manualmente;
+- todos os critérios de aceitação da Issue tiverem sido cumpridos;
+- a Issue tiver sido fechada e movida para `Done`.
+
+---
+
 ## 📌 Informações Acadêmicas
 
 * **Instituição:** IFRN Campus São Paulo do Potengi
