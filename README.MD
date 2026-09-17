@@ -196,7 +196,7 @@ A estrutura dos modelos será definida de acordo com os critérios de aceitaçã
 
 ## 📚 Documentação & Links
 
-🔗 **[Protótipo no Figma](https://www.figma.com/proto/wg6zSJiM4ZmavHRpLdMBUp/Barber-Grid---Alta-Fidelidade?node-id=117-173&p=f&t=T7pBtsDGUjVJZ6Tk-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=117%3A173)**
+🔗 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=cEpUO7WUnx4vAHj4-1)**
 
 📁 Documentação complementar e diagramas disponíveis na pasta `docs/`.
 
