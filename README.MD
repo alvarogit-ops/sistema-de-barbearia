@@ -52,12 +52,10 @@ Desenvolver um fluxo simples que permita ao usuário:
 
 | Funcionalidade | Status |
 |---|---|
-| Consulta de serviços disponíveis | 🚧 Em desenvolvimento |
-| Exibição de informações dos serviços | 🚧 Em desenvolvimento |
-| Seleção de serviço | 🚧 Em desenvolvimento |
-| Formulário simples de agendamento | 🚧 Em desenvolvimento |
-| Validação básica do formulário | 🚧 Em desenvolvimento |
-| Interface responsiva | 🚧 Em desenvolvimento |
+| Consulta de serviços disponíveis | ✅ Concluído |
+| Exibição de informações dos serviços | ✅ Concluído |
+| Seleção de serviço | ✅ Concluído|
+|
 
 ---
 
