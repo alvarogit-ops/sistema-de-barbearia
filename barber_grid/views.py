@@ -7,7 +7,7 @@ def setup(request):
 def pagina_servicos(request):
     servicos = Servico.objects.all()
     context = {
-        'serviços': servicos
+        'servicos': servicos
     }
 
     return render(request, 'barber_grid/pagina_servicos.html', context)

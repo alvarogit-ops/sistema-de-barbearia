@@ -6,7 +6,7 @@ from django.db import models
 
 
 class Servico(models.Model):
-    servico = models.CharField(max_length=80)
+    nome_servico = models.CharField(max_length=80)
     preco = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -15,9 +15,13 @@ class Servico(models.Model):
         verbose_name='Duração estimada (minutos)',
     )
 
+    imagem = models.ImageField(upload_to='servicos/', blank=True, null=True)
+
     class Meta:
-        ordering = ['servico']
+        ordering = ['nome_servico']
 
     def __str__(self):
-        return self.servico
+        return self.nome_servico
 
+class Agendamento(models.Model):
+    cliente = models.CharField(max_length=100)

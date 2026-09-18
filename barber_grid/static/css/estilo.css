@@ -40,8 +40,12 @@ img{
 
 #chevron i{
     font-size: 2rem;
+    color: white;
 }
 
+i{
+    color: white;
+}
 
 .d-flex{
     align-items: center;
