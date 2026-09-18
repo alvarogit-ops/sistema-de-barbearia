@@ -45,7 +45,6 @@ Desenvolver um fluxo simples que permita ao usuário:
 - Preencher um formulário simples com seus dados.
 
 > O escopo desta sprint está concentrado no fluxo de consulta e preenchimento do formulário, sem a implementação de um sistema completo de gestão de barbearia.
->>>>>>> 61a0a41b47d911a10caed679c338b25a34d65ba7
 
 ---
 
