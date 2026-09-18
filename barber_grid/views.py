@@ -9,7 +9,7 @@ def pagina_servicos(request):
     context = {
         'serviços': servicos
     }
-    return render(request, 'barber_grid/pagina_servicos.html', context)
 
+    return render(request, 'barber_grid/pagina_servicos.html', context)
 
 

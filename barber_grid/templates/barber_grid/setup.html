@@ -39,21 +39,9 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Início<span class="sr-only"></span></a>
+        <a class="nav-link" href="{% url 'admin:index' %}">Painel Admin<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Serviços</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
         <ul class="navbar-nav ms-auto">
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Contato</a>
-          <a class="dropdown-item" href="#">Galeria</a>
-          <div class="dropdown-divider"></div>
-          </div>
         </ul>
       </li>
     </ul>
@@ -69,8 +57,7 @@
           <h1 class="fw-light m-lg-4">Seu próximo corte começa aqui</h1>
           <p class="lead text-muted">Agende seu horário de forma rápida e simples</p>
           <p>
-            <a href="{% url 'pagina_agendamento'%}" class="btn btn-primary my-2">Agendar agora!</a>
-            <a href="#" class="btn btn-secondary my-2">Contato</a>
+            <a href="{% url 'pagina_servicos'%}" class="btn btn-primary my-2">Agendar agora!</a>
           </p>
         </div>
       </div>
@@ -122,7 +109,7 @@
   <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
     <!-- Content -->
     <h6 class="text-uppercase fw-bold mb-4">
-      <i class="fas fa-cut me-3"></i>Barber Grid
+      Barber Grid
     </h6>
     <p>
       Cuidamos do seu visual com cortes, barba e outros serviços
@@ -178,20 +165,16 @@
     <!-- Links -->
     <h6 class="text-uppercase fw-bold mb-4">Contato</h6>
     <p>
-      <i class="fas fa-home me-3"></i>
-      Rua das Palmeiras, 250
+      Rua tal
     </p>
     <p>
-      <i class="fas fa-envelope me-3"></i>
-      contato@barbeariaestilo.com
+      contato@email.com
     </p>
     <p>
-      <i class="fas fa-phone me-3"></i>
-      (85) 99999-1234
+      (84) 99999-9999
     </p>
     <p>
-      <i class="fas fa-clock me-3"></i>
-      Seg. a Sáb., 09h às 19h
+      Horário de funcionamento não definido
     </p>
   </div>
   <!-- Grid column -->
