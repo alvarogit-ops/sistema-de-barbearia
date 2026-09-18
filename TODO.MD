@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Início
 
 1. Iniciar app
@@ -123,3 +124,6 @@ Registro valida só e-mail duplicado; username único pode gerar IntegrityError 
 medium
 barber_grid/views.py:59
 logoutForm aceita GET; um recurso malicioso pode encerrar a sessão sem POST/CSRF.
+=======
+
+>>>>>>> 61a0a41b47d911a10caed679c338b25a34d65ba7
