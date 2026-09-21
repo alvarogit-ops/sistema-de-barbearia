@@ -55,7 +55,7 @@ Desenvolver um fluxo simples que permita ao usuário:
 | Consulta de serviços disponíveis | ✅ Concluído |
 | Exibição de informações dos serviços | ✅ Concluído |
 | Seleção de serviço | ✅ Concluído|
-|
+
 
 ---
 
