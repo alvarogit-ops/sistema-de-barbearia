@@ -168,7 +168,23 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6. Inicie o servidor
+### 6. Crie um superusuário
+
+Execute o comando abaixo para criar um usuário administrador do Django:
+
+```bash
+python manage.py createsuperuser
+```
+
+Preencha as informações solicitadas:
+
+* **Nome de usuário:** informe o nome de usuário do administrador.
+* **E-mail:** informe o endereço de e-mail.
+* **Senha:** crie uma senha segura e confirme-a.
+
+> A senha não será exibida enquanto você digita no terminal.
+
+### 7. Inicie o servidor
 
 ```bash
 python manage.py runserver
@@ -176,9 +192,28 @@ python manage.py runserver
 
 Acesse a aplicação:
 
-[http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+http://127.0.0.1:8000/
+
+### 8. Cadastre um serviço pelo Django Admin
+
+Após iniciar o servidor, acesse o painel administrativo:
+
+http://127.0.0.1:8000/admin/
+
+1. Faça login utilizando o nome de usuário e a senha do superusuário criado anteriormente.
+2. Localize a seção **Serviços** no painel administrativo.
+3. Clique em **Adicionar serviço**.
+4. Preencha os dados do serviço:
+
+   * **Nome do serviço:** nome do corte ou procedimento.
+   * **Preço:** valor do serviço.
+   * **Duração em minutos:** tempo estimado para realizar o serviço.
+5. Salve o cadastro.
+
+Após salvar, o serviço cadastrado estará disponível na página de serviços da aplicação.
 
 ---
+
 
 ## 🗃️ Modelos Principais
 
