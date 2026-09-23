@@ -219,8 +219,8 @@ Após salvar, o serviço cadastrado estará disponível na página de serviços 
 
 | Modelo | Descrição |
 |---|---|
-| **Serviço** | Representa os serviços oferecidos pela barbearia. |
-| **Agendamento** | Representa os dados relacionados ao formulário de agendamento, conforme os requisitos da Sprint 1. |
+| **Serviço** | Representa os serviços oferecidos pela barbearia, conforme requisitos da Sprint 1. |
+
 
 A estrutura dos modelos será definida de acordo com os critérios de aceitação e as necessidades do fluxo implementado.
 
