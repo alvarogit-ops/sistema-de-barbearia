@@ -230,7 +230,7 @@ A estrutura dos modelos será definida de acordo com os critérios de aceitaçã
 
 🔗 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=wsz3jwY1O719cKFE-1)**
 
-📁 Documentação complementar e diagramas disponíveis na pasta `docs/`.
+📁 Documentação complementar e diagramas disponíveis na pasta `docs/`, na branch `docs`.
 
 ---
 
