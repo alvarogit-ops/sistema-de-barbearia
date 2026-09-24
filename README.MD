@@ -35,19 +35,6 @@ O projeto segue o padrão arquitetural **MVT (Model-View-Template)** do Django, 
 
 ---
 
-## 🎯 Objetivo da Sprint 1
-
-Desenvolver um fluxo simples que permita ao usuário:
-
-- Consultar os serviços disponíveis.
-- Visualizar informações dos serviços.
-- Escolher um serviço para agendamento.
-- Preencher um formulário simples com seus dados.
-
-> O escopo desta sprint está concentrado no fluxo de consulta e preenchimento do formulário, sem a implementação de um sistema completo de gestão de barbearia.
-
----
-
 ## 🚀 Funcionalidades
 
 | Funcionalidade | Status |
