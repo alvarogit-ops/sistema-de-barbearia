@@ -13,3 +13,5 @@ def pagina_servicos(request):
 
     return render(request, 'barber_grid/pagina_servicos.html', context)
 
+def login(request):
+    return render(request, 'barber_grid/login.html')
