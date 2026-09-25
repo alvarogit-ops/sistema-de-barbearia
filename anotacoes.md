@@ -4,7 +4,7 @@
 * `Bootstrap 5.3 - Collapse`
 * `Bootstrap 5.3 - Color modes`
 * `MDN - Window: matchMedia() method`
-* `Django Project 5.2 User Authentication`
+* `Django Project - Using the Django authentication system`
 
 ## O que cada código representa
 
