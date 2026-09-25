@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from .models import Cliente
 def setup(request):
     return render(request, 'barber_grid/setup.html')
 
@@ -17,7 +17,7 @@ def pagina_servicos(request):
 
     return render(request, 'barber_grid/pagina_servicos.html', context)
 
-def login_view(request):
+def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("senha")
@@ -33,4 +33,12 @@ def login_view(request):
     return render(request, 'barber_grid/login.html')
 
 def registro(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("senha")
+
+        User.objects.create_user(email=email, password=password)
     return render(request, 'barber_grid/registro.html')
+
+
+
