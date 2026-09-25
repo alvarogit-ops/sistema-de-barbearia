@@ -5,6 +5,7 @@
 * `Bootstrap 5.3 - Color modes`
 * `MDN - Window: matchMedia() method`
 * `Django Project - Using the Django authentication system`
+* `Django shortcut functions`
 
 ## O que cada código representa
 
