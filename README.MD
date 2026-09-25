@@ -133,13 +133,27 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Instale as dependências
+### 3. Instale o Django e o Pillow
+
+Com o ambiente virtual ativado, instale o Django e a biblioteca Pillow:
+
+```bash
+pip install django pillow
+```
+
+O Django é utilizado para o desenvolvimento da aplicação web, enquanto o Pillow é utilizado para o processamento de imagens.
+
+### 4. Instale as demais dependências
+
+Se o projeto possuir um arquivo `requirements.txt`, execute:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure as variáveis de ambiente
+> Se o `requirements.txt` já contiver `Django` e `Pillow`, a instalação do passo anterior pode ser feita apenas com `pip install -r requirements.txt`.
+
+### 5. Configure as variáveis de ambiente
 
 Crie um arquivo `.env` na raiz do projeto com base no `.env.example`, caso necessário.
 
@@ -148,14 +162,14 @@ SECRET_KEY=sua_chave_secreta_aqui
 DEBUG=True
 ```
 
-### 5. Execute as migrações
+### 6. Execute as migrações
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6. Crie um superusuário
+### 7. Crie um superusuário
 
 Execute o comando abaixo para criar um usuário administrador do Django:
 
@@ -171,7 +185,7 @@ Preencha as informações solicitadas:
 
 > A senha não será exibida enquanto você digita no terminal.
 
-### 7. Inicie o servidor
+### 8. Inicie o servidor
 
 ```bash
 python manage.py runserver
@@ -181,7 +195,7 @@ Acesse a aplicação:
 
 http://127.0.0.1:8000/
 
-### 8. Cadastre um serviço pelo Django Admin
+### 9. Cadastre um serviço pelo Django Admin
 
 Após iniciar o servidor, acesse o painel administrativo:
 
