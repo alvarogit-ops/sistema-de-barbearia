@@ -15,7 +15,7 @@
 
     <title>Registro</title>
 </head>
-<body>
+<body class="pagina-registro">
     <form method="POST">
         {% csrf_token %}
 
@@ -47,7 +47,7 @@
 
         <button type="submit">Enviar</button>
 
-        <a href="{% url 'login' %}">Fazer login</a>
+        <a href="{% url 'login_view' %}">Fazer login</a>
     </form>
 
     <script src="{% static 'js/script.js' %}"></script>
