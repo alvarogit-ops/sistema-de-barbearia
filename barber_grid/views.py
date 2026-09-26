@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.db import IntegrityError, transaction
 
-from .models import Servico, Cliente
+from .models import Servico, Cliente, Agendamento
 
 
 def setup(request):
@@ -20,7 +20,7 @@ def pagina_servicos(request):
 
     return render(request, 'barber_grid/pagina_servicos.html', context)
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("senha")
@@ -62,3 +62,37 @@ def registro(request):
                 return redirect('login')
 
     return render(request, 'barber_grid/registro.html')
+
+
+def agendamento(request, servico_id):
+    servico = Servico.objects.get(id=servico_id)
+
+    if request.method == "POST":
+        data = request.POST.get("data")
+        horario = request.POST.get("horario")
+
+        cliente = Cliente.objects.get(usuario=request.user)
+
+        Agendamento.objects.create(
+            cliente=cliente,
+            servico=servico,
+            data=data,
+            horario=horario
+        )
+
+        messages.success(request, "Agendamento feito com sucesso!")
+
+        return redirect("historico_agendamentos")
+
+    return render(
+        request,
+        "barber_grid/agendamento.html",
+        {"servico": servico}
+    )
+    
+def historico_agendamentos(request):
+    agendamentos = Agendamento.objects.all()
+    context = {
+        'agendamentos': agendamentos
+    }
+    return render(request, 'barber_grid/historico_agendamentos.html', context)
