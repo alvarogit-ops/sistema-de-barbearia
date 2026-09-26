@@ -44,21 +44,7 @@ def registro(request):
 
         if not nome or not telefone or not email or not password:
             messages.error(request, 'Preencha todos os campos.')
-        elif User.objects.filter(username=email).exists() or User.objects.filter(email=email).exists():
-            messages.error(request, 'Este e-mail já está cadastrado.')
         else:
-            try:
-                with transaction.atomic():
-                    user = User.objects.create_user(
-                        username=email,
-                        email=email,
-                        password=password,
-                        first_name=nome,
-                    )
-                    Cliente.objects.create(usuario=user, telefone=telefone)
-            except IntegrityError:
-                messages.error(request, 'Não foi possível criar a conta. Tente novamente.')
-            else:
                 return redirect('login')
 
     return render(request, 'barber_grid/registro.html')
