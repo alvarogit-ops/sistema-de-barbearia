@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.db import IntegrityError, transaction
+
 
 from .models import Servico, Cliente, Agendamento
 
@@ -28,7 +28,11 @@ def login_view(request):
     
         if user is not None:
             auth_login(request, user)
+
+            if user.is_staff:
+                return redirect('historico_agendamentos')
             return redirect('pagina_servicos')
+
         else:
             messages.error(request, 'Usuário / senha inválidos')
             
@@ -44,22 +48,6 @@ def registro(request):
 
         if not nome or not telefone or not email or not password:
             messages.error(request, 'Preencha todos os campos.')
-        elif User.objects.filter(username=email).exists() or User.objects.filter(email=email).exists():
-            messages.error(request, 'Este e-mail já está cadastrado.')
-        else:
-            try:
-                with transaction.atomic():
-                    user = User.objects.create_user(
-                        username=email,
-                        email=email,
-                        password=password,
-                        first_name=nome,
-                    )
-                    Cliente.objects.create(usuario=user, telefone=telefone)
-            except IntegrityError:
-                messages.error(request, 'Não foi possível criar a conta. Tente novamente.')
-            else:
-                return redirect('login')
 
     return render(request, 'barber_grid/registro.html')
 
@@ -73,6 +61,23 @@ def agendamento(request, servico_id):
 
         cliente = Cliente.objects.get(usuario=request.user)
 
+        if Agendamento.objects.filter(
+            cliente=cliente,
+            servico=servico,
+            data=data,
+            horario=horario
+        ).exists():
+
+            messages.error(
+                request,
+                "Este horário já está agendado."
+            )
+
+            return redirect(
+                "agendamento",
+                servico_id=servico_id
+            )
+
         Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
@@ -80,16 +85,20 @@ def agendamento(request, servico_id):
             horario=horario
         )
 
-        messages.success(request, "Agendamento feito com sucesso!")
+        messages.success(
+            request,
+            "Agendamento feito com sucesso!"
+        )
 
-        return redirect("historico_agendamentos")
+        return redirect("usuario_historico")
 
     return render(
         request,
         "barber_grid/agendamento.html",
         {"servico": servico}
     )
-    
+
+
 def historico_agendamentos(request):
     agendamentos = Agendamento.objects.all()
     context = {
@@ -123,3 +132,14 @@ def servico(request):
         return redirect("servico")
 
     return render(request, 'barber_grid/servico.html')
+
+
+def usuario_historico(request):
+    cliente = Cliente.objects.get(usuario=request.user)
+
+    agendamentos = Agendamento.objects.filter(cliente=cliente)
+    
+    context = {
+        'agendamentos': agendamentos
+    }
+    return render(request, 'barber_grid/usuario_historico.html', context)
