@@ -93,6 +93,13 @@ def agendamento(request, servico_id):
 def historico_agendamentos(request):
     agendamentos = Agendamento.objects.all()
     context = {
-        'agendamentos': agendamentos
+        'agendamentos': agendamentos,
     }
     return render(request, 'barber_grid/historico_agendamentos.html', context)
+
+
+def painel_admin(request):
+    return render(request, 'barber_grid/painel_admin.html')
+
+def servico(request):
+    return render(request, 'barber_grid/servico.html')
