@@ -4,9 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.db import IntegrityError, transaction
-
-from .models import Servico, Cliente
+from .models import Servico, Cliente, Agendamento
 
 
 def setup(request):

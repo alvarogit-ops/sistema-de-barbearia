@@ -1,0 +1,202 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciar Serviços</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+
+<body>
+
+    <div class="container py-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>Gerenciar Serviços</h1>
+                <p class="text-muted">
+                    Cadastre, edite ou exclua os serviços da barbearia.
+                </p>
+            </div>
+
+            <a href="{% url 'pagina_servicos' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i>
+                Voltar
+            </a>
+        </div>
+
+
+        <!-- Formulário para cadastrar serviço -->
+        <div class="card mb-4">
+            <div class="card-body">
+
+                <h4 class="card-title mb-3">
+                    Cadastrar serviço
+                </h4>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="nome_servico" class="form-label">
+                            Nome do serviço
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="nome_servico"
+                            name="nome_servico"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="preco" class="form-label">
+                            Preço
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="preco"
+                            name="preco"
+                            step="0.01"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duracao_minutos" class="form-label">
+                            Duração em minutos
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="duracao_minutos"
+                            name="duracao_minutos"
+                            min="1"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagem" class="form-label">
+                            Imagem
+                        </label>
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            id="imagem"
+                            name="imagem"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i>
+                        Cadastrar serviço
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+
+        <!-- Lista de serviços -->
+        <div class="card">
+
+            <div class="card-body">
+
+                <h4 class="card-title mb-3">
+                    Serviços cadastrados
+                </h4>
+
+                {% for servico in servicos %}
+
+                    <div class="border rounded p-3 mb-3">
+
+                        <div class="row align-items-center">
+
+                            <div class="col-md-2">
+                                {% if servico.imagem %}
+                                    <img
+                                        src="{{ servico.imagem.url }}"
+                                        alt="{{ servico.nome_servico }}"
+                                        class="img-fluid rounded"
+                                    >
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5>{{ servico.nome_servico }}</h5>
+
+                                <p class="mb-1">
+                                    Preço: R$ {{ servico.preco }}
+                                </p>
+
+                                <p class="mb-0">
+                                    Duração:
+                                    {{ servico.duracao_minutos }} minutos
+                                </p>
+                            </div>
+
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                                <a
+                                    href="{% url 'editar_servico' servico.id %}"
+                                    class="btn btn-warning"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                    Editar
+                                </a>
+
+                                <a
+                                    href="{% url 'excluir_servico' servico.id %}"
+                                    class="btn btn-danger"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                    Excluir
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% empty %}
+
+                    <p class="text-muted">
+                        Nenhum serviço cadastrado.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
