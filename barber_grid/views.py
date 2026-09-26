@@ -29,6 +29,9 @@ def login(request):
         if user is not None:
             auth_login(request, user)
             return redirect('pagina_servicos')
+
+            if user.is_staff:
+                return redirect('painel_admin')
         else:
             messages.error(request, 'Usuário / senha inválidos')
             
