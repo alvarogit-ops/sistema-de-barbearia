@@ -49,53 +49,7 @@
 
     <main class="container py-5">
 
-        <h1 class="mb-4">
-            Histórico de agendamentos
-        </h1>
 
-        {% for message in messages %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-
-
-        {% for agendamento in agendamentos %}
-
-            <div class="card mb-3">
-
-                <div class="card-body">
-
-                    <h5 class="card-title">
-                        {{ agendamento.servico.nome_servico }}
-                    </h5>
-
-                    <p class="card-text mb-1">
-                        Cliente:
-                        {{ agendamento.cliente.usuario.first_name }}
-                    </p>
-
-                    <p class="card-text mb-1">
-                        Data:
-                        {{ agendamento.data }}
-                    </p>
-
-                    <p class="card-text">
-                        Horário:
-                        {{ agendamento.horario }}
-                    </p>
-
-                </div>
-
-            </div>
-
-        {% empty %}
-
-            <p class="text-muted">
-                Nenhum agendamento encontrado.
-            </p>
-
-        {% endfor %}
 
     </main>
 

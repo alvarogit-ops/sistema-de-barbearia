@@ -102,4 +102,24 @@ def painel_admin(request):
     return render(request, 'barber_grid/painel_admin.html')
 
 def servico(request):
+    if request.method == "POST":
+        nome_servico = request.POST.get("nome_servico")
+        preco = request.POST.get("preco")
+        duracao_minutos = request.POST.get("duracao_minutos")
+        imagem = request.FILES.get("imagem")
+
+        Servico.objects.create(
+            nome_servico=nome_servico,
+            preco=preco,
+            duracao_minutos=duracao_minutos,
+            imagem=imagem
+        )
+
+        messages.success(
+            request,
+            "Serviço adicionado com sucesso!"
+        )
+
+        return redirect("servico")
+
     return render(request, 'barber_grid/servico.html')
