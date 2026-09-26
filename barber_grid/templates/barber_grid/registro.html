@@ -21,6 +21,10 @@
 
         <h2>Criar conta</h2>
 
+        {% for message in messages %}
+        <p class="mensagem">{{ message }}</p>
+        {% endfor %}
+
         <div class="form-group">
             <label for="nome">Nome:</label>
             <input type="text" name="nome" id="nome">
