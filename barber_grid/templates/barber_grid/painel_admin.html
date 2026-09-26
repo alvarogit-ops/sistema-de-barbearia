@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Administrativo</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+
+            <a class="navbar-brand" href="#">
+                Barber Grid
+            </a>
+
+            <div class="navbar-nav ms-auto">
+
+                <a
+                    class="nav-link active"
+                    href="{% url 'historico_agendamentos' %}"
+                >
+                    Histórico de agendamentos
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="{% url 'servico' %}"
+                >
+                    Adicionar serviço
+                </a>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+    <main class="container py-5">
+
+        <h1 class="mb-4">
+            Histórico de agendamentos
+        </h1>
+
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+
+        {% for agendamento in agendamentos %}
+
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        {{ agendamento.servico.nome_servico }}
+                    </h5>
+
+                    <p class="card-text mb-1">
+                        Cliente:
+                        {{ agendamento.cliente.usuario.first_name }}
+                    </p>
+
+                    <p class="card-text mb-1">
+                        Data:
+                        {{ agendamento.data }}
+                    </p>
+
+                    <p class="card-text">
+                        Horário:
+                        {{ agendamento.horario }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <p class="text-muted">
+                Nenhum agendamento encontrado.
+            </p>
+
+        {% endfor %}
+
+    </main>
+
+</body>
+</html>
