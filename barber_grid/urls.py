@@ -13,5 +13,6 @@ urlpatterns = [
     path('agendamento/<int:servico_id>/', views.agendamento, name='agendamento'),
     path('pagina_servicos', views.pagina_servicos, name="pagina_servicos"),
     path('historico_agendamentos', views.historico_agendamentos, name="historico_agendamentos"),
-    path('servico', views.servico, name='servico')
+    path('servico', views.servico, name='servico'),
+    path('usuario_historico', views.usuario_historico, name='usuario_historico')
 ]
