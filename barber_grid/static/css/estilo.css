@@ -74,13 +74,14 @@ i{
     background-color: var(--bg) !important;
 }
 
+
 .fc-day-today .fc .fc-daygrid-day-number {
     color: black;
 }
 
-/*Tema Claro*/
+/*Tema Claro — só nas páginas de login/registro, para não sobrescrever o Bootstrap */
 
-body{
+body.pagina-auth {
     font-family: Montserrat;
     color: rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
@@ -88,7 +89,6 @@ body{
     display: flex;
     padding: 0;
     min-height: 100vh;
-   
 }
 
 .logotipo{
@@ -97,21 +97,7 @@ body{
     background-image: none;
 }
 
-.container{
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    background-color: rgb(205, 205, 205);
-    width: 80%;
-    max-width: 550px;
-    height: 600px;
-    justify-content: center;
-    text-align: center;
-    padding: 40px;
-    align-items: center;
-    border-radius: 50px;
-    box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
-}
+
 
 h1{
     font-size: 22px;
@@ -120,18 +106,11 @@ h1{
 
 p{
     font-size: 20px;
+
 }
 
 a{
     text-decoration: none;
-}
-
-.data-selecionada{
-    background-color: rgb(47, 62, 96) !important;
-}
-
-.mensagem {
-    color: red;
 }
 
 .logo a{
@@ -209,307 +188,9 @@ footer{
 
 /*Tema escuro*/
 
-body.dark{
-    background-color: rgb(18, 18, 18);
-    color: white;
-}
 
-body.dark .container{
-    background-color: rgb(43, 43, 43);
-}
+
 
 body.dark .logo a{
     color: #fbd760;
-}
-
-body.dark span{
-    color: white;
-}
-body.dark #mudartema i{
-    color: white;
-}
-
-body.dark #admin{
-    background-color: #fbd760;
-    color: black;
-}
-
-body.dark .marca,
-body.dark .nav-barbeiro a {
-    color: #fbd760;
-}
-
-body.dark .form-group input,
-body.dark .form-group select,
-body.dark .lista-opcoes {
-    background-color: rgb(43, 43, 43);
-    color: white;
-    border-color: #555;
-}
-
-body.dark .lista-clientes li,
-body.dark .lista-servicos li,
-body.dark .lista-agendamentos li {
-    border-bottom-color: #555;
-}
-
-.pagina {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 24px;
-    box-sizing: border-box;
-}
-
-.marca {
-    color: #aa8408;
-    font-size: 28px;
-    font-family: Lato, sans-serif;
-    font-weight: bold;
-}
-
-.nav-barbeiro {
-    display: flex;
-    gap: 16px;
-    margin: 12px 0 20px;
-}
-
-.nav-barbeiro a {
-    color: #aa8408;
-    font-weight: 600;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    margin-bottom: 16px;
-    width: 100%;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    max-width: 420px;
-    padding: 10px 12px;
-    border: 1px solid #b5b5b5;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-.lista-opcoes {
-    width: 100%;
-    max-width: 420px;
-    padding: 10px 12px;
-    border: 1px solid #b5b5b5;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
-.painel-cadastro,
-.painel-lista {
-    width: 100%;
-    margin-bottom: 28px;
-}
-
-.lista-clientes,
-.lista-servicos,
-.lista-agendamentos {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-}
-
-.lista-clientes li,
-.lista-servicos li,
-.lista-agendamentos li {
-    display: grid;
-    align-items: start;
-    column-gap: 16px;
-    padding: 12px 0;
-    border-bottom: 1px solid #d6d6d6;
-}
-
-.lista-clientes.lista-3-colunas li {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto;
-}
-
-.lista-servicos li,
-.lista-agendamentos.lista-3-colunas li {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr) minmax(0, 1fr);
-}
-
-.lista-agendamentos.lista-4-colunas li {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr) minmax(0, 1fr) minmax(9rem, 0.9fr);
-}
-
-.lista-clientes li > *,
-.lista-servicos li > *,
-.lista-agendamentos li > * {
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
-
-.celula-status {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-}
-
-.status {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.status-pendente {
-    color: #aa8408;
-}
-
-.status-confirmado {
-    color: rgb(70, 157, 51);
-}
-
-.botao-excluir,
-.botao-status {
-    padding: 6px 10px;
-    border: 1px solid #b5b5b5;
-    border-radius: 8px;
-    background: transparent;
-    cursor: pointer;
-    font: inherit;
-    font-size: 14px;
-}
-
-.botao-excluir {
-    color: #b42318;
-    border-color: #b42318;
-}
-
-.form-group ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.form-group li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.mensagem-sucesso {
-    color: rgb(70, 157, 51);
-    font-weight: 600;
-}
-
-.erro-campo,
-.erros {
-    color: #b42318;
-    font-size: 14px;
-    margin: 4px 0 0;
-    padding: 0;
-}
-
-/*Responsividade*/
-
-@media (max-width: 768px){
-
-    body{
-        min-height: 100vh;
-    }
-    h1{
-        font-size: 20px;
-    }
-
-    .logo a{
-        font-size: 30px;
-    }
-
-    .container{
-        width: 80%;
-        max-width: 250px;
-        max-height: 500px;
-        border-radius: 30px;
-    }
-
-    p{
-        font-size: 15px;
-    }
-
-    #agendar i{
-    font-size: 20px;
-    }
-
-    #admin i{
-        font-size: 20px;
-    }
-
-    #mudarTema i{
-        font-size: 20px;
-    }
-
-    .lista-clientes li,
-    .lista-servicos li,
-    .lista-agendamentos li {
-        grid-template-columns: 1fr;
-        row-gap: 4px;
-    }
-}
-
-html.dark {
-    color-scheme: dark;
-}
-
-html.dark body,
-body.dark {
-    background-color: rgb(18, 18, 18);
-    color: #f3f3f3;
-}
-
-html.dark .marca,
-html.dark .nav-barbeiro a,
-body.dark .marca,
-body.dark .nav-barbeiro a {
-    color: #fbd760;
-}
-
-html.dark .lista-agendamentos li,
-html.dark .lista-clientes li,
-html.dark .lista-servicos li,
-body.dark .lista-agendamentos li,
-body.dark .lista-clientes li,
-body.dark .lista-servicos li {
-    border-bottom-color: #555;
-}
-
-html.dark button,
-body.dark button,
-html.dark .botao-status,
-body.dark .botao-status {
-    background-color: rgb(43, 43, 43);
-    color: #f3f3f3;
-    border-color: #555;
-}
-
-html.dark .botao-excluir,
-body.dark .botao-excluir {
-    color: #ff8a80;
-    border-color: #ff8a80;
-    background: transparent;
-}
-
-html.dark .status-pendente,
-body.dark .status-pendente {
-    color: #fbd760;
-}
-
-html.dark .status-confirmado,
-body.dark .status-confirmado {
-    color: rgb(140, 210, 120);
 }
