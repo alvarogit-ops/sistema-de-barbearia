@@ -13,18 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <title>Login</title>
 </head>
-<body>
+<body class="bg-body text-body">
     <form method="POST" action="#">
         {% csrf_token %}    
         <h2>Login</h2>
-        {% if messages %}
-            {% for message in messages %}
-                <p class="{% if message.tags == 'error' %}erro-campo{% else %}mensagem-sucesso{% endif %}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
+        {% for message in messages %}
+        {% if message.level == 40 %}<p>{{ message }}{% endif %}</p>
+        {% endfor %}
         <div class="form-group">
-            <label for="email">Email: </label>
-            <input type="email" name="email" id="email">
+            <label for="username">Usuário: </label>
+            <input type="username" name="username" id="username">
         </div>
         <div class="form-group">
             <label for="senha">Senha: </label>
