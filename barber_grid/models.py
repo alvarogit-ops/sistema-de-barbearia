@@ -1,12 +1,5 @@
 from django.db import models
-from decimal import Decimal
-
-from django.conf import settings
-from django.core.validators import MinValueValidator
-from django.db import models
-from django.utils import timezone
-
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -31,5 +24,27 @@ class Servico(models.Model):
     def __str__(self):
         return self.nome_servico
 
+
+class Cliente(models.Model):
+    usuario = models.OneToOneField(User, on_delete = models.CASCADE)
+    telefone = models.CharField(max_length = 15)
+
+
+
 class Agendamento(models.Model):
-    cliente = models.CharField(max_length=100)
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.CASCADE
+    )
+
+    servico = models.ForeignKey(
+        Servico,
+        on_delete=models.CASCADE
+    )
+
+    data = models.DateField()
+
+    horario = models.TimeField()
+
+    def __str__(self):
+        return f"{self.cliente} - {self.servico} - {self.data} {self.horario}"
