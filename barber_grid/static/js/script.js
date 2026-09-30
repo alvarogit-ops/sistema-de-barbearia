@@ -48,6 +48,8 @@ document.getElementById("data_exibicao").textContent = `${dia_Semana}, ${dia} de
 
 
 //Tema Escuro
+
+
 const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)');
 
 
@@ -68,8 +70,6 @@ function aplicarTema(escuro) {
         tema
     );
 }
-
-
 
 
 aplicarTema(temaEscuro.matches);

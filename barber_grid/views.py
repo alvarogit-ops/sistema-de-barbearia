@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from .models import Servico
 
@@ -11,5 +12,4 @@ def pagina_servicos(request):
     }
 
     return render(request, 'barber_grid/pagina_servicos.html', context)
-
 
