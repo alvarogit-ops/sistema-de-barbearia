@@ -48,6 +48,29 @@ def registro(request):
 
         if not nome or not telefone or not email or not password:
             messages.error(request, 'Preencha todos os campos.')
+            return render(request, 'barber_grid/registro.html')
+
+        if User.objects.filter(username=nome).exists():
+            messages.error(request, 'Este nome de usuário já está cadastrado.')
+            return render(request, 'barber_grid/registro.html')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Este e-mail já está cadastrado.')
+            return render(request, 'barber_grid/registro.html')
+
+        usuario = User.objects.create_user(
+            username=email,
+            password=password
+        )
+
+        Cliente.objects.create(
+            usuario=usuario,
+            telefone=telefone
+        )
+
+        messages.success(request, 'Conta criada com sucesso!')
+
+        return redirect('login')
 
     return render(request, 'barber_grid/registro.html')
 
