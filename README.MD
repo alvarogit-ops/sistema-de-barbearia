@@ -1,4 +1,3 @@
-
 <div align="center">
 
 # 💈 Barber Grid
@@ -36,27 +35,14 @@ O projeto segue o padrão arquitetural **MVT (Model-View-Template)** do Django, 
 
 ---
 
-## 🎯 Objetivo da Sprint 1
-
-Desenvolver um fluxo simples que permita ao usuário:
-
-- Consultar os serviços disponíveis.
-- Visualizar informações dos serviços.
-- Escolher um serviço para agendamento.
-
-
-> O escopo desta sprint está concentrado no fluxo de consulta e preenchimento do formulário, sem a implementação de um sistema completo de gestão de barbearia.
-
----
-
 ## 🚀 Funcionalidades
 
 | Funcionalidade | Status |
 |---|---|
-| Consulta de serviços disponíveis | 🚧 Em desenvolvimento |
-| Exibição de informações dos serviços | 🚧 Em desenvolvimento |
-| Seleção de serviço | 🚧 Em desenvolvimento |
-| Interface responsiva | 🚧 Em desenvolvimento |
+| Consulta de serviços disponíveis | ✅ Concluído |
+| Exibição de informações dos serviços | ✅ Concluído |
+| Seleção de serviço | ✅ Concluído|
+
 
 ---
 
@@ -169,7 +155,23 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6. Inicie o servidor
+### 6. Crie um superusuário
+
+Execute o comando abaixo para criar um usuário administrador do Django:
+
+```bash
+python manage.py createsuperuser
+```
+
+Preencha as informações solicitadas:
+
+* **Nome de usuário:** informe o nome de usuário do administrador.
+* **E-mail:** informe o endereço de e-mail.
+* **Senha:** crie uma senha segura e confirme-a.
+
+> A senha não será exibida enquanto você digita no terminal.
+
+### 7. Inicie o servidor
 
 ```bash
 python manage.py runserver
@@ -177,15 +179,34 @@ python manage.py runserver
 
 Acesse a aplicação:
 
-[http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+http://127.0.0.1:8000/
+
+### 8. Cadastre um serviço pelo Django Admin
+
+Após iniciar o servidor, acesse o painel administrativo:
+
+http://127.0.0.1:8000/admin/
+
+1. Faça login utilizando o nome de usuário e a senha do superusuário criado anteriormente.
+2. Localize a seção **Serviços** no painel administrativo.
+3. Clique em **Adicionar serviço**.
+4. Preencha os dados do serviço:
+
+   * **Nome do serviço:** nome do corte ou procedimento.
+   * **Preço:** valor do serviço.
+   * **Duração em minutos:** tempo estimado para realizar o serviço.
+5. Salve o cadastro.
+
+Após salvar, o serviço cadastrado estará disponível na página de serviços da aplicação.
 
 ---
+
 
 ## 🗃️ Modelos Principais
 
 | Modelo | Descrição |
 |---|---|
-| **Serviço** | Representa os serviços oferecidos pela barbearia. |
+| **Serviço** | Representa os serviços oferecidos pela barbearia, conforme requisitos da Sprint 1. |
 
 
 A estrutura dos modelos será definida de acordo com os critérios de aceitação e as necessidades do fluxo implementado.
@@ -194,9 +215,9 @@ A estrutura dos modelos será definida de acordo com os critérios de aceitaçã
 
 ## 📚 Documentação & Links
 
-🔗 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=cEpUO7WUnx4vAHj4-1)**
+🔗 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=wsz3jwY1O719cKFE-1)**
 
-📁 Documentação complementar e diagramas disponíveis na pasta `docs/`.
+📁 Documentação complementar e diagramas disponíveis na pasta `docs/`, na branch `docs`.
 
 ---
 
