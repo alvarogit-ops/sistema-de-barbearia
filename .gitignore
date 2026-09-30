@@ -4,15 +4,9 @@ venv/
 env/
 *.pyc/
 __pycache__/
-
-<<<<<<< HEAD
-#sqlite
 db.sqlite3/
 db.sqlite3
-*.db
 
-=======
->>>>>>> ba26b46cc748937133edf3413853789ce3eaf8dd
 # Logs
 logs
 *.log
