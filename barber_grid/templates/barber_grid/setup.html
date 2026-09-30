@@ -39,7 +39,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'admin:index' %}">Painel Admin<span class="sr-only"></span></a>
+        <a class="nav-link" href="{% url 'login_view' %}">Login<span class="sr-only"></span></a>
       </li>
         <ul class="navbar-nav ms-auto">
         </ul>
@@ -57,7 +57,7 @@
           <h1 class="fw-light m-lg-4">Seu próximo corte começa aqui</h1>
           <p class="lead text-muted">Agende seu horário de forma rápida e simples</p>
           <p>
-            <a href="{% url 'pagina_servicos'%}" class="btn btn-primary my-2">Agendar agora!</a>
+            <a href="{% url 'login_view' %}" class="btn btn-primary my-2">Agendar agora!</a>
           </p>
         </div>
       </div>
@@ -198,45 +198,6 @@
 <!-- Footer -->
 
 </body>
-<script>  const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)');
-
-        let imagem = document.getElementById('imagem_logotipo')
-        let logotipo_claro = document.querySelector(".imagem_logotipo_claro")
-        let logotipo_escuro = document.querySelector('.imagem_logotipo_escuro')
-        function aplicarTema(escuro) {
-            document.documentElement.setAttribute(
-                "data-bs-theme",
-                escuro ? "dark": "light",
-            );
-        }
-
-        function alterarLogotipo(escuro){
-          imagem.src = escuro ? logotipo_escuro.src : logotipo_claro.src
-        }
-
-        alterarLogotipo(temaEscuro.matches)
-
-        aplicarTema(temaEscuro.matches);
-
-        temaEscuro.addEventListener("change", (evento) => {
-            aplicarTema(evento.matches);
-        });
-
-        //vou selecionar a janela, não a nav
-      
-
-        let nav_landing_page = document.querySelector('nav')
-
-        window.addEventListener('scroll', () => {
-          if (window.scrollY > 120){
-             nav_landing_page.classList.add('fundo-escuro-nav')
-          }
-
-          else{
-            nav_landing_page.classList.remove('fundo-escuro-nav')
-          }
-        })
+<script src="{% static 'js/script.js' %}"></script>
         
-
-</script>
 </html>
