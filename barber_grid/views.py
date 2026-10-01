@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from django.utils import timezone
+import datetime
+from datetime import timedelta
 
 from .models import Servico, Cliente, Agendamento
 
@@ -20,7 +22,7 @@ def pagina_servicos(request):
 
     return render(request, 'barber_grid/pagina_servicos.html', context)
 
-def login_view(request):
+def login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("senha")
@@ -84,12 +86,7 @@ def agendamento(request, servico_id):
 
         cliente = Cliente.objects.get(usuario=request.user)
 
-        if Agendamento.objects.filter(
-            cliente=cliente,
-            servico=servico,
-            data=data,
-            horario=horario
-        ).exists():
+        if Agendamento.objects.filter(data=data, horario=horario).exists():
 
             messages.error(
                 request,
@@ -100,6 +97,25 @@ def agendamento(request, servico_id):
                 "agendamento",
                 servico_id=servico_id
             )
+
+
+        data_horario = datetime.datetime.strptime(data + " " + horario, "%Y-%m-%d %H:%M")
+        data_horario = timezone.make_aware(data_horario)
+        agora = timezone.now()
+        if data_horario < agora:
+            messages.error(
+                request,
+                "Agende um horário posterior."
+            )
+
+            return redirect("agendamento", servico_id=servico_id)
+
+        horario_inicio = datetime.strptime(data + " " + horario, "%H:%M")
+
+        while horario_inicio < horario_fim:
+            horarios.append(horario_inicio)
+            horario_inicio = horario_inicio + timedelta(minutes=30)
+
 
         Agendamento.objects.create(
             cliente=cliente,
