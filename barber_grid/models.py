@@ -71,4 +71,9 @@ class Agendamento(models.Model):
     def __str__(self):
         return f"{self.cliente} - {self.servico} - {self.data} {self.horario}"
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["data", "horario"], name="unico_agendamento")
+        ]
+
 
