@@ -29,7 +29,7 @@
 
 O **Barber Grid** é uma aplicação web acadêmica desenvolvida com Django para facilitar a consulta de serviços de uma barbearia e o início de um agendamento.
 
-Na **Sprint 1**, o usuário poderá visualizar os serviços disponíveis, escolher um serviço e preencher um formulário simples com seus dados.
+Na **Sprint 1**, o usuário poderá visualizar os serviços disponíveis e escolher um serviço
 
 O projeto segue o padrão arquitetural **MVT (Model-View-Template)** do Django, com foco em uma implementação objetiva e na validação do fluxo principal da aplicação.
 
