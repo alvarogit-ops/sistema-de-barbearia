@@ -7,8 +7,8 @@ from django.contrib import messages
 from django.utils import timezone
 import datetime
 from datetime import timedelta
-
-from .models import Servico, Cliente, Agendamento
+from .models import Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario
+from django.http import JsonResponse
 
 
 def setup(request):
@@ -79,6 +79,23 @@ def registro(request):
 
 def agendamento(request, servico_id):
     servico = Servico.objects.get(id=servico_id)
+    horarios_disponiveis = []
+    data = request.GET.get("data")
+
+    if data:
+
+        data_convertida = datetime.datetime.strptime(data, "%Y-%m-%d")
+        funcionamento = HorariodeFuncionamento.objects.get(id=1)
+        dia_escolhido = data_convertida.weekday()
+
+        if dia_escolhido >= funcionamento.dia_inicio and dia_escolhido <= funcionamento.dia_fim:
+                    horario_atual = funcionamento.horario_inicio
+                    horario_atual_convertido = datetime.datetime.combine(data_convertida, horario_atual)
+                    funcionamento.horario_fim = datetime.datetime.combine(data_convertida, funcionamento.horario_fim)
+                    while horario_atual_convertido < funcionamento.horario_fim:
+                        horarios_disponiveis.append(horario_atual_convertido)
+                        horario_atual_convertido = horario_atual_convertido + timedelta(minutes=30)
+                        print(horarios_disponiveis)
 
     if request.method == "POST":
         data = request.POST.get("data")
@@ -109,19 +126,18 @@ def agendamento(request, servico_id):
             )
 
             return redirect("agendamento", servico_id=servico_id)
+        
+        
 
-        horario_inicio = datetime.strptime(data + " " + horario, "%H:%M")
 
-        while horario_inicio < horario_fim:
-            horarios.append(horario_inicio)
-            horario_inicio = horario_inicio + timedelta(minutes=30)
+        
 
 
         Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
             data=data,
-            horario=horario
+            horario=horario,
         )
 
         messages.success(
@@ -131,11 +147,23 @@ def agendamento(request, servico_id):
 
         return redirect("usuario_historico")
 
+    print("AGENDAMENTO:", request.method, request.GET, request.POST)
+
     return render(
         request,
         "barber_grid/agendamento.html",
-        {"servico": servico}
+        {"servico": servico,
+        "horarios_disponiveis": horarios_disponiveis,
+        "data": data}
     )
+def horarios_disponiveis(request):
+    
+    data = request.GET.get("data")
+    print("DATA RECEBIDA:", data)
+    funcionamento = HorariodeFuncionamento.objects.get(id=1)
+    print("ABRE:", funcionamento.horario_inicio)
+    print("FECHA:", funcionamento.horario_fim)  
+    return JsonResponse({"data": data})
 
 
 def historico_agendamentos(request):
