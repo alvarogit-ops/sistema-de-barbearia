@@ -37,8 +37,7 @@
     {% endfor %}
     {% endif%}
 
-    <form method="POST">
-        {% csrf_token %}
+    <form method="GET">
 
         <label for="data">Escolha a data:</label>
 
@@ -48,17 +47,19 @@
             name="data"
             required
         >
+    </form>
+    <form method="POST">
+        {% csrf_token %} 
         <div>
             <label for="horario">Escolha um horário:
+                <input type="hidden" name="data" value="{{ data }}">
             <select name="horario">
               {% for horario in horarios_disponiveis %}
-              <option value="{{horario}}">{{horario}}</option>
+              <option value="{{horario |time:'H:i'}}">{{horario}}</option>
               {% endfor %}
             </select>
             </label>
-
-        
-
+   
         <button type="submit">Agendar</button>
         </div>
         
@@ -66,5 +67,18 @@
 </main>
 
 </body>
-<script src="script.js"></script>
+<script src="{% static 'script.js' %}"></script>
+<script>
+const campoData = document.getElementById("data");
+
+campoData.addEventListener("change", () => {
+    const data = campoData.value;
+
+    fetch(`/horarios-disponiveis/?data=${data}`)
+        .then(resposta => resposta.json())
+        .then(dados => {
+            console.log("RESPOSTA DO DJANGO:", dados);
+        });
+});
+</script>
 </html>
