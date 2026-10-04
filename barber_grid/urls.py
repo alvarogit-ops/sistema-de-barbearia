@@ -15,4 +15,9 @@ urlpatterns = [
     path('servico', views.servico, name='servico'),
     path('usuario_historico', views.usuario_historico, name='usuario_historico'),
     path("horarios-disponiveis/", views.horarios_disponiveis, name="horarios_disponiveis"),
+    path(
+    "confirmar-agendamento/<int:servico_id>",
+    views.confirmar_agendamento,
+    name="confirmar_agendamento",
+),
 ]
