@@ -13,15 +13,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
     <title>Login</title>
 </head>
+ <nav class="text-center">
+  <img id="imagem_logotipo" src="{% static 'images/logo_tema_escuro.png' %}">
+     <a class="navbar-brand" href="{% url 'setup' %}">Barber Grid
+     </a>
+      <a class="text-center">Alpha</a>
+ </nav>
 <body class="bg-body text-body">
     <form method="POST" action="#">
-        {% csrf_token %}    
+         {% csrf_token %}   
         <h2>Login</h2>
         {% for message in messages %}
         {% if message.level == 40 %}<p>{{ message }}{% endif %}</p>
         {% endfor %}
         <div class="form-group">
-            <label for="username">Usuário: </label>
+            <label for="username">Email: </label>
             <input type="username" name="username" id="username">
         </div>
         <div class="form-group">
