@@ -40,12 +40,10 @@ img{
 
 #chevron i{
     font-size: 2rem;
-    color: white;
+    color: black;
 }
 
-i{
-    color: white;
-}
+
 
 .d-flex{
     align-items: center;
@@ -194,3 +192,4 @@ footer{
 body.dark .logo a{
     color: #fbd760;
 }
+

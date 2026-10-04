@@ -29,7 +29,29 @@ class Cliente(models.Model):
     usuario = models.OneToOneField(User, on_delete = models.CASCADE)
     telefone = models.CharField(max_length = 15)
 
+DIA_DA_SEMANA_CHOICES = [
+    (0, 'Segunda-Feira'),
+    (1, 'Terça-Feira'),
+    (2, 'Quarta-Feira'),
+    (3, 'Quinta-Feira'),
+    (4, 'Sexta-Feira'),
+    (5, 'Sábado'),
+    (6, 'Domingo'),
+]
 
+class HorariodeFuncionamento(models.Model):
+    dia_inicio = models.PositiveSmallIntegerField(choices = DIA_DA_SEMANA_CHOICES)
+    dia_fim = models.PositiveSmallIntegerField(choices = DIA_DA_SEMANA_CHOICES)
+    horario_inicio = models.TimeField()
+    horario_fim = models.TimeField()
+
+
+class BloqueioHorario(models.Model):
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    horario_inicio = models.TimeField()
+    horario_fim = models.TimeField()
+    motivo = models.CharField(max_length=50)
 
 class Agendamento(models.Model):
     cliente = models.ForeignKey(
@@ -48,3 +70,10 @@ class Agendamento(models.Model):
 
     def __str__(self):
         return f"{self.cliente} - {self.servico} - {self.data} {self.horario}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["data", "horario"], name="unico_agendamento")
+        ]
+
+
