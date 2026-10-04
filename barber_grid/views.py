@@ -79,23 +79,11 @@ def registro(request):
 
 def agendamento(request, servico_id):
     servico = Servico.objects.get(id=servico_id)
-    horarios_disponiveis = []
     data = request.GET.get("data")
+    agora = timezone.now()
+    data_atual = agora.date().strftime("%Y-%m-%d")
 
-    if data:
-
-        data_convertida = datetime.datetime.strptime(data, "%Y-%m-%d")
-        funcionamento = HorariodeFuncionamento.objects.get(id=1)
-        dia_escolhido = data_convertida.weekday()
-
-        if dia_escolhido >= funcionamento.dia_inicio and dia_escolhido <= funcionamento.dia_fim:
-                    horario_atual = funcionamento.horario_inicio
-                    horario_atual_convertido = datetime.datetime.combine(data_convertida, horario_atual)
-                    funcionamento.horario_fim = datetime.datetime.combine(data_convertida, funcionamento.horario_fim)
-                    while horario_atual_convertido < funcionamento.horario_fim:
-                        horarios_disponiveis.append(horario_atual_convertido)
-                        horario_atual_convertido = horario_atual_convertido + timedelta(minutes=30)
-                        print(horarios_disponiveis)
+   
 
     if request.method == "POST":
         data = request.POST.get("data")
@@ -153,19 +141,63 @@ def agendamento(request, servico_id):
         request,
         "barber_grid/agendamento.html",
         {"servico": servico,
-        "horarios_disponiveis": horarios_disponiveis,
-        "data": data}
+        "data": data, "data_atual": data_atual,}
     )
 def horarios_disponiveis(request):
-    
+    horarios_disponiveis = []
+    agora = timezone.now()
     data = request.GET.get("data")
     print("DATA RECEBIDA:", data)
     funcionamento = HorariodeFuncionamento.objects.get(id=1)
     print("ABRE:", funcionamento.horario_inicio)
     print("FECHA:", funcionamento.horario_fim)  
-    return JsonResponse({"data": data})
+
+    if data:
+   
+           data_convertida = datetime.datetime.strptime(data, "%Y-%m-%d")
+           funcionamento = HorariodeFuncionamento.objects.get(id=1)
+           dia_escolhido = data_convertida.weekday()
+   
+           if dia_escolhido >= funcionamento.dia_inicio and dia_escolhido <= funcionamento.dia_fim:
+                       horario_atual = funcionamento.horario_inicio
+                       horario_atual_convertido = datetime.datetime.combine(data_convertida, horario_atual)
+                       funcionamento.horario_fim = datetime.datetime.combine(data_convertida, funcionamento.horario_fim)
+                       while horario_atual_convertido < funcionamento.horario_fim:
+                           horarios_disponiveis.append(horario_atual_convertido.strftime("%H:%M"))
+                           horario_atual_convertido = horario_atual_convertido + timedelta(minutes=30)
+                           print(horarios_disponiveis)
+
+    return JsonResponse({"data": data, "horarios_disponiveis": horarios_disponiveis})
 
 
+def confirmar_agendamento(request, servico_id):
+    servico = Servico.objects.get(id=servico_id)
+
+    data = request.GET.get("data")
+    horario = request.GET.get("horario")
+
+    if request.method == "POST":
+        cliente = Cliente.objects.get(usuario=request.user)
+
+        Agendamento.objects.create(
+            cliente=cliente,
+            servico=servico,
+            data=request.POST.get("data"),
+            horario=request.POST.get("horario"),
+        )
+
+        return redirect("usuario_historico")
+
+    return render(
+        request,
+        "barber_grid/confirmar-agendamento.html",
+        {
+            "servico": servico,
+            "data": data,
+            "horario": horario,
+            "servico_id": servico_id,
+        }
+    )
 def historico_agendamentos(request):
     agendamentos = Agendamento.objects.all()
     context = {
