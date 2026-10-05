@@ -1,0 +1,283 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detalhes do Agendamento | Barber Grid</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body class="bg-body text-body">
+
+<nav data-bs-theme="dark" class="navbar navbar-expand-lg navbar-light bg-black">
+    <div class="container">
+
+        <a class="navbar-brand" href="{% url 'inicio' %}">
+            <img
+                height="32"
+                class="me-2"
+                src="{% static 'images/favicon.ico' %}"
+                alt="Barber Grid"
+            >
+            Barber Grid
+        </a>
+
+        <button
+            aria-controls="menu"
+            type="button"
+            aria-label="Toggle navigation"
+            class="navbar-toggler collapsed"
+            data-bs-toggle="collapse"
+            data-bs-target="#menu"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse" id="menu">
+
+            <div class="me-auto navbar-nav">
+
+                <a class="nav-link" href="{% url 'inicio' %}">
+                    Início
+                </a>
+
+                <a class="nav-link" href="{% url 'pagina_servicos' %}">
+                    Agendar
+                </a>
+
+                <a class="nav-link active" href="{% url 'usuario_historico' %}">
+                    Minhas reservas
+                </a>
+
+            </div>
+
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+
+                    <a
+                        aria-expanded="false"
+                        role="button"
+                        class="dropdown-toggle nav-link"
+                        tabindex="0"
+                        href="#"
+                    >
+                        <i
+                            class="bi bi-person-circle text-secondary align-middle"
+                            style="font-size: 24px; line-height: 1;"
+                        ></i>
+
+                        {{ request.user.username }}
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+
+<div class="my-4 container">
+
+    <div class="card">
+
+        <div class="d-flex justify-content-between align-items-center card-header">
+
+            <h4 class="mb-0">
+                {{ agendamento.servico.nome_servico }}
+            </h4>
+
+            <span
+                id="statusAgendamento"
+                class="badge text-dark bg-warning"
+            >
+                {{ agendamento.get_status_display }}
+            </span>
+
+        </div>
+
+
+        <div class="list-group list-group-flush">
+
+            <div class="list-group-item">
+                <strong>Barbeiro:</strong> Felipe
+            </div>
+
+            <div class="list-group-item">
+                <strong>Dia:</strong> {{ agendamento.data }}
+            </div>
+
+            <div class="list-group-item">
+                <strong>Horário:</strong> {{ agendamento.horario }}
+            </div>
+
+            <div class="list-group-item">
+                <strong>Preço:</strong> R$ {{ agendamento.servico.preco }}
+            </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="d-flex gap-2">
+
+                <a
+                    href="{% url 'usuario_historico' %}"
+                    class="btn btn-outline-secondary"
+                >
+                    Voltar
+                </a>
+
+                {% if agendamento.status != 'cancelado' %}
+
+                    <button
+                        id="btnAbrirCancelamento"
+                        type="button"
+                        class="ms-auto btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalCancelar"
+                    >
+                        Cancelar
+                    </button>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="modal fade"
+    id="modalCancelar"
+    tabindex="-1"
+    aria-labelledby="modalCancelarLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalCancelarLabel">
+                    Cancelar agendamento
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar"
+                ></button>
+
+            </div>
+
+            <div class="modal-body">
+                Deseja realmente cancelar este agendamento?
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Voltar
+                </button>
+
+                <button
+                    type="button"
+                    id="btnCancelarAgendamento"
+                    class="btn btn-danger"
+                >
+                    Cancelar agendamento
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const btnCancelar = document.getElementById("btnCancelarAgendamento");
+    const btnAbrirCancelamento = document.getElementById("btnAbrirCancelamento");
+    const statusAgendamento = document.getElementById("statusAgendamento");
+
+    btnCancelar.addEventListener("click", async () => {
+
+        btnCancelar.disabled = true;
+        btnCancelar.textContent = "Cancelando...";
+
+        const resposta = await fetch(
+            "{% url 'cancelar_agendamento' agendamento.id %}",
+            {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }
+        );
+
+        const dados = await resposta.json();
+
+        if (dados.sucesso) {
+
+            statusAgendamento.textContent = dados.status;
+            statusAgendamento.className = "badge text-white bg-danger";
+
+            btnAbrirCancelamento.remove();
+
+            const modal = bootstrap.Modal.getInstance(
+                document.getElementById("modalCancelar")
+            );
+
+            modal.hide();
+
+        } else {
+
+            btnCancelar.disabled = false;
+            btnCancelar.textContent = "Cancelar agendamento";
+
+        }
+    });
+</script>
+
+</body>
+</html>
