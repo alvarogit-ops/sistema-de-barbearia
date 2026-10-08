@@ -45,4 +45,9 @@ urlpatterns = [
     views.cancelar_agendamento,
     name="cancelar_agendamento"
 ),
+path(
+    "editar-perfil/",
+    views.editar_perfil,
+    name="editar_perfil"
+),
 ]

@@ -434,3 +434,37 @@ def cancelar_agendamento(request, agendamento_id):
     return JsonResponse({
         "sucesso": False
     }, status=405)
+
+@login_required
+def editar_perfil(request):
+    cliente = Cliente.objects.get(usuario=request.user)
+
+    if request.method == "POST":
+        nome = (request.POST.get("nome") or "").strip()
+        email = (request.POST.get("email") or "").strip()
+        telefone = (request.POST.get("telefone") or "").strip()
+
+        if not nome or not email or not telefone:
+            messages.error(request, "Preencha todos os campos.")
+            return render(
+                request,
+                "barber_grid/editar_perfil.html",
+                {"cliente": cliente}
+            )
+
+        request.user.first_name = nome
+        request.user.email = email
+        request.user.username = email
+        request.user.save()
+
+        cliente.telefone = telefone
+        cliente.save()
+
+        messages.success(request, "Perfil atualizado com sucesso.")
+        return redirect("usuario_historico")
+
+    return render(
+        request,
+        "barber_grid/editar_perfil.html",
+        {"cliente": cliente}
+    )
