@@ -1,23 +1,10 @@
+{% extends 'barber_grid/base.html' %}
 
-{% load static %}
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento enviado | Barber Grid</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
-</head>
+{% block title %}
+    Agendamento enviado | Barber Grid
+{% endblock %}
 
-<body>
-
- <nav data-bs-theme="dark" class="navbar navbar-expand-lg navbar-light bg-black"><div class="container"><a class="navbar-brand" href="{% url 'inicio' %}" data-discover="true"><img height="32" class="me-2" src="{% static 'images/favicon.ico' %}">Barber Grid</a><button aria-controls="menu" type="button" aria-label="Toggle navigation" class="navbar-toggler collapsed"><span class="navbar-toggler-icon"></span></button><div class="navbar-collapse collapse" id="menu"><div class="me-auto navbar-nav"><a class="nav-link" href="{% url 'inicio' %}" data-discover="true">Início</a><a class="nav-link active" href="{% url 'pagina_servicos' %}" data-discover="true" aria-current="page">Agendar</a><a class="nav-link" href="{% url 'usuario_historico' %}" data-discover="true">Minhas reservas</a></div><div class="navbar-nav"><div class="nav-item dropdown"><a aria-expanded="false" role="button" class="dropdown-toggle nav-link" tabindex="0" href="#"><i class="bi bi-person-circle text-secondary align-middle" style="font-size: 24px; line-height: 1;"></i>André</a></div></div></div></div></nav>
+{% block content %}
 
 <div class="my-4 container">
 
@@ -27,7 +14,9 @@
 
             <i class="bi bi-check-circle-fill text-success display-3"></i>
 
-            <h2 class="my-3">Agendamento enviado!</h2>
+            <h2 class="my-3">
+                Agendamento enviado!
+            </h2>
 
             <div class="mb-3 text-start list-group">
 
@@ -35,6 +24,7 @@
                    href="#">
 
                     <div class="text-center">
+
                         <div class="fw-bold">
                             {{ agendamento.horario }}
                         </div>
@@ -42,9 +32,11 @@
                         <small class="text-secondary">
                             {{ agendamento.data }}
                         </small>
+
                     </div>
 
                     <div class="me-auto">
+
                         <div class="fw-semibold">
                             {{ agendamento.servico.nome_servico }}
                         </div>
@@ -52,6 +44,7 @@
                         <small class="text-secondary">
                             Barbeiro Felipe
                         </small>
+
                     </div>
 
                     <span class="badge text-dark bg-warning">
@@ -62,8 +55,11 @@
 
             </div>
 
-            <div role="alert" class="fade alert alert-info show">
+            <div role="alert"
+                 class="fade alert alert-info show">
+
                 O barbeiro vai confirmar o seu agendamento.
+
             </div>
 
             <div class="d-flex justify-content-center gap-2">
@@ -71,13 +67,17 @@
                 <a role="button"
                    href="{% url 'detalhe_agendamento' agendamento.id %}"
                    class="btn btn-primary">
+
                     Ver agendamento
+
                 </a>
 
                 <a role="button"
                    href="{% url 'inicio' %}"
                    class="btn btn-outline-primary">
+
                     Início
+
                 </a>
 
             </div>
@@ -88,5 +88,4 @@
 
 </div>
 
-</body>
-</html>
+{% endblock %}
