@@ -176,6 +176,9 @@ def horarios_disponiveis(request):
     horarios_disponiveis = []
     data = request.GET.get("data")
 
+    inicio_almoco = datetime.time(12, 0)
+    fim_almoco = datetime.time(13, 0)
+
     funcionamento = HorariodeFuncionamento.objects.get(id=1)
 
     if data:
@@ -200,14 +203,18 @@ def horarios_disponiveis(request):
                 if horario_atual_convertido >= horario_fim:
                     break
 
+                if inicio_almoco <= horario_atual < fim_almoco:
+                    horario_atual_convertido += timedelta(minutes=30)
+                    horario_atual = horario_atual_convertido.time()
+                    continue
+
                 horario_formatado = horario_atual.strftime("%H:%M")
 
-                # Verifica se esse horário já está ocupado
                 horario_ocupado = Agendamento.objects.filter(
-                data=data_convertida.date(),
-                horario=horario_atual,
+                    data=data_convertida.date(),
+                    horario=horario_atual,
                 ).exclude(
-                status="cancelado"
+                    status="cancelado"
                 ).exists()
 
                 if not horario_ocupado:
