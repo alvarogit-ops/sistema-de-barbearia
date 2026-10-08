@@ -80,7 +80,11 @@ class Agendamento(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["data", "horario"], name="unico_agendamento")
-        ]
+        models.UniqueConstraint(
+            fields=["data", "horario"],
+            condition=~models.Q(status="cancelado"),
+            name="unico_agendamento_ativo"
+        )
+    ]
 
 
