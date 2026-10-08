@@ -105,7 +105,7 @@ def registro(request):
 
     return render(request, 'barber_grid/registro.html')
 
-
+@login_required
 def agendamento(request, servico_id):
     servico = Servico.objects.get(id=servico_id)
     data = request.GET.get("data")
@@ -390,6 +390,7 @@ def usuario_historico(request):
         context
     )
 
+@login_required
 def enviado(request, agendamento_id):
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
@@ -408,6 +409,7 @@ def detalhe_agendamento(request, agendamento_id):
         {"agendamento": agendamento}
     )
 
+@login_required
 def cancelar_agendamento(request, agendamento_id):
     if request.method == "POST":
         agendamento = get_object_or_404(
