@@ -81,18 +81,18 @@
 
         <div class="navbar-nav">
 
-            <a class="nav-link"
-               href="#">
+    <a class="nav-link"
+       href="{% url 'editar_perfil' %}">
 
-                <i class="bi bi-person-circle text-secondary align-middle"
-                   style="font-size: 24px; line-height: 1;">
-                </i>
+        <i class="bi bi-person-circle text-secondary align-middle"
+           style="font-size: 24px; line-height: 1;">
+        </i>
 
-                {{ request.user.username }}
+        {{ request.user.first_name }}
 
-            </a>
+        </a>
 
-        </div>
+    </div>
 
     </div>
 
