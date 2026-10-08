@@ -239,11 +239,47 @@ def confirmar_agendamento(request, servico_id):
         data = request.POST.get("data")
         horario = request.POST.get("horario")
 
-        cliente = Cliente.objects.get(usuario=request.user)
+        try:
+            data_convertida = datetime.datetime.strptime(
+                data,
+                "%Y-%m-%d"
+            ).date()
+
+            horario_convertido = datetime.datetime.strptime(
+                horario,
+                "%H:%M"
+            ).time()
+
+        except (ValueError, TypeError):
+            messages.error(
+                request,
+                "Data ou horário inválido."
+            )
+            return redirect(
+                "agendamento",
+                servico_id=servico_id
+            )
+
+        data_horario = datetime.datetime.combine(
+            data_convertida,
+            horario_convertido
+        )
+
+        data_horario = timezone.make_aware(data_horario)
+
+        if data_horario < timezone.now():
+            messages.error(
+                request,
+                "Não é possível agendar para um horário que já passou."
+            )
+            return redirect(
+                "agendamento",
+                servico_id=servico_id
+            )
 
         horario_ocupado = Agendamento.objects.filter(
-            data=data,
-            horario=horario,
+            data=data_convertida,
+            horario=horario_convertido,
         ).exclude(
             status="cancelado"
         ).exists()
@@ -258,11 +294,13 @@ def confirmar_agendamento(request, servico_id):
                 servico_id=servico_id
             )
 
+        cliente = Cliente.objects.get(usuario=request.user)
+
         agendamento = Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
-            data=data,
-            horario=horario,
+            data=data_convertida,
+            horario=horario_convertido,
         )
 
         return redirect(
