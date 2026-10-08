@@ -204,8 +204,10 @@ def horarios_disponiveis(request):
 
                 # Verifica se esse horário já está ocupado
                 horario_ocupado = Agendamento.objects.filter(
-                    data=data_convertida.date(),
-                    horario=horario_atual
+                data=data_convertida.date(),
+                horario=horario_atual,
+                ).exclude(
+                status="cancelado"
                 ).exists()
 
                 if not horario_ocupado:
@@ -221,22 +223,45 @@ def horarios_disponiveis(request):
 
 @login_required
 def confirmar_agendamento(request, servico_id):
-    servico = Servico.objects.get(id=servico_id)
+    servico = get_object_or_404(Servico, id=servico_id)
 
     data = request.GET.get("data")
     horario = request.GET.get("horario")
 
     if request.method == "POST":
+        data = request.POST.get("data")
+        horario = request.POST.get("horario")
+
         cliente = Cliente.objects.get(usuario=request.user)
+
+        horario_ocupado = Agendamento.objects.filter(
+            data=data,
+            horario=horario,
+        ).exclude(
+            status="cancelado"
+        ).exists()
+
+        if horario_ocupado:
+            messages.error(
+                request,
+                "Este horário já está agendado."
+            )
+            return redirect(
+                "agendamento",
+                servico_id=servico_id
+            )
 
         agendamento = Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
-            data=request.POST.get("data"),
-            horario=request.POST.get("horario"),
+            data=data,
+            horario=horario,
         )
 
-        return redirect("enviado", agendamento_id=agendamento.id)
+        return redirect(
+            "enviado",
+            agendamento_id=agendamento.id
+        )
 
     return render(
         request,
