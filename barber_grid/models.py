@@ -50,6 +50,7 @@ class HorariodeFuncionamento(models.Model):
     dia_fim = models.PositiveSmallIntegerField(choices = DIA_DA_SEMANA_CHOICES)
     horario_inicio = models.TimeField()
     horario_fim = models.TimeField()
+    
 
 
 class BloqueioHorario(models.Model):
