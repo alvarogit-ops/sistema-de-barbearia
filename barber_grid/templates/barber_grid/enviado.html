@@ -1,0 +1,91 @@
+{% extends 'barber_grid/base.html' %}
+
+{% block title %}
+    Agendamento enviado | Barber Grid
+{% endblock %}
+
+{% block content %}
+
+<div class="my-4 container">
+
+    <div class="text-center card">
+
+        <div class="card-body">
+
+            <i class="bi bi-check-circle-fill text-success display-3"></i>
+
+            <h2 class="my-3">
+                Agendamento enviado!
+            </h2>
+
+            <div class="mb-3 text-start list-group">
+
+                <a class="d-flex align-items-center gap-3 list-group-item list-group-item-action"
+                   href="#">
+
+                    <div class="text-center">
+
+                        <div class="fw-bold">
+                            {{ agendamento.horario }}
+                        </div>
+
+                        <small class="text-secondary">
+                            {{ agendamento.data }}
+                        </small>
+
+                    </div>
+
+                    <div class="me-auto">
+
+                        <div class="fw-semibold">
+                            {{ agendamento.servico.nome_servico }}
+                        </div>
+
+                        <small class="text-secondary">
+                            Barbeiro Felipe
+                        </small>
+
+                    </div>
+
+                    <span class="badge text-dark bg-warning">
+                        {{ agendamento.get_status_display }}
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div role="alert"
+                 class="fade alert alert-info show">
+
+                O barbeiro vai confirmar o seu agendamento.
+
+            </div>
+
+            <div class="d-flex justify-content-center gap-2">
+
+                <a role="button"
+                   href="{% url 'detalhe_agendamento' agendamento.id %}"
+                   class="btn btn-primary">
+
+                    Ver agendamento
+
+                </a>
+
+                <a role="button"
+                   href="{% url 'inicio' %}"
+                   class="btn btn-outline-primary">
+
+                    Início
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

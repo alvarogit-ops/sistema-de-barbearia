@@ -1,0 +1,220 @@
+{% extends 'barber_grid/base.html' %}
+
+{% block title %}
+    Detalhes do Agendamento | Barber Grid
+{% endblock %}
+
+{% block content %}
+
+<div class="my-4 container">
+
+    <div class="card">
+
+        <div class="d-flex justify-content-between align-items-center card-header">
+
+            <h4 class="mb-0">
+                {{ agendamento.servico.nome_servico }}
+            </h4>
+
+            <span
+                id="statusAgendamento"
+                class="badge text-dark bg-warning"
+            >
+                {{ agendamento.get_status_display }}
+            </span>
+
+        </div>
+
+
+        <div class="list-group list-group-flush">
+
+            <div class="list-group-item">
+                <strong>Barbeiro:</strong> Felipe
+            </div>
+
+            <div class="list-group-item">
+                <strong>Dia:</strong> {{ agendamento.data }}
+            </div>
+
+            <div class="list-group-item">
+                <strong>Horário:</strong> {{ agendamento.horario }}
+            </div>
+
+            <div class="list-group-item">
+                <strong>Preço:</strong> R$ {{ agendamento.servico.preco }}
+            </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="d-flex gap-2">
+
+                <a
+                    href="{% url 'usuario_historico' %}"
+                    class="btn btn-outline-secondary"
+                >
+                    Voltar
+                </a>
+
+                {% if agendamento.status != 'cancelado' %}
+
+                    <button
+                        id="btnAbrirCancelamento"
+                        type="button"
+                        class="ms-auto btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalCancelar"
+                    >
+                        Cancelar
+                    </button>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="modal fade"
+    id="modalCancelar"
+    tabindex="-1"
+    aria-labelledby="modalCancelarLabel"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title" id="modalCancelarLabel">
+                    Cancelar agendamento
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Fechar"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                Deseja realmente cancelar este agendamento?
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Voltar
+                </button>
+
+                <button
+                    type="button"
+                    id="btnCancelarAgendamento"
+                    class="btn btn-danger"
+                >
+                    Cancelar agendamento
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const btnCancelar =
+    document.getElementById("btnCancelarAgendamento");
+
+const btnAbrirCancelamento =
+    document.getElementById("btnAbrirCancelamento");
+
+const statusAgendamento =
+    document.getElementById("statusAgendamento");
+
+
+if (btnCancelar) {
+
+    btnCancelar.addEventListener("click", async () => {
+
+        btnCancelar.disabled = true;
+
+        btnCancelar.textContent = "Cancelando...";
+
+
+        const resposta = await fetch(
+            "{% url 'cancelar_agendamento' agendamento.id %}",
+            {
+                method: "POST",
+
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }
+        );
+
+
+        const dados = await resposta.json();
+
+
+        if (dados.sucesso) {
+
+            statusAgendamento.textContent =
+                dados.status;
+
+            statusAgendamento.className =
+                "badge text-white bg-danger";
+
+
+            if (btnAbrirCancelamento) {
+                btnAbrirCancelamento.remove();
+            }
+
+
+            const modal =
+                bootstrap.Modal.getInstance(
+                    document.getElementById("modalCancelar")
+                );
+
+
+            modal.hide();
+
+        } else {
+
+            btnCancelar.disabled = false;
+
+            btnCancelar.textContent =
+                "Cancelar agendamento";
+
+        }
+
+    });
+
+}
+
+</script>
+
+{% endblock %}

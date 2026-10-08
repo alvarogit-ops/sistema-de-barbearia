@@ -39,6 +39,12 @@ DIA_DA_SEMANA_CHOICES = [
     (6, 'Domingo'),
 ]
 
+STATUS_CHOICES = [
+    ('solicitado', 'Solicitado'),
+     ('confirmado', 'Confirmado'),
+     ('cancelado', 'Cancelado'),
+]
+
 class HorariodeFuncionamento(models.Model):
     dia_inicio = models.PositiveSmallIntegerField(choices = DIA_DA_SEMANA_CHOICES)
     dia_fim = models.PositiveSmallIntegerField(choices = DIA_DA_SEMANA_CHOICES)
@@ -68,6 +74,7 @@ class Agendamento(models.Model):
 
     horario = models.TimeField()
 
+    status = models.CharField(max_length=20, choices= STATUS_CHOICES, default='solicitado')
     def __str__(self):
         return f"{self.cliente} - {self.servico} - {self.data} {self.horario}"
 
