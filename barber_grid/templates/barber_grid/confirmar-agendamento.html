@@ -1,14 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmar Agendamento</title>
-</head>
+{% extends 'barber_grid/base.html' %}
 
-<body>
+{% block title %}
+    Confirmar Agendamento | Barber Grid
+{% endblock %}
 
-<main>
+{% block content %}
+
+<div class="container py-4">
+
+    <h1 class="mb-4">
+        Confirmar Agendamento
+    </h1>
+
     <div class="card">
 
         <div class="list-group list-group-flush">
@@ -43,21 +46,31 @@
         <div class="card-body">
 
             <form method="POST">
+
                 {% csrf_token %}
 
-                <input type="hidden" name="data" value="{{ data }}">
-                <input type="hidden" name="horario" value="{{ horario }}">
+                <input type="hidden"
+                       name="data"
+                       value="{{ data }}">
+
+                <input type="hidden"
+                       name="horario"
+                       value="{{ horario }}">
 
                 <div class="d-flex gap-2">
 
                     <a href="{% url 'agendamento' servico_id %}"
-   class="btn btn-outline-secondary">
-    Voltar
-</a>
+                       class="btn btn-outline-secondary">
+
+                        Voltar
+
+                    </a>
 
                     <button type="submit"
                             class="btn btn-primary">
+
                         Confirmar
+
                     </button>
 
                 </div>
@@ -67,7 +80,7 @@
         </div>
 
     </div>
-</main>
 
-</body>
-</html>
+</div>
+
+{% endblock %}
