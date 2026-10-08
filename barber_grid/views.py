@@ -81,16 +81,14 @@ def registro(request):
             messages.error(request, 'Preencha todos os campos.')
             return render(request, 'barber_grid/registro.html')
 
-        if User.objects.filter(username=nome).exists():
-            messages.error(request, 'Este nome de usuário já está cadastrado.')
-            return render(request, 'barber_grid/registro.html')
-
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Este e-mail já está cadastrado.')
             return render(request, 'barber_grid/registro.html')
 
         usuario = User.objects.create_user(
             username=email,
+            email = email,
+            first_name = nome,
             password=password
         )
 
