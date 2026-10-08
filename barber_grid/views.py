@@ -11,7 +11,8 @@ from .models import Servico, Cliente, Agendamento, HorariodeFuncionamento, Bloqu
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 def inicio(request):
     proxima_reserva = None
@@ -69,7 +70,6 @@ def login(request):
             
 
     return render(request, 'barber_grid/login.html')
-
 def registro(request):
     if request.method == "POST":
         nome = (request.POST.get("nome") or "").strip()
@@ -81,12 +81,20 @@ def registro(request):
             messages.error(request, 'Preencha todos os campos.')
             return render(request, 'barber_grid/registro.html')
 
-        if User.objects.filter(username=nome).exists():
+        if User.objects.filter(username=email).exists():
             messages.error(request, 'Este nome de usuário já está cadastrado.')
             return render(request, 'barber_grid/registro.html')
 
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Este e-mail já está cadastrado.')
+            return render(request, 'barber_grid/registro.html')
+
+        try:
+            validate_password(password)
+        except ValidationError as erro:
+            for mensagem in erro.messages:
+                messages.error(request, mensagem)
+
             return render(request, 'barber_grid/registro.html')
 
         usuario = User.objects.create_user(
@@ -111,9 +119,6 @@ def agendamento(request, servico_id):
     data = request.GET.get("data")
     agora = timezone.now()
     data_atual = agora.date().strftime("%Y-%m-%d")
-
-   
-
     if request.method == "POST":
         data = request.POST.get("data")
         horario = request.POST.get("horario")
