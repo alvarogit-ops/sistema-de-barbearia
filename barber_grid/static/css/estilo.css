@@ -1,9 +1,9 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-.titulo-da-pagina{
+.titulo-da-pagina {
     font-family: "Montserrat", sans-serif;
     font-size: 13px;
     font-weight: 700;
@@ -11,7 +11,7 @@
     color: var(--cor-titulo);
 }
 
-#data_exibicao{
+#data_exibicao {
     font-family: "Montserrat", sans-serif;
     font-size: 10px;
     font-weight: 700;
@@ -19,48 +19,45 @@
     color: var(--cor-titulo);
 }
 
-img{
+img {
     width: 40px;
 }
 
-.imagens_invisiveis{
+.imagens_invisiveis {
     display: none;
 }
 
-
-.navbar-brand{
+.navbar-brand {
     font-size: 30px;
 }
 
-.card-img-left{
+.card-img-left {
     width: 100px;
     height: 100px;
-    
 }
 
-#chevron i{
+#chevron i {
     font-size: 2rem;
     color: black;
 }
 
-
-
-.d-flex{
+.d-flex {
     align-items: center;
 }
 
-#imagem_logotipo{
+#imagem_logotipo {
     width: 50px;
 }
 
-.fundo-escuro-nav{
-   background-image: linear-gradient(
-  to bottom,
-  #21252955,
-  #181b1f35,
-  #0d0f1122
-);
- backdrop-filter: blur(4px);
+.fundo-escuro-nav {
+    background-image: linear-gradient(
+        to bottom,
+        #21252955,
+        #181b1f35,
+        #0d0f1122
+    );
+
+    backdrop-filter: blur(4px);
 }
 
 #calendar {
@@ -72,12 +69,12 @@ img{
     background-color: var(--bg) !important;
 }
 
-
 .fc-day-today .fc .fc-daygrid-day-number {
     color: black;
 }
 
-/*Tema Claro — só nas páginas de login/registro, para não sobrescrever o Bootstrap */
+
+/* Tema Claro — páginas de login/registro */
 
 body.pagina-auth {
     font-family: Montserrat;
@@ -89,29 +86,26 @@ body.pagina-auth {
     min-height: 100vh;
 }
 
-.logotipo{
+.logotipo {
     width: 250px;
     height: 250px;
     background-image: none;
 }
 
-
-
-h1{
+h1 {
     font-size: 22px;
     font-weight: 500;
 }
 
-p{
+p {
     font-size: 20px;
-
 }
 
-a{
+a {
     text-decoration: none;
 }
 
-.logo a{
+.logo a {
     display: flex;
     gap: 8px;
     color: #aa8408;
@@ -119,22 +113,20 @@ a{
     text-decoration: none;
     font-family: Lato;
     font-weight: bold;
-
 }
 
-.conteudo{
+.conteudo {
     padding: 10px;
-    
 }
 
-.secao-botoes{
+.secao-botoes {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-#agendar{
+#agendar {
     background-color: rgb(70, 157, 51);
     padding: 20px 28px;
     text-decoration: none;
@@ -144,14 +136,14 @@ a{
     transition: .3s;
     margin-top: 50px;
     border-radius: 8px;
-    box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-#agendar i{
+#agendar i {
     font-size: 30px;
 }
 
-#admin{
+#admin {
     background-color: #aa8408;
     padding: 20px 28px;
     text-decoration: none;
@@ -161,35 +153,282 @@ a{
     transition: .3s;
     margin-top: 50px;
     border-radius: 8px;
-    box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-#admin i{
+#admin i {
     font-size: 30px;
 }
-footer{
+
+footer {
     padding: 15px;
 }
 
-#mudartema{
+#mudartema {
     border: 2px solid gray;
     padding: 10px;
     border-radius: 8px;
     background-color: transparent;
 }
 
-#mudartema i{
+#mudartema i {
     color: rgb(0, 0, 0);
     text-decoration: none;
 }
 
 
-/*Tema escuro*/
+/* Tema escuro */
 
-
-
-
-body.dark .logo a{
+body.dark .logo a {
     color: #fbd760;
 }
 
+
+/* Navbar — tema escuro */
+
+/* Navbar — tema escuro */
+
+[data-bs-theme="dark"] .navbar {
+    background-color: #1b1f22;
+}
+
+[data-bs-theme="dark"] .navbar-brand,
+[data-bs-theme="dark"] .nav-link {
+    color: #ffffff;
+}
+
+[data-bs-theme="dark"] .nav-link:hover {
+    color: #cccccc;
+}
+
+[data-bs-theme="dark"] .navbar-toggler {
+    border-color: #ffffff;
+}
+
+[data-bs-theme="dark"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/* Navbar — tema claro */
+
+[data-bs-theme="light"] .navbar {
+    background-color: #f1f3f5;
+}
+
+[data-bs-theme="light"] .navbar-brand,
+[data-bs-theme="light"] .nav-link {
+    color: #000000;
+}
+
+[data-bs-theme="light"] .nav-link:hover {
+    color: #333333;
+}
+
+[data-bs-theme="light"] .navbar .nav-link i {
+    color: #000000 !important;
+}
+
+[data-bs-theme="light"] .navbar-toggler {
+    border-color: #212529;
+}
+
+[data-bs-theme="light"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280,0,0,1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/* Navbar — tema claro */
+
+[data-bs-theme="light"] .navbar {
+    background-color: #f1f3f5;
+}
+
+[data-bs-theme="light"] .navbar-brand,
+[data-bs-theme="light"] .nav-link {
+    color: #000000;
+}
+
+[data-bs-theme="light"] .nav-link:hover {
+    color: #333333;
+}
+
+[data-bs-theme="light"] .navbar .nav-link i {
+    color: #000000 !important;
+}
+
+[data-bs-theme="light"] .navbar-toggler {
+    border-color: #212529;
+}
+
+/* =========================
+   PÁGINA DE LOGIN
+   ========================= */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 430px;
+}
+
+/* Marca */
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-brand img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+.login-brand h1 {
+    margin: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.login-brand span {
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.55;
+}
+
+/* Card */
+
+.login-card {
+    padding: 35px;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 18px;
+    background-color: var(--bs-body-bg);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+[data-bs-theme="dark"] .login-card {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Cabeçalho */
+
+.login-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.login-header h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.login-header p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    margin: 0;
+    color: var(--bs-secondary-color);
+}
+
+/* Campos */
+
+.login-card .form-label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.login-card .input-group-text {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-secondary-color);
+}
+
+.login-card .form-control {
+    height: 46px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.login-card .form-control:focus {
+    box-shadow: none;
+}
+
+/* Botão */
+
+.login-button {
+    height: 48px;
+    border-radius: 8px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+/* Divisor */
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0;
+    color: var(--bs-secondary-color);
+    font-size: 13px;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--bs-border-color);
+}
+
+.login-divider span {
+    padding: 0 4px;
+}
+
+/* Cadastro */
+
+.login-register {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+}
+
+.login-register span {
+    color: var(--bs-secondary-color);
+}
+
+.login-register a {
+    display: block;
+    margin-top: 7px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Voltar */
+
+.login-back {
+    display: block;
+    margin-top: 22px;
+    text-align: center;
+    color: var(--bs-secondary-color);
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.login-back:hover {
+    color: var(--bs-body-color);
+}

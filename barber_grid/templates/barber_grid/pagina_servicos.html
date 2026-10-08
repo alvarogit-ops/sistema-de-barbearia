@@ -1,248 +1,90 @@
-{% load static %}
+{% extends 'barber_grid/base.html' %}
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% block title %}Serviços | Barber Grid{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
+{% block content %}
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="my-4 container">
 
-    <link rel="shortcut icon"
-          type="image/png"
-          href="{% static 'images/favicon.ico' %}">
+    <small class="text-secondary">
+        Passo 1 de 2
+    </small>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <h2 class="mb-4">
+        Qual serviço?
+    </h2>
 
-    <link rel="stylesheet"
-          href="{% static 'css/estilo.css' %}">
+    <div class="g-4 row row-cols-lg-3 row-cols-md-2 row-cols-1">
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+        {% for servico in servicos %}
 
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
+            <div class="col">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+                <a class="h-100 text-decoration-none card"
+                   href="{% url 'agendamento' servico.id %}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
-          rel="stylesheet">
+                    <div class="text-center bg-body-tertiary py-4">
 
-    <title>Serviços | Barber Grid</title>
-</head>
+                        {% if servico.imagem %}
 
-<body class="bg-body text-body">
+                            <img
+                                src="{{ servico.imagem.url }}"
+                                alt="{{ servico.nome_servico }}"
+                                class="img-fluid"
+                                style="max-height: 160px; object-fit: contain;"
+                            >
 
-    <div class="imagens_invisiveis">
-        <img class="imagem_logotipo_escuro"
-             src="{% static 'images/logo_tema_escuro.png' %}">
+                        {% else %}
 
-        <img class="imagem_logotipo_claro"
-             src="{% static 'images/logo_tema_claro.png' %}">
-    </div>
+                            <i class="bi bi-scissors display-4 text-secondary"></i>
 
-
-    <nav data-bs-theme="dark"
-         class="navbar navbar-expand-lg navbar-dark bg-black">
-
-        <div class="container">
-
-            <a class="navbar-brand"
-               href="{% url 'inicio' %}">
-
-                <img height="32"
-                     class="me-2"
-                     src="{% static 'images/favicon.ico' %}">
-
-                Barber Grid
-
-            </a>
-
-
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menu"
-                    aria-controls="menu"
-                    aria-expanded="false"
-                    aria-label="Abrir menu">
-
-                <span class="navbar-toggler-icon"></span>
-
-            </button>
-
-
-            <div class="collapse navbar-collapse"
-                 id="menu">
-
-                <div class="me-auto navbar-nav">
-
-                    <a class="nav-link"
-                       href="{% url 'inicio' %}">
-                        Início
-                    </a>
-
-                    <a class="nav-link active"
-                       href="{% url 'pagina_servicos' %}">
-                        Agendar
-                    </a>
-
-                    <a class="nav-link"
-                       href="{% url 'usuario_historico' %}">
-                        Minhas reservas
-                    </a>
-
-                </div>
-
-
-                <div class="navbar-nav">
-
-                    <a class="nav-link"
-                       href="#">
-
-                        <i class="bi bi-person-circle text-secondary align-middle"
-                           style="font-size: 24px; line-height: 1;">
-                        </i>
-
-                        {{ request.user.username }}
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </nav>
-
-
-    <main>
-
-        <div class="my-4 container">
-
-            <small class="text-secondary">
-                Passo 1 de 2
-            </small>
-
-            <h2 class="mb-4">
-                Qual serviço?
-            </h2>
-
-
-            <div class="g-4 row row-cols-lg-3 row-cols-md-2 row-cols-1">
-
-                {% for servico in servicos %}
-
-                    <div class="col">
-
-                        <a class="h-100 text-decoration-none card"
-                           href="{% url 'agendamento' servico.id %}">
-
-                            <div class="text-center bg-body-tertiary py-4">
-
-                                {% if servico.imagem %}
-
-                                    <img src="{{ servico.imagem.url }}"
-                                         alt="{{ servico.nome_servico }}"
-                                         class="img-fluid"
-                                         style="max-height: 160px; object-fit: contain;">
-
-                                {% else %}
-
-                                    <i class="bi bi-scissors display-4 text-secondary"></i>
-
-                                {% endif %}
-
-                            </div>
-
-
-                            <div class="card-body">
-
-                                <div class="card-title h5">
-                                    {{ servico.nome_servico }}
-                                </div>
-
-                                <p class="text-secondary card-text">
-                                    Serviço de barbearia.
-                                </p>
-
-                            </div>
-
-
-                            <div class="d-flex justify-content-between card-footer">
-
-                                <span>
-                                    <i class="bi bi-clock"></i>
-                                    {{ servico.duracao_minutos }} min
-                                </span>
-
-                                <strong>
-                                    R$ {{ servico.preco }}
-                                </strong>
-
-                            </div>
-
-                        </a>
+                        {% endif %}
 
                     </div>
 
-                {% empty %}
+                    <div class="card-body">
 
-                    <div class="col-12">
-
-                        <div class="alert alert-info">
-                            Nenhum serviço disponível no momento.
+                        <div class="card-title h5">
+                            {{ servico.nome_servico }}
                         </div>
 
+                        <p class="text-secondary card-text">
+                            Serviço de barbearia.
+                        </p>
+
                     </div>
 
-                {% endfor %}
+                    <div class="d-flex justify-content-between card-footer">
+
+                        <span>
+                            <i class="bi bi-clock"></i>
+                            {{ servico.duracao_minutos }} min
+                        </span>
+
+                        <strong>
+                            R$ {{ servico.preco }}
+                        </strong>
+
+                    </div>
+
+                </a>
 
             </div>
 
-        </div>
+        {% empty %}
 
-    </main>
+            <div class="col-12">
 
+                <div class="alert alert-info">
+                    Nenhum serviço disponível no momento.
+                </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+            </div>
 
+        {% endfor %}
 
-    <script>
+    </div>
 
-        const temaEscuro = window.matchMedia(
-            '(prefers-color-scheme: dark)'
-        );
+</div>
 
-
-        function aplicarTema(escuro) {
-
-            document.documentElement.setAttribute(
-                "data-bs-theme",
-                escuro ? "dark" : "light"
-            );
-
-        }
-
-
-        aplicarTema(temaEscuro.matches);
-
-
-        temaEscuro.addEventListener(
-            "change",
-            (evento) => {
-
-                aplicarTema(evento.matches);
-
-            }
-        );
-
-    </script>
-
-</body>
-
-</html>
+{% endblock %}
