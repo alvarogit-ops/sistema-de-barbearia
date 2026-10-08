@@ -1,152 +1,10 @@
-{% load static %}
+{% extends 'barber_grid/base.html' %}
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+{% block title %}
+    Minhas reservas | Barber Grid
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <link
-        rel="shortcut icon"
-        type="image/png"
-        href="{% static 'images/favicon.ico' %}"
-    >
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="{% static 'css/estilo.css' %}"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <title>Minhas reservas | Barber Grid</title>
-
-</head>
-
-<body class="bg-body text-body">
-
-
-<nav
-    data-bs-theme="dark"
-    class="navbar navbar-expand-lg navbar-light bg-black"
->
-    <div class="container">
-
-        <a
-            class="navbar-brand"
-            href="{% url 'inicio' %}"
-        >
-
-            <img
-                height="32"
-                class="me-2"
-                src="{% static 'images/favicon.ico' %}"
-                alt="Barber Grid"
-            >
-
-            Barber Grid
-
-        </a>
-
-
-        <button
-            aria-controls="menu"
-            type="button"
-            aria-label="Toggle navigation"
-            class="navbar-toggler collapsed"
-            data-bs-toggle="collapse"
-            data-bs-target="#menu"
-        >
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-
-        <div
-            class="navbar-collapse collapse"
-            id="menu"
-        >
-
-            <div class="me-auto navbar-nav">
-
-                <a
-                    class="nav-link"
-                    href="{% url 'inicio' %}"
-                >
-                    Início
-                </a>
-
-
-                <a
-                    class="nav-link"
-                    href="{% url 'pagina_servicos' %}"
-                >
-                    Agendar
-                </a>
-
-
-                <a
-                    class="nav-link active"
-                    href="{% url 'usuario_historico' %}"
-                >
-                    Minhas reservas
-                </a>
-
-            </div>
-
-
-            <div class="navbar-nav">
-
-                <div class="nav-item dropdown">
-
-                    <a
-                        aria-expanded="false"
-                        role="button"
-                        class="dropdown-toggle nav-link"
-                        tabindex="0"
-                        href="#"
-                    >
-
-                        <i
-                            class="bi bi-person-circle text-secondary align-middle"
-                            style="font-size: 24px; line-height: 1;"
-                        ></i>
-
-                        {{ request.user.username }}
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-</nav>
-
+{% block content %}
 
 <div class="my-4 container">
 
@@ -201,7 +59,6 @@
 
 
     <div class="tab-content">
-
 
         <!-- PRÓXIMAS -->
 
@@ -380,36 +237,4 @@
 
 </div>
 
-
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-></script>
-
-
-<script>
-
-    const temaEscuro = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-    );
-
-    function aplicarTema(escuro) {
-
-        document.documentElement.setAttribute(
-            "data-bs-theme",
-            escuro ? "dark" : "light"
-        );
-
-    }
-
-    aplicarTema(temaEscuro.matches);
-
-    temaEscuro.addEventListener("change", (evento) => {
-        aplicarTema(evento.matches);
-    });
-
-</script>
-
-
-</body>
-
-</html>
+{% endblock %}

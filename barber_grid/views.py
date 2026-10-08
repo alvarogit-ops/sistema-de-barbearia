@@ -10,6 +10,7 @@ from datetime import timedelta
 from .models import Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 def inicio(request):
@@ -218,6 +219,7 @@ def horarios_disponiveis(request):
         "horarios_disponiveis": horarios_disponiveis
     })
 
+@login_required
 def confirmar_agendamento(request, servico_id):
     servico = Servico.objects.get(id=servico_id)
 
@@ -281,7 +283,7 @@ def servico(request):
 
     return render(request, 'barber_grid/servico.html')
 
-
+@login_required
 def usuario_historico(request):
     cliente = Cliente.objects.get(usuario=request.user)
 
