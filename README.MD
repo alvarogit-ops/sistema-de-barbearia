@@ -1,6 +1,3 @@
-Aqui está o README atualizado, corrigido e sincronizado com o estado real do código-fonte do seu repositório:
-
-```markdown
 <div align="center">
 
 # 💈 Barber Grid
