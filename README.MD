@@ -1,8 +1,11 @@
+Aqui está o README atualizado, corrigido e sincronizado com o estado real do código-fonte do seu repositório:
+
+```markdown
 <div align="center">
 
 # 💈 Barber Grid
 
-**Uma experiência simples para consultar serviços e iniciar agendamentos em uma barbearia.**
+**Uma experiência simples e intuitiva para consultar serviços e agendar horários em uma barbearia.**
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-6.1-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
@@ -16,7 +19,8 @@
 [📋 Sobre](#-sobre-o-projeto) •
 [🚀 Funcionalidades](#-funcionalidades) •
 [🛠️ Tecnologias](#️-tecnologias-utilizadas) •
-[⚙️ Instalação](#️-como-executar-o-projeto) •
+[🏗️ Arquitetura](#️-arquitetura-mvt) •
+[⚙️ Como Executar](#️-como-executar-o-projeto) •
 [📚 Documentação](#-documentação--links)
 
 <br>
@@ -27,58 +31,82 @@
 
 ## 📋 Sobre o projeto
 
-O **Barber Grid** é uma aplicação web acadêmica desenvolvida com Django para facilitar a consulta de serviços de uma barbearia e o início de um agendamento.
+O **Barber Grid** é uma aplicação web desenvolvida com Django para gestão de agendamentos em barbearias. A plataforma conecta clientes e administradores/barbeiros em uma interface simples e moderna, permitindo a navegação por serviços, escolha de datas/horários disponíveis e acompanhamento dos agendamentos em tempo real.
 
-Na **Sprint 1**, o usuário poderá visualizar os serviços disponíveis e escolher um serviço
-
-O projeto segue o padrão arquitetural **MVT (Model-View-Template)** do Django, com foco em uma implementação objetiva e na validação do fluxo principal da aplicação.
+O projeto foi construído seguindo o padrão arquitetural **MVT (Model-View-Template)** nativo do Django, garantindo separação clara de responsabilidades, facilidade de manutenção e validações sólidas no backend.
 
 ---
 
 ## 🚀 Funcionalidades
 
-| Funcionalidade | Status |
-|---|---|
-| Consulta de serviços disponíveis | ✅ Concluído |
-| Exibição de informações dos serviços | ✅ Concluído |
-| Seleção de serviço | ✅ Concluído|
+### 👤 Área do Cliente
+- **Autenticação de Usuário:** Registro e login seguros com perfil de cliente integrado.
+- **Catálogo de Serviços:** Visualização de cortes e procedimentos com fotos, descrições, preços e tempo estimado de duração.
+- **Consulta de Horários Disponíveis:** Verificação automatizada de horários livres considerando os horários de funcionamento da barbearia e bloqueios cadastrados.
+- **Agendamento Completo:** Seleção de serviço, data e horário com confirmação e validação de conflitos de agenda.
+- **Painel do Cliente:** Acompanhamento da próxima reserva e histórico detalhado dos agendamentos (Solicitado, Confirmado, Cancelado).
+- **Cancelamento:** Possibilidade de cancelar agendamentos ativos diretamente pelo painel.
 
-
----
-
-## 👥 Perfil de usuário
-
-### 👤 Cliente
-
-O cliente poderá consultar os serviços oferecidos pela barbearia, escolher um serviço e preencher um formulário simples para iniciar um agendamento.
+### 💈 Área Administrativa / Barbeiro
+- **Painel de Gestão (Admin Dashboard):** Visualização cronológica dos agendamentos realizados.
+- **Gerenciamento de Serviços:** Cadastro, atualização e remoção de serviços oferecidos.
+- **Controle de Status:** Confirmação ou cancelamento de agendamentos solicitados.
+- **Configuração de Horários & Bloqueios:** Cadastro de horários de funcionamento e bloqueios de agenda por intervalo de datas/horas.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-| Tecnologia | Utilização |
+| Tecnologia | Função / Utilização |
 |---|---|
-| 🐍 Python | Linguagem do backend |
-| 🟢 Django | Framework web |
-| 🌐 HTML5 | Estrutura das páginas |
-| 🎨 CSS3 | Estilização da interface |
-| 🟨 JavaScript | Interações no frontend |
-| 🟣 Bootstrap 5 | Componentes e responsividade |
-| 🗃️ SQLite | Banco de dados |
-| 🔧 Git & GitHub | Controle de versão |
-| 🎨 Figma | Prototipação |
+| 🐍 **Python 3.10+** | Linguagem principal do backend |
+| 🟢 **Django 6.1** | Framework web (rotas, ORM, autenticação, MVT) |
+| 🖼️ **Pillow** | Processamento e upload de imagens dos serviços |
+| 🌐 **HTML5 / CSS3** | Estrutura semântica e estilização customizada |
+| 🟣 **Bootstrap 5** | Componentes visuais responsivos e layout grid |
+| 🟨 **JavaScript (ES6+)** | Interações assíncronas (fetch de horários) e dinamismo na interface |
+| 🗃️ **SQLite** | Banco de dados relacional para ambiente de desenvolvimento |
+| 🔧 **Git & GitHub** | Controle de versão e colaboração |
 
 ---
 
 ## 🏗️ Arquitetura (MVT)
 
-O projeto utiliza o padrão **MVT (Model-View-Template)**, arquitetura padrão do Django.
+O projeto utiliza o padrão **MVT (Model-View-Template)** do Django:
 
-| Componente | Responsabilidade |
-|---|---|
-| **Model** | Estrutura e persistência dos dados da aplicação. |
-| **View** | Processamento das requisições e controle do fluxo. |
-| **Template** | Renderização da interface visual para o usuário. |
+```text
+               ┌────────────────────────────────────────┐
+               │              Navegador                 │
+               └───────────────────┬────────────────────┘
+                                   │  HTTP Request
+                                   ▼
+                       ┌───────────────────────┐
+                       │  URL Router (urls.py) │
+                       └───────────┬───────────┘
+                                   │
+                                   ▼
+                       ┌───────────────────────┐
+                       │   Views (views.py)    │
+                       └─────┬───────────┬─────┘
+                             │           │
+            Consulta / Salva │           │ Renderiza com contexto
+                             ▼           ▼
+┌──────────────────────────────┐       ┌──────────────────────────────┐
+│       Models (models.py)     │       │    Templates (HTML/CSS/JS)   │
+│ (Servico, Agendamento, etc.) │       │  (inicio.html, login.html)   │
+└──────────────────────────────┘       └──────────────────────────────┘
+
+```
+
+---
+
+## 🗃️ Modelos Principais
+
+* **`Servico`**: Guarda informações como `nome_servico`, `preco`, `duracao_minutos` e `imagem`.
+* **`Cliente`**: Vinculado ao model `User` nativo do Django para adicionar o campo `telefone`.
+* **`HorariodeFuncionamento`**: Define os dias da semana (`dia_inicio`, `dia_fim`) e faixas de horários atendidos.
+* **`BloqueioHorario`**: Define intervalos de datas e horas bloqueadas para novos agendamentos.
+* **`Agendamento`**: Conecta `Cliente` e `Servico` a uma `data` e `horario`, controlando o `status` (`solicitado`, `confirmado`, `cancelado`) e garantindo unicidade de horário ativo via constraint no banco.
 
 ---
 
@@ -87,180 +115,145 @@ O projeto utiliza o padrão **MVT (Model-View-Template)**, arquitetura padrão d
 ```text
 barber-grid/
 │
-├── .github/
-│   └── ISSUE_TEMPLATE/
-│
-├── docs/
-│   ├── README.md
-│   ├── diagramas/
-│   └── prototipos/
-│
-├── config/             # Configurações do projeto Django
-├── barber_grid/        # App principal
-├── static/             # CSS, JavaScript e imagens
-├── templates/          # Templates HTML
-├── .env.example        # Exemplo de variáveis de ambiente
-├── .gitignore          # Arquivos ignorados pelo Git
-├── manage.py           # Utilitário do Django
-├── README.md           # Documentação principal
-└── requirements.txt    # Dependências do projeto
+├── .github/                 # Templates de issues e workflows do GitHub
+├── docs/                    # Documentação complementar, protótipos e diagramas
+├── config/                  # Configurações globais do projeto Django (settings.py, urls.py)
+├── barber_grid/             # App principal da aplicação
+│   ├── admin.py             # Registro de models no Django Admin
+│   ├── apps.py              # Configuração do app barber_grid
+│   ├── models.py            # Definição dos modelos de dados (Servico, Agendamento, etc.)
+│   ├── tests.py             # Suíte de testes automatizados (unitários e integração)
+│   ├── urls.py              # Mapeamento das rotas do app
+│   └── views.py             # Lógica de negócios e manipuladores de requisição
+├── static/                  # Arquivos estáticos (CSS, JavaScript, Imagens)
+├── templates/               # Arquivos HTML renderizados pelo Django
+│   └── barber_grid/
+├── .env.example             # Exemplo de variáveis de ambiente
+├── .gitignore               # Regras de ignorados pelo Git
+├── manage.py                # Utilitário de linha de comando do Django
+├── README.md                # Documentação principal do repositório
+└── requirements.txt         # Dependências do projeto Python
+
 ```
 
 ---
 
 ## ⚙️ Como Executar o Projeto
 
-### 1. Clone o repositório
+### Pró-requisitos
+
+* **Python 3.10+** instalado
+* **Git** instalado
+
+### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/alvarogit-ops/sistema-de-barbearia.git
-cd barber-grid
+git clone [https://github.com/alvarogit-ops/sistema-de-barbearia.git](https://github.com/alvarogit-ops/sistema-de-barbearia.git)
+cd sistema-de-barbearia
+
 ```
 
-### 2. Crie e ative o ambiente virtual
+### 2. Criar e ativar o ambiente virtual
 
 **Windows:**
 
 ```bash
 python -m venv venv
 venv\Scripts\activate
+
 ```
 
-**Linux ou macOS:**
+**Linux / macOS:**
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+
 ```
 
-### 3. Instale o Django e o Pillow
+### 3. Instalar dependências
 
-Com o ambiente virtual ativado, instale o Django e a biblioteca Pillow:
-
-```bash
-pip install django pillow
-```
-
-O Django é utilizado para o desenvolvimento da aplicação web, enquanto o Pillow é utilizado para o processamento de imagens.
-
-### 4. Instale as demais dependências
-
-Se o projeto possuir um arquivo `requirements.txt`, execute:
+Com o ambiente virtual ativado, instale os pacotes listados no `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
+
 ```
 
-> Se o `requirements.txt` já contiver `Django` e `Pillow`, a instalação do passo anterior pode ser feita apenas com `pip install -r requirements.txt`.
+*(Caso utilize o comando direto: `pip install django pillow`)*
 
-### 5. Configure as variáveis de ambiente
+### 4. Configurar variáveis de ambiente
 
-Crie um arquivo `.env` na raiz do projeto com base no `.env.example`, caso necessário.
+Crie um arquivo `.env` na raiz do projeto copiando as definições do `.env.example`:
 
 ```env
 SECRET_KEY=sua_chave_secreta_aqui
 DEBUG=True
+
 ```
 
-### 6. Execute as migrações
+### 5. Executar as migrações do banco de dados
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
+
 ```
 
-### 7. Crie um superusuário
+### 6. Criar um superusuário (Administrador / Barbeiro)
 
-Execute o comando abaixo para criar um usuário administrador do Django:
+Para acessar o painel administrativo do Django e cadastrar serviços iniciais:
 
 ```bash
 python manage.py createsuperuser
+
 ```
 
-Preencha as informações solicitadas:
+Preencha o nome de usuário, e-mail e senha conforme as solicitações no terminal.
 
-* **Nome de usuário:** informe o nome de usuário do administrador.
-* **E-mail:** informe o endereço de e-mail.
-* **Senha:** crie uma senha segura e confirme-a.
-
-> A senha não será exibida enquanto você digita no terminal.
-
-### 8. Inicie o servidor
+### 7. Iniciar o servidor de desenvolvimento
 
 ```bash
 python manage.py runserver
+
 ```
 
-Acesse a aplicação:
-
-http://127.0.0.1:8000/
-
-### 9. Cadastre um serviço pelo Django Admin
-
-Após iniciar o servidor, acesse o painel administrativo:
-
-http://127.0.0.1:8000/admin/
-
-1. Faça login utilizando o nome de usuário e a senha do superusuário criado anteriormente.
-2. Localize a seção **Serviços** no painel administrativo.
-3. Clique em **Adicionar serviço**.
-4. Preencha os dados do serviço:
-
-   * **Nome do serviço:** nome do corte ou procedimento.
-   * **Preço:** valor do serviço.
-   * **Duração em minutos:** tempo estimado para realizar o serviço.
-5. Salve o cadastro.
-
-Após salvar, o serviço cadastrado estará disponível na página de serviços da aplicação.
+Acesse no navegador: **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**
 
 ---
 
+## 🧪 Como Executar os Testes Automatizados
 
-## 🗃️ Modelos Principais
+O projeto possui uma suíte de testes cobrindo formulários, autenticação, controle de permissões e integridade das regras de agendamento. Para executá-los:
 
-| Modelo | Descrição |
-|---|---|
-| **Serviço** | Representa os serviços oferecidos pela barbearia, conforme requisitos da Sprint 1. |
+```bash
+python manage.py test barber_grid
 
-
-A estrutura dos modelos será definida de acordo com os critérios de aceitação e as necessidades do fluxo implementado.
+```
 
 ---
 
 ## 📚 Documentação & Links
 
-🔗 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=wsz3jwY1O719cKFE-1)**
-
-📁 Documentação complementar e diagramas disponíveis na pasta `docs/`, na branch `docs`.
-
----
-
-## 👨‍💻 Equipe
-
-| Nome | Função |
-|---|---|
-| **Álvaro Yuri** | Project Owner, Scrum Master e Desenvolvedor |
-
-🔗 [GitHub — alvarogit-ops](https://github.com/alvarogit-ops)
+* 🎨 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=wsz3jwY1O719cKFE-1)**
+* 📁 Diagramas e documentação das Sprints disponíveis no diretório [`docs/`](https://www.google.com/search?q=./docs/).
 
 ---
 
-## ✅ Definition of Done (DoD)
+## 👥 Equipe & Desenvolvimento
 
-Uma tarefa será considerada pronta quando:
-
-- [ ] O código estiver na branch `main` por meio de um Pull Request revisado, conforme o fluxo definido para o projeto.
-- [ ] A funcionalidade tiver sido testada manualmente.
-- [ ] Todos os critérios de aceitação da Issue tiverem sido cumpridos.
-- [ ] A Issue tiver sido fechada e movida para `Done`.
+| Nome | Função | GitHub |
+| --- | --- | --- |
+| **Álvaro Yuri** | Project Owner, Scrum Master e Desenvolvedor Full-Stack | [@alvarogit-ops](https://github.com/alvarogit-ops) |
 
 ---
 
 ## 📌 Informações Acadêmicas
 
-| Informação | Detalhes |
-|---|---|
-| **Instituição** | IFRN Campus São Paulo do Potengi |
+| Campo | Detalhes |
+| --- | --- |
+| **Instituição** | Instituto Federal do Rio Grande do Norte (IFRN) — Campus São Paulo do Potengi |
+| **Curso** | Tecnologia em Sistemas para Internet |
 | **Disciplina** | Projeto de Desenvolvimento de Sistemas para Internet |
 | **Professora** | Fernanda Lígia |
 | **Orientador** | Diego Cirilo |
@@ -269,12 +262,8 @@ Uma tarefa será considerada pronta quando:
 
 ## 📄 Licença
 
-Desenvolvido para fins acadêmicos sob os termos da licença padrão de projetos educacionais.
-
-<div align="center">
+Este projeto é desenvolvido para fins exclusivamente acadêmicos e educacionais sob a licença [MIT](https://opensource.org/licenses/MIT).
 
 ---
 
 Desenvolvido por **[Álvaro Yuri](https://github.com/alvarogit-ops)** 💈
-
-</div>
