@@ -405,6 +405,7 @@ def historico_agendamentos(request):
     return render(request, 'barber_grid/historico_agendamentos.html', context)
 
 
+@login_required
 def painel_admin(request):
     return render(request, 'barber_grid/painel_admin.html')
 
