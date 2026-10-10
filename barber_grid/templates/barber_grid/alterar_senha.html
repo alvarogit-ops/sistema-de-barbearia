@@ -1,0 +1,104 @@
+{% extends 'barber_grid/base.html' %}
+
+{% block title %}Alterar senha | Barber Grid{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="justify-content-center row">
+        <div class="col-lg-6 col-md-8">
+            <div class="card">
+                <div class="card-body">
+
+                    <h2 class="mb-4">Alterar senha</h2>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                Não foi possível alterar a senha.
+                                Verifique os campos abaixo.
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label class="form-label" for="id_old_password">
+                                Senha atual
+                            </label>
+                            <input
+                                required
+                                id="id_old_password"
+                                name="old_password"
+                                class="form-control"
+                                type="password"
+                                autocomplete="current-password"
+                            >
+                            {% for error in form.old_password.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="id_new_password1">
+                                Nova senha
+                            </label>
+                            <input
+                                required
+                                id="id_new_password1"
+                                name="new_password1"
+                                class="form-control"
+                                type="password"
+                                autocomplete="new-password"
+                            >
+                            {% if form.new_password1.help_text %}
+                                <div class="form-text">
+                                    {{ form.new_password1.help_text|safe }}
+                                </div>
+                            {% endif %}
+                            {% for error in form.new_password1.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="id_new_password2">
+                                Confirme a nova senha
+                            </label>
+                            <input
+                                required
+                                id="id_new_password2"
+                                name="new_password2"
+                                class="form-control"
+                                type="password"
+                                autocomplete="new-password"
+                            >
+                            {% for error in form.new_password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{% url 'editar_perfil' %}"
+                               class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>
+                                Salvar nova senha
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
