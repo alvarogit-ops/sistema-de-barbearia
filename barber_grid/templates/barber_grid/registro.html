@@ -1,63 +1,234 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{% static 'images/favicon.ico' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
 
-    <title>Registro</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <title>Criar conta | Barber Grid</title>
 </head>
- <nav class="text-center">
-  <img id="imagem_logotipo" src="{% static 'images/logo_tema_escuro.png' %}">
-     <a class="navbar-brand" href="{% url 'setup' %}">Barber Grid
-     </a>
-      <a class="text-center">Alpha</a>
- </nav>
-<body class="pagina-registro">
-    <form method="POST">
-        {% csrf_token %}
 
-        <h2>Criar conta</h2>
+<body class="bg-body text-body">
 
-        {% for message in messages %}
-        <p class="mensagem">{{ message }}</p>
-        {% endfor %}
+    <main class="login-page">
 
-        <div class="form-group">
-            <label for="nome">Nome:</label>
-            <input type="text" name="nome" id="nome">
+        <div class="login-container">
+
+            <div class="login-brand">
+                <a href="{% url 'inicio' %}">
+                    <img
+                        id="imagem_logotipo"
+                        src="{% static 'images/logo_tema_escuro.png' %}"
+                        data-logo-escuro="{% static 'images/logo_tema_escuro.png' %}"
+                        data-logo-claro="{% static 'images/logo_tema_claro.png' %}"
+                        alt="Barber Grid"
+                    >
+                </a>
+
+                <h1>Barber Grid</h1>
+            </div>
+
+            <div class="login-card">
+
+                <div class="login-header">
+                    <h2>Criar conta</h2>
+                    <p>Preencha seus dados para começar.</p>
+                </div>
+
+                {% for message in messages %}
+                    {% if message.level == 40 %}
+                        <div class="alert alert-danger" role="alert">
+                            <i class="bi bi-exclamation-circle me-2"></i>
+                            {{ message }}
+                        </div>
+                    {% elif message.level == 25 %}
+                        <div class="alert alert-success" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">
+                            Nome completo
+                        </label>
+
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+
+                            <input
+                                type="text"
+                                name="nome"
+                                id="nome"
+                                class="form-control"
+                                placeholder="Seu nome completo"
+                                autocomplete="name"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="telefone" class="form-label">
+                            Telefone
+                        </label>
+
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-telephone"></i>
+                            </span>
+
+                            <input
+                                type="tel"
+                                name="telefone"
+                                id="telefone"
+                                class="form-control"
+                                placeholder="(00) 00000-0000"
+                                autocomplete="tel"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            E-mail
+                        </label>
+
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                class="form-control"
+                                placeholder="seu@email.com"
+                                autocomplete="email"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="senha" class="form-label">
+                            Senha
+                        </label>
+
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+
+                            <input
+                                type="password"
+                                name="senha"
+                                id="senha"
+                                class="form-control"
+                                placeholder="Crie uma senha"
+                                autocomplete="new-password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100 login-button"
+                    >
+                        <i class="bi bi-person-plus me-2"></i>
+                        Criar conta
+                    </button>
+                </form>
+
+                <div class="login-divider">
+                    <span>ou</span>
+                </div>
+
+                <div class="login-register">
+                    <span>Já possui uma conta?</span>
+
+                    <a href="{% url 'login' %}">
+                        Fazer login
+                    </a>
+                </div>
+
+            </div>
+
+            <a href="{% url 'inicio' %}" class="login-back">
+                <i class="bi bi-arrow-left me-1"></i>
+                Voltar para o início
+            </a>
+
         </div>
 
-        <div class="form-group">
-            <label for="telefone">Telefone:</label>
-            <input type="tel" name="telefone" id="telefone">
-        </div>
+    </main>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email">
-        </div>
+    <script>
+        const temaEscuro = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        );
 
-        <div class="form-group">
-            <label for="senha">Senha:</label>
-            <input type="password" name="senha" id="senha">
-        </div>
+        function aplicarTema(escuro) {
+            document.documentElement.setAttribute(
+                "data-bs-theme",
+                escuro ? "dark" : "light"
+            );
 
-        <button type="submit">Enviar</button>
+            const logo = document.getElementById("imagem_logotipo");
 
-        <a href="{% url 'login' %}">Fazer login</a>
-    </form>
+            if (logo) {
+                logo.src = escuro
+                    ? logo.dataset.logoEscuro
+                    : logo.dataset.logoClaro;
+            }
+        }
 
-    <script src="{% static 'js/script.js' %}"></script>
+        aplicarTema(temaEscuro.matches);
+
+        temaEscuro.addEventListener("change", (evento) => {
+            aplicarTema(evento.matches);
+        });
+    </script>
 
 </body>
 </html>
-
