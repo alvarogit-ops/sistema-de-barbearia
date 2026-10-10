@@ -99,6 +99,8 @@ def registro(request):
 
         usuario = User.objects.create_user(
             username=email,
+            email = email,
+            first_name = nome,
             password=password
         )
 
