@@ -60,4 +60,44 @@ path(
     ),
     name="alterar_senha"
 ),
+path(
+    "esqueci-senha/",
+    auth_views.PasswordResetView.as_view(
+        template_name="barber_grid/esqueci_senha.html",
+        email_template_name="barber_grid/email_redefinir_senha.html",
+        subject_template_name="barber_grid/assunto_redefinir_senha.txt",
+        success_url="/esqueci-senha/enviado/"
+    ),
+    name="esqueci_senha"
+),
+path(
+    "esqueci-senha/enviado/",
+    auth_views.PasswordResetDoneView.as_view(
+        template_name="barber_grid/esqueci_senha_enviado.html"
+    ),
+    name="esqueci_senha_enviado"
+),
+path(
+    "redefinir-senha/<uidb64>/<token>/",
+    auth_views.PasswordResetConfirmView.as_view(
+        template_name="barber_grid/redefinir_senha.html",
+        success_url="/redefinir-senha/concluido/"
+    ),
+    name="redefinir_senha"
+),
+path(
+    "redefinir-senha/concluido/",
+    auth_views.PasswordResetCompleteView.as_view(
+        template_name="barber_grid/redefinir_senha_concluido.html"
+    ),
+    name="redefinir_senha_concluido"
+),
+path(
+    "esqueci-senha/ajax/",
+    views.solicitar_redefinicao_senha_ajax,
+    name="esqueci_senha_ajax",
+),
+
+
+
 ]
