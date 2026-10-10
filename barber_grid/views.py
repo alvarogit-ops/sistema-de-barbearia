@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.utils import timezone
 import datetime
 from datetime import timedelta
-from .models import Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario
+from .models import (Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario, DIAS_FERIADO, )
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -185,6 +185,8 @@ def agendamento(request, servico_id):
         {"servico": servico,
         "data": data, "data_atual": data_atual,}
     )
+
+
 def horarios_disponiveis(request):
     horarios_disponiveis = []
     data = request.GET.get("data")
@@ -194,47 +196,74 @@ def horarios_disponiveis(request):
 
     funcionamento = HorariodeFuncionamento.objects.get(id=1)
 
+    agora = timezone.localtime()
+    hoje = agora.date()
+    horario_local = agora.time().replace(tzinfo=None)
+
     if data:
-        data_convertida = datetime.datetime.strptime(data, "%Y-%m-%d")
+        try:
+            data_convertida = datetime.datetime.strptime(
+                data, "%Y-%m-%d"
+            ).date()
+        except ValueError:
+            return JsonResponse({
+                "data": data,
+                "horarios_disponiveis": [],
+                "erro": "Data inválida."
+            }, status=400)
+
         dia_escolhido = data_convertida.weekday()
 
-        if funcionamento.dia_inicio <= dia_escolhido <= funcionamento.dia_fim:
+        eh_feriado = (
+            data_convertida.month,
+            data_convertida.day
+        ) in DIAS_FERIADO
 
+        if (
+            data_convertida >= hoje
+            and not eh_feriado
+            and funcionamento.dia_inicio <= dia_escolhido <= funcionamento.dia_fim
+        ):
             horario_atual = funcionamento.horario_inicio
 
-            horario_fim = datetime.datetime.combine(
-                data_convertida,
-                funcionamento.horario_fim
-            )
-
-            while True:
-                horario_atual_convertido = datetime.datetime.combine(
-                    data_convertida,
-                    horario_atual
-                )
-
-                if horario_atual_convertido >= horario_fim:
-                    break
+            while horario_atual < funcionamento.horario_fim:
 
                 if inicio_almoco <= horario_atual < fim_almoco:
-                    horario_atual_convertido += timedelta(minutes=30)
-                    horario_atual = horario_atual_convertido.time()
+                    horario_atual = (
+                        datetime.datetime.combine(
+                            data_convertida, horario_atual
+                        ) + timedelta(minutes=30)
+                    ).time()
                     continue
 
-                horario_formatado = horario_atual.strftime("%H:%M")
+                if (
+                    data_convertida == hoje
+                    and horario_atual <= horario_local
+                ):
+                    horario_atual = (
+                        datetime.datetime.combine(
+                            data_convertida, horario_atual
+                        ) + timedelta(minutes=30)
+                    ).time()
+                    continue
 
                 horario_ocupado = Agendamento.objects.filter(
-                    data=data_convertida.date(),
+                    data=data_convertida,
                     horario=horario_atual,
                 ).exclude(
                     status="cancelado"
                 ).exists()
 
                 if not horario_ocupado:
-                    horarios_disponiveis.append(horario_formatado)
+                    horarios_disponiveis.append(
+                        horario_atual.strftime("%H:%M")
+                    )
 
-                horario_atual_convertido += timedelta(minutes=30)
-                horario_atual = horario_atual_convertido.time()
+                horario_atual = (
+                    datetime.datetime.combine(
+                        data_convertida, horario_atual
+                    ) + timedelta(minutes=30)
+                ).time()
 
     return JsonResponse({
         "data": data,
@@ -254,25 +283,41 @@ def confirmar_agendamento(request, servico_id):
 
         try:
             data_convertida = datetime.datetime.strptime(
-                data,
-                "%Y-%m-%d"
+                data, "%Y-%m-%d"
             ).date()
 
             horario_convertido = datetime.datetime.strptime(
-                horario,
-                "%H:%M"
+                horario, "%H:%M"
             ).time()
 
         except (ValueError, TypeError):
+            messages.error(request, "Data ou horário inválido.")
+            return redirect("agendamento", servico_id=servico_id)
+
+        # Bloquear datas passadas.
+        hoje = timezone.localdate()
+
+        if data_convertida < hoje:
             messages.error(
                 request,
-                "Data ou horário inválido."
+                "Não é possível agendar para uma data passada."
             )
-            return redirect(
-                "agendamento",
-                servico_id=servico_id
-            )
+            return redirect("agendamento", servico_id=servico_id)
 
+        # Bloquear feriados nacionais fixos.
+        eh_feriado = (
+            data_convertida.month,
+            data_convertida.day
+        ) in DIAS_FERIADO
+
+        if eh_feriado:
+            messages.error(
+                request,
+                "Não é possível agendar em um feriado nacional."
+            )
+            return redirect("agendamento", servico_id=servico_id)
+
+        # Comparar com o horário atual de Recife.
         data_horario = datetime.datetime.combine(
             data_convertida,
             horario_convertido
@@ -280,16 +325,14 @@ def confirmar_agendamento(request, servico_id):
 
         data_horario = timezone.make_aware(data_horario)
 
-        if data_horario < timezone.now():
+        if data_horario <= timezone.localtime():
             messages.error(
                 request,
                 "Não é possível agendar para um horário que já passou."
             )
-            return redirect(
-                "agendamento",
-                servico_id=servico_id
-            )
+            return redirect("agendamento", servico_id=servico_id)
 
+        # Impedir agendamentos duplicados.
         horario_ocupado = Agendamento.objects.filter(
             data=data_convertida,
             horario=horario_convertido,
@@ -302,10 +345,7 @@ def confirmar_agendamento(request, servico_id):
                 request,
                 "Este horário já está agendado."
             )
-            return redirect(
-                "agendamento",
-                servico_id=servico_id
-            )
+            return redirect("agendamento", servico_id=servico_id)
 
         cliente = Cliente.objects.get(usuario=request.user)
 
