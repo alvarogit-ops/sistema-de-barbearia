@@ -14,6 +14,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.forms import PasswordResetForm
+from django.views.decorators.http import require_POST
+from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
 
 @login_required
 def inicio(request):
@@ -484,3 +488,23 @@ def logout(request):
         return redirect("login")
 
     return redirect("inicio")
+
+
+@require_POST
+def solicitar_redefinicao_senha_ajax(request):
+    form = PasswordResetForm(data=request.POST)
+
+    if form.is_valid():
+        form.save(
+            request=request,
+            use_https=request.is_secure(),
+            email_template_name="barber_grid/email_redefinir_senha.html",
+            subject_template_name="barber_grid/assunto_redefinir_senha.txt",
+        )
+
+    return JsonResponse({
+        "mensagem": (
+            "Se o e-mail estiver cadastrado, você receberá "
+            "um link para criar uma nova senha."
+        )
+    })
