@@ -43,6 +43,16 @@ DIA_DA_SEMANA_CHOICES = [
     (5, 'Sábado'),
     (6, 'Domingo'),
 ]
+DIAS_FERIADO = [
+    (1, 1),    # Confraternização Universal
+    (4, 21),   # Tiradentes
+    (5, 1),    # Dia do Trabalho
+    (9, 7),    # Independência do Brasil
+    (11, 2),   # Finados
+    (11, 15),  # Proclamação da República
+    (11, 20),  # Dia Nacional de Zumbi e da Consciência Negra
+    (12, 25),  # Natal
+]
 
 STATUS_CHOICES = [
     ('solicitado', 'Solicitado'),
