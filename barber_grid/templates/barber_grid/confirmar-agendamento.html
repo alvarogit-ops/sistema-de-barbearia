@@ -57,6 +57,25 @@
                        name="horario"
                        value="{{ horario }}">
 
+                <div class="mb-3">
+                    <label for="observacoes" class="form-label">
+                        Observações
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="observacoes"
+                        name="observacoes"
+                        rows="3"
+                        maxlength="500"
+                        placeholder="Ex.: preferência de corte, nível da lâmina ou algum pedido especial (opcional)"
+                    ></textarea>
+
+                    <div class="form-text">
+                        Opcional. Máximo de 500 caracteres.
+                    </div>
+                </div>
+
                 <div class="d-flex gap-2">
 
                     <a href="{% url 'agendamento' servico_id %}"
