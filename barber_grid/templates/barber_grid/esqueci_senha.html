@@ -1,0 +1,203 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{% static 'images/favicon.ico' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <title>Esqueci minha senha | Barber Grid</title>
+</head>
+
+<body class="bg-body text-body">
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-6">
+
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+
+                        <h2 class="mb-4">Esqueci minha senha</h2>
+
+                        <p class="text-secondary">
+                            Informe o e-mail cadastrado na sua conta.
+                            Enviaremos um link para você redefinir sua senha.
+                        </p>
+
+                        <!-- Mensagem de resposta do AJAX -->
+                        <div
+                            id="mensagem-redefinicao"
+                            role="status"
+                            aria-live="polite"
+                        ></div>
+
+                        <!-- Formulário -->
+                        <form
+                            method="POST"
+                            action="{% url 'esqueci_senha_ajax' %}"
+                            id="form-redefinicao"
+                        >
+                            {% csrf_token %}
+
+                            <div class="mb-3">
+                                <label
+                                    class="form-label"
+                                    for="id_email"
+                                >
+                                    E-mail
+                                </label>
+
+                                <input
+                                    required
+                                    id="id_email"
+                                    name="email"
+                                    class="form-control"
+                                    type="email"
+                                    autocomplete="email"
+                                >
+
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <button
+                                type="submit"
+                                id="botao-enviar"
+                                class="w-100 btn btn-primary"
+                            >
+                                Enviar link
+                            </button>
+                        </form>
+
+                        <a
+                            class="d-block mt-3"
+                            href="{% url 'login' %}"
+                        >
+                            Voltar para o login
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Aplica o tema do sistema.
+        const temaEscuro = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        );
+
+        function aplicarTema(escuro) {
+            document.documentElement.setAttribute(
+                "data-bs-theme",
+                escuro ? "dark" : "light"
+            );
+
+            const logo = document.getElementById("imagem_logotipo");
+
+            if (logo) {
+                logo.src = escuro
+                    ? logo.dataset.logoEscuro
+                    : logo.dataset.logoClaro;
+            }
+        }
+
+        aplicarTema(temaEscuro.matches);
+
+        temaEscuro.addEventListener("change", (evento) => {
+            aplicarTema(evento.matches);
+        });
+
+        // Envia o formulário sem recarregar a página.
+        const form = document.getElementById("form-redefinicao");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const botao = document.getElementById("botao-enviar");
+            const mensagem = document.getElementById(
+                "mensagem-redefinicao"
+            );
+
+            botao.disabled = true;
+            botao.textContent = "Enviando...";
+
+            mensagem.className = "";
+            mensagem.textContent = "";
+
+            try {
+                const resposta = await fetch(form.action, {
+                    method: "POST",
+                    body: new FormData(form),
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                });
+
+                if (!resposta.ok) {
+                    throw new Error("Falha na solicitação");
+                }
+
+                const dados = await resposta.json();
+
+                // Exibe a mensagem de sucesso.
+                mensagem.className = "alert alert-success mt-3";
+                mensagem.textContent = dados.mensagem;
+
+                // Esconde o campo de e-mail e o botão.
+                form.style.display = "none";
+
+            } catch (erro) {
+                mensagem.className = "alert alert-danger mt-3";
+                mensagem.textContent =
+                    "Não foi possível processar a solicitação. Tente novamente.";
+
+                console.error(
+                    "Erro ao solicitar redefinição de senha:",
+                    erro
+                );
+
+                botao.disabled = false;
+                botao.textContent = "Enviar link";
+            }
+        });
+    </script>
+
+</body>
+</html>
