@@ -52,4 +52,12 @@ path(
     name="editar_perfil"
 ),
 path("logout/", views.logout, name="logout"),
+path(
+    "alterar-senha/",
+    auth_views.PasswordChangeView.as_view(
+        template_name="barber_grid/alterar_senha.html",
+        success_url="/editar-perfil/"
+    ),
+    name="alterar_senha"
+),
 ]
