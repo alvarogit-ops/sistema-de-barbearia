@@ -49,7 +49,7 @@ def inicio(request):
         "barber_grid/inicio.html",
         {"proxima_reserva": proxima_reserva}
     )
-
+@login_required
 def pagina_servicos(request):
     servicos = Servico.objects.all()
     context = {
@@ -278,6 +278,15 @@ def confirmar_agendamento(request, servico_id):
     horario = request.GET.get("horario")
 
     if request.method == "POST":
+
+        # Impedir que administradores agendem por esta página.
+        if request.user.is_staff:
+            messages.error(
+                request,
+                "Administradores não podem realizar agendamentos por esta página."
+            )
+            return redirect("inicio")
+
         data = request.POST.get("data")
         horario = request.POST.get("horario")
 
@@ -317,13 +326,16 @@ def confirmar_agendamento(request, servico_id):
             )
             return redirect("agendamento", servico_id=servico_id)
 
-        # Comparar com o horário atual de Recife.
+        # Bloquear horários que já passaram.
         data_horario = datetime.datetime.combine(
             data_convertida,
             horario_convertido
         )
 
-        data_horario = timezone.make_aware(data_horario)
+        data_horario = timezone.make_aware(
+            data_horario,
+            timezone.get_current_timezone()
+        )
 
         if data_horario <= timezone.localtime():
             messages.error(
@@ -347,7 +359,15 @@ def confirmar_agendamento(request, servico_id):
             )
             return redirect("agendamento", servico_id=servico_id)
 
-        cliente = Cliente.objects.get(usuario=request.user)
+        # Verificar se o usuário possui cadastro de cliente.
+        try:
+            cliente = Cliente.objects.get(usuario=request.user)
+        except Cliente.DoesNotExist:
+            messages.error(
+                request,
+                "Seu usuário não possui um cadastro de cliente."
+            )
+            return redirect("inicio")
 
         agendamento = Agendamento.objects.create(
             cliente=cliente,
@@ -371,7 +391,6 @@ def confirmar_agendamento(request, servico_id):
             "servico_id": servico_id,
         }
     )
-
 def historico_agendamentos(request):
     agendamentos = Agendamento.objects.all()
     context = {
