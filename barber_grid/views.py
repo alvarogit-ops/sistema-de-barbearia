@@ -19,18 +19,21 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 
+
 @login_required
 def inicio(request):
     proxima_reserva = None
 
-    if request.user.is_authenticated and not request.user.is_staff:
+    if not request.user.is_staff:
         cliente = Cliente.objects.get(usuario=request.user)
+        agora = timezone.localtime()
 
         agendamentos = Agendamento.objects.filter(
-            cliente=cliente
+            cliente=cliente,
+            data__gte=agora.date()
+        ).exclude(
+            status="cancelado"
         ).order_by("data", "horario")
-
-        agora = timezone.localtime()
 
         for agendamento in agendamentos:
             data_horario = datetime.datetime.combine(
@@ -38,9 +41,12 @@ def inicio(request):
                 agendamento.horario
             )
 
-            data_horario = timezone.make_aware(data_horario)
+            data_horario = timezone.make_aware(
+                data_horario,
+                timezone.get_current_timezone()
+            )
 
-            if data_horario >= agora:
+            if data_horario > agora:
                 proxima_reserva = agendamento
                 break
 
@@ -68,7 +74,7 @@ def login(request):
             auth_login(request, user)
 
             if user.is_staff:
-                return redirect('inicio')
+                return redirect('painel_admin')
             return redirect('pagina_servicos')
 
         else:
