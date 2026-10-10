@@ -1,0 +1,226 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="shortcut icon"
+        type="image/png"
+        href="{% static 'images/favicon.ico' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <title>Redefinir senha | Barber Grid</title>
+</head>
+
+<body class="bg-body text-body">
+
+    <main class="login-page">
+
+        <div class="login-container">
+
+            <div class="login-brand">
+                <a href="{% url 'inicio' %}">
+                    <img
+                        id="imagem_logotipo"
+                        src="{% static 'images/logo_tema_escuro.png' %}"
+                        data-logo-escuro="{% static 'images/logo_tema_escuro.png' %}"
+                        data-logo-claro="{% static 'images/logo_tema_claro.png' %}"
+                        alt="Barber Grid"
+                    >
+                </a>
+
+                <h1>Barber Grid</h1>
+            </div>
+
+            <div class="login-card">
+
+                <div class="login-header">
+                    <h2>Redefinir senha</h2>
+                    <p>Crie uma nova senha para sua conta.</p>
+                </div>
+
+                {% if validlink %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <i class="bi bi-exclamation-circle me-2"></i>
+                            Verifique os campos abaixo e corrija os erros.
+                        </div>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label
+                                for="id_new_password1"
+                                class="form-label"
+                            >
+                                Nova senha
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+
+                                <input
+                                    type="password"
+                                    name="new_password1"
+                                    id="id_new_password1"
+                                    class="form-control"
+                                    placeholder="Digite sua nova senha"
+                                    autocomplete="new-password"
+                                    required
+                                >
+                            </div>
+
+                            {% for error in form.new_password1.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label
+                                for="id_new_password2"
+                                class="form-label"
+                            >
+                                Confirmar nova senha
+                            </label>
+
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-shield-lock"></i>
+                                </span>
+
+                                <input
+                                    type="password"
+                                    name="new_password2"
+                                    id="id_new_password2"
+                                    class="form-control"
+                                    placeholder="Digite a senha novamente"
+                                    autocomplete="new-password"
+                                    required
+                                >
+                            </div>
+
+                            {% for error in form.new_password2.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    <p class="mb-0">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100 login-button"
+                        >
+                            <i class="bi bi-check-circle me-2"></i>
+                            Salvar nova senha
+                        </button>
+                    </form>
+
+                {% else %}
+
+                    <div class="alert alert-danger" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        Este link de redefinição de senha é inválido ou
+                        expirou. Solicite um novo link para continuar.
+                    </div>
+
+                    <a
+                        href="{% url 'esqueci_senha' %}"
+                        class="btn btn-primary w-100 login-button"
+                    >
+                        Solicitar novo link
+                    </a>
+
+                {% endif %}
+
+                <div class="login-divider">
+                    <span>ou</span>
+                </div>
+
+                <div class="login-register">
+                    <a href="{% url 'login' %}">
+                        Voltar para o login
+                    </a>
+                </div>
+
+            </div>
+
+            <a href="{% url 'inicio' %}" class="login-back">
+                <i class="bi bi-arrow-left me-1"></i>
+                Voltar para o início
+            </a>
+
+        </div>
+
+    </main>
+
+    <script>
+        const temaEscuro = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        );
+
+        function aplicarTema(escuro) {
+            document.documentElement.setAttribute(
+                "data-bs-theme",
+                escuro ? "dark" : "light"
+            );
+
+            const logo = document.getElementById("imagem_logotipo");
+
+            if (logo) {
+                logo.src = escuro
+                    ? logo.dataset.logoEscuro
+                    : logo.dataset.logoClaro;
+            }
+        }
+
+        aplicarTema(temaEscuro.matches);
+
+        temaEscuro.addEventListener("change", (evento) => {
+            aplicarTema(evento.matches);
+        });
+    </script>
+    
+</body>
+</html>
