@@ -10,9 +10,19 @@
                 <div class="card-body">
 
                     <div class="text-center mb-4">
-                        <i class="bi bi-person-circle text-secondary align-middle"
-                           style="font-size: 96px; line-height: 1;">
-                        </i>
+                        {% if cliente.foto_perfil %}
+                            <img
+                                src="{{ cliente.foto_perfil.url }}"
+                                alt="Foto de perfil"
+                                class="rounded-circle object-fit-cover"
+                                style="width: 120px; height: 120px;"
+                            >
+                        {% else %}
+                            <i
+                                class="bi bi-person-circle text-secondary align-middle"
+                                style="font-size: 96px; line-height: 1;">
+                            </i>
+                        {% endif %}
 
                         <h2 class="mt-2 mb-0">
                             {{ request.user.first_name }}
@@ -31,7 +41,7 @@
                         </div>
                     </div>
 
-                    <form method="POST">
+                    <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
 
                         <div class="mb-3">
@@ -40,14 +50,27 @@
                             </label>
 
                             <input
+                                type="text"
                                 required
                                 id="nome"
                                 name="nome"
                                 class="form-control"
                                 value="{{ request.user.first_name }}"
                             >
+                        </div>
 
-                            <div class="invalid-feedback"></div>
+                        <div class="mb-3">
+                            <label class="form-label" for="foto">
+                                Foto de perfil
+                            </label>
+
+                            <input
+                                type="file"
+                                id="foto"
+                                name="foto"
+                                class="form-control"
+                                accept="image/*"
+                            >
                         </div>
 
                         <div class="mb-3">
@@ -56,15 +79,13 @@
                             </label>
 
                             <input
+                                type="email"
                                 required
                                 id="email"
                                 name="email"
                                 class="form-control"
-                                type="email"
                                 value="{{ request.user.email }}"
                             >
-
-                            <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="mb-3">
@@ -73,21 +94,20 @@
                             </label>
 
                             <input
+                                type="text"
                                 required
                                 id="telefone"
                                 name="telefone"
                                 class="form-control"
                                 value="{{ cliente.telefone }}"
                             >
-
-                            <div class="invalid-feedback"></div>
                         </div>
 
-                        <div class="d-flex gap-2">
-
+                        <div class="d-flex gap-2 flex-wrap">
                             <button
                                 type="submit"
                                 class="btn btn-primary">
+                                <i class="bi bi-check-lg"></i>
                                 Salvar
                             </button>
 
@@ -103,7 +123,6 @@
                                 class="btn btn-outline-secondary">
                                 Voltar
                             </a>
-
                         </div>
 
                     </form>
@@ -114,3 +133,4 @@
     </div>
 </div>
 {% endblock %}
+```
