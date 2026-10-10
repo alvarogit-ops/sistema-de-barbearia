@@ -28,6 +28,11 @@ class Servico(models.Model):
 class Cliente(models.Model):
     usuario = models.OneToOneField(User, on_delete = models.CASCADE)
     telefone = models.CharField(max_length = 15)
+    foto_perfil = models.ImageField(
+    upload_to="fotos_perfil/",
+    blank=True,
+    null=True
+)
 
 DIA_DA_SEMANA_CHOICES = [
     (0, 'Segunda-Feira'),

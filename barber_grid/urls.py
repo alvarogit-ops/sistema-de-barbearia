@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+
 #Define uma lista de url patterns
 
 urlpatterns = [
@@ -50,4 +51,5 @@ path(
     views.editar_perfil,
     name="editar_perfil"
 ),
+path("logout/", views.logout, name="logout"),
 ]
