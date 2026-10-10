@@ -79,20 +79,57 @@
 
         </div>
 
-        <div class="navbar-nav">
+    <div class="navbar-nav">
+    <div class="dropdown">
+        <button
+            class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
 
-            <a class="nav-link"
-               href="#">
+            {% if request.user.cliente.foto_perfil %}
+            <img
+                src="{{ request.user.cliente.foto_perfil.url }}"
+                alt="Foto de perfil"
+                class="rounded-circle object-fit-cover"
+                style="width: 32px; height: 32px;"
+            >
+        {% else %}
+            <i class="bi bi-person-circle text-secondary"
+            style="font-size: 24px; line-height: 1;">
+            </i>
+        {% endif %}
 
-                <i class="bi bi-person-circle text-secondary align-middle"
-                   style="font-size: 24px; line-height: 1;">
-                </i>
+            {{ request.user.first_name|default:request.user.username }}
+        </button>
 
-                {{ request.user.username }}
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <a class="dropdown-item"
+                   href="{% url 'editar_perfil' %}">
+                    <i class="bi bi-person-gear me-2"></i>
+                    Editar perfil
+                </a>
+            </li>
 
-            </a>
+            <li><hr class="dropdown-divider"></li>
 
-        </div>
+            <li>
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button
+                        type="button"
+                        class="dropdown-item text-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalLogout">
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        Sair da conta
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
 
     </div>
 
@@ -106,6 +143,43 @@
 {% endblock %}
 
 </main>
+
+<div class="modal fade" id="modalLogout" tabindex="-1"
+     aria-labelledby="modalLogoutLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLogoutLabel">
+                    Confirmar saída
+                </h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar"></button>
+            </div>
+
+            <div class="modal-body">
+                Tem certeza de que deseja sair da sua conta?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-box-arrow-right me-1"></i>
+                        Sair da conta
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
