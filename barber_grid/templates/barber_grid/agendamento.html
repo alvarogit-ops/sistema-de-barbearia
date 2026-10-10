@@ -76,197 +76,123 @@
 </div>
 
 <script>
+const div_horarios = document.getElementById("horarios");
+const campoData = document.getElementById("data");
+const botaoAnterior = document.getElementById("data-anterior");
+const botaoProxima = document.getElementById("data-proxima");
+const cardBarbeiro = document.getElementById("card-barbeiro");
+const mensagemHorarios = document.getElementById("mensagem-horarios");
 
-const div_horarios =
-    document.getElementById("horarios");
+// Feriados nacionais de data fixa: mês-dia
+const feriados = [
+    "01-01",
+    "04-21",
+    "05-01",
+    "09-07",
+    "10-12",
+    "11-02",
+    "11-15",
+    "11-20",
+    "12-25"
+];
 
-const campoData =
-    document.getElementById("data");
-
-const botaoAnterior =
-    document.getElementById("data-anterior");
-
-const botaoProxima =
-    document.getElementById("data-proxima");
-
-const cardBarbeiro =
-    document.getElementById("card-barbeiro");
-
-const mensagemHorarios =
-    document.getElementById("mensagem-horarios");
-
-
-cardBarbeiro.style.display = "none";
-
-
-campoData.addEventListener("change", () => {
-
+function carregarHorarios() {
     const data = campoData.value;
 
     div_horarios.innerHTML = "";
-
     mensagemHorarios.innerHTML = "";
-
     cardBarbeiro.style.display = "none";
 
+    if (!data) return;
+
+    const partesData = data.split("-");
+    const mesDia = `${partesData[1]}-${partesData[2]}`;
+
+    if (feriados.includes(mesDia)) {
+        mensagemHorarios.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                Não haverá atendimento neste dia, pois é feriado nacional.
+            </div>
+        `;
+        return;
+    }
 
     fetch(`/horarios-disponiveis/?data=${data}`)
-
-        .then(resposta => resposta.json())
-
+        .then(resposta => {
+            if (!resposta.ok) {
+                throw new Error("Não foi possível carregar os horários.");
+            }
+            return resposta.json();
+        })
         .then(dados => {
-
-            console.log(
-                "HORÁRIOS RECEBIDOS:",
-                dados.horarios_disponiveis
-            );
-
-
             if (dados.horarios_disponiveis.length === 0) {
-
-                const alerta =
-                    document.createElement("div");
-
-                alerta.setAttribute(
-                    "role",
-                    "alert"
-                );
-
-                alerta.className =
-                    "fade d-flex align-items-center alert alert-info show";
-
-
-                alerta.innerHTML = `
-
-                    Sem horários livres neste dia.
-
-                    <button
-                        type="button"
-                        id="ver-dia-seguinte"
-                        class="ms-auto btn btn-outline-primary btn-sm">
-
-                        Ver o dia seguinte
-
-                    </button>
-
+                mensagemHorarios.innerHTML = `
+                    <div class="alert alert-info" role="alert">
+                        Sem horários livres neste dia.
+                        <button
+                            type="button"
+                            id="ver-dia-seguinte"
+                            class="ms-2 btn btn-outline-primary btn-sm">
+                            Ver o dia seguinte
+                        </button>
+                    </div>
                 `;
 
-
-                mensagemHorarios.appendChild(alerta);
-
-
-                const botaoDiaSeguinte =
-                    document.getElementById(
-                        "ver-dia-seguinte"
-                    );
-
-
-                botaoDiaSeguinte.addEventListener(
-                    "click",
-                    () => {
-
-                        botaoProxima.click();
-
-                    }
-                );
-
+                document.getElementById("ver-dia-seguinte")
+                    .addEventListener("click", () => botaoProxima.click());
 
                 return;
-
             }
-
 
             cardBarbeiro.style.display = "block";
 
+            dados.horarios_disponiveis.forEach(horario => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "btn btn-outline-primary";
+                card.textContent = horario;
 
-            dados.horarios_disponiveis.forEach(
-                horario => {
+                card.addEventListener("click", () => {
+                    window.location.href =
+                        `/confirmar-agendamento/{{ servico.id }}?data=${data}&horario=${horario}`;
+                });
 
-                    const card =
-                        document.createElement("button");
-
-                    card.type = "button";
-
-                    card.className =
-                        "btn btn-outline-primary";
-
-                    card.innerHTML =
-                        `<p class="mb-0">${horario}</p>`;
-
-
-                    card.addEventListener(
-                        "click",
-                        () => {
-
-                            window.location.href =
-                                `/confirmar-agendamento/{{ servico.id }}?data=${data}&horario=${horario}`;
-
-                        }
-                    );
-
-
-                    div_horarios.appendChild(card);
-
-                }
-            );
-
+                div_horarios.appendChild(card);
+            });
+        })
+        .catch(erro => {
+            mensagemHorarios.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    Erro ao carregar os horários. Tente novamente.
+                </div>
+            `;
+            console.error(erro);
         });
+}
 
+campoData.addEventListener("change", carregarHorarios);
+
+botaoAnterior.addEventListener("click", () => {
+    const data = new Date(campoData.value + "T12:00:00");
+    data.setDate(data.getDate() - 1);
+    campoData.value = formatarData(data);
+    carregarHorarios();
 });
 
+botaoProxima.addEventListener("click", () => {
+    const data = new Date(campoData.value + "T12:00:00");
+    data.setDate(data.getDate() + 1);
+    campoData.value = formatarData(data);
+    carregarHorarios();
+});
 
-botaoAnterior.addEventListener(
-    "click",
-    () => {
+function formatarData(data) {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const dia = String(data.getDate()).padStart(2, "0");
+    return `${ano}-${mes}-${dia}`;
+}
 
-        const data =
-            new Date(
-                campoData.value + "T00:00:00"
-            );
-
-        data.setDate(
-            data.getDate() - 1
-        );
-
-        campoData.value =
-            data.toISOString().split("T")[0];
-
-        campoData.dispatchEvent(
-            new Event("change")
-        );
-
-    }
-);
-
-
-botaoProxima.addEventListener(
-    "click",
-    () => {
-
-        const data =
-            new Date(
-                campoData.value + "T00:00:00"
-            );
-
-        data.setDate(
-            data.getDate() + 1
-        );
-
-        campoData.value =
-            data.toISOString().split("T")[0];
-
-        campoData.dispatchEvent(
-            new Event("change")
-        );
-
-    }
-);
-
-
-campoData.dispatchEvent(
-    new Event("change")
-);
-
+carregarHorarios();
 </script>
-
 {% endblock %}
