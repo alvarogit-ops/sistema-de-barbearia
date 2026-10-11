@@ -4,26 +4,31 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-
 class Servico(models.Model):
     nome_servico = models.CharField(max_length=80)
+
     preco = models.DecimalField(
         max_digits=10,
         decimal_places=2,
     )
+
     duracao_minutos = models.PositiveIntegerField(
         verbose_name='Duração estimada (minutos)',
     )
 
-    imagem = models.ImageField(upload_to='servicos/', blank=True, null=True)
+    imagem = models.ImageField(
+        upload_to='servicos/',
+        blank=True,
+        null=True
+    )
 
+    ativo = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['nome_servico']
 
     def __str__(self):
         return self.nome_servico
-
 
 class Cliente(models.Model):
     usuario = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -93,6 +98,12 @@ class Agendamento(models.Model):
     status = models.CharField(max_length=20, choices= STATUS_CHOICES, default='solicitado')
     def __str__(self):
         return f"{self.cliente} - {self.servico} - {self.data} {self.horario}"
+
+    barbeiro = models.ForeignKey(
+    User,
+    on_delete=models.PROTECT,
+    related_name="agendamentos_como_barbeiro"
+)
 
     class Meta:
         constraints = [
