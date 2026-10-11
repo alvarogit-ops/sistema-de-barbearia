@@ -77,8 +77,8 @@ Início | Barber Grid
                         </div>
 
 
-                        <span class="badge text-dark bg-warning">
-                            {{ proxima_reserva.get_status_display }}
+                        <span class="badge {% if proxima_reserva.status == 'confirmado' %}bg-success{% elif proxima_reserva.status == 'cancelado' %}bg-danger{% else %}bg-warning text-dark{% endif %}">
+                        {{ proxima_reserva.get_status_display }}
                         </span>
 
                     </a>

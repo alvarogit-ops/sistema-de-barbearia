@@ -1,57 +1,160 @@
-{% load static %}
+{% extends 'barber_grid/base_admin.html' %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %}Painel Administrativo | Barber Grid{% endblock %}
 
-    <title>Painel Administrativo</title>
+{% block content %}
+<div class="container my-4">
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    <h2 class="mb-4">
+        <i class="bi bi-calendar-week me-2"></i>
+        Agenda do dia
+    </h2>
 
-    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
-</head>
+    <form method="GET" action="{% url 'painel_admin' %}" id="filtros-agenda">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group mb-4">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            id="dia-anterior"
+                            aria-label="Dia anterior">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
 
-<body>
+                    <input type="date"
+                           class="form-control"
+                           id="data-agenda"
+                           name="data"
+                           value="{{ data_agenda }}"
+                           required>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            id="proximo-dia"
+                            aria-label="Próximo dia">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
 
-            <a class="navbar-brand" href="#">
-                Barber Grid
-            </a>
+            <div class="col-md-6">
+                <select class="form-select mb-4"
+                        id="filtro-status"
+                        name="status">
+                    <option value="">Todos os agendamentos</option>
+                    <option value="solicitado"
+                        {% if status_selecionado == "solicitado" %}selected{% endif %}>
+                        Solicitados
+                    </option>
+                    <option value="confirmado"
+                        {% if status_selecionado == "confirmado" %}selected{% endif %}>
+                        Confirmados
+                    </option>
+                    <option value="cancelado"
+                        {% if status_selecionado == "cancelado" %}selected{% endif %}>
+                        Cancelados
+                    </option>
+                </select>
+            </div>
+        </div>
+    </form>
 
-            <div class="navbar-nav ms-auto">
+    <div id="mensagem-agenda" class="alert alert-info" role="alert">
+        Agendamentos da data selecionada.
+    </div>
 
-                <a
-                    class="nav-link active"
-                    href="{% url 'historico_agendamentos' %}"
-                >
-                    Histórico de agendamentos
-                </a>
+    <div id="lista-agendamentos" class="list-group">
 
-                <a
-                    class="nav-link"
-                    href="{% url 'servico' %}"
-                >
-                    Adicionar serviço
-                </a>
+        {% for agendamento in agendamentos %}
+            <div class="d-flex align-items-center gap-3 list-group-item"
+                 data-status="{{ agendamento.status }}">
+
+                <div class="text-center">
+                    <div class="fw-bold">
+                        {{ agendamento.horario|time:"H:i" }}
+                    </div>
+
+                    <small class="text-secondary">
+                        {{ agendamento.data|date:"d/m/Y" }}
+                    </small>
+                </div>
+
+                <div class="me-auto">
+                    <div class="fw-semibold">
+                        {{ agendamento.servico.nome_servico }}
+                    </div>
+
+                    <small class="text-secondary">
+                        {{ agendamento.cliente.usuario.get_full_name|default:agendamento.cliente.usuario.username }}
+                    </small>
+                </div>
+
+                {% if agendamento.status == "cancelado" %}
+                    <span class="badge text-bg-danger">
+                        Cancelado
+                    </span>
+                {% elif agendamento.status == "confirmado" %}
+                    <span class="badge text-bg-success">
+                        Confirmado
+                    </span>
+                {% else %}
+                    <span class="badge text-bg-warning">
+                        Solicitado
+                    </span>
+                {% endif %}
 
             </div>
 
-        </div>
-    </nav>
+        {% empty %}
+            <div class="list-group-item text-center text-secondary py-4">
+                <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
+                Nenhum agendamento encontrado para esta data.
+            </div>
+        {% endfor %}
 
+    </div>
 
-    <main class="container py-5">
+</div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const formulario = document.getElementById("filtros-agenda");
+    const campoData = document.getElementById("data-agenda");
+    const filtroStatus = document.getElementById("filtro-status");
 
+    campoData.addEventListener("change", function () {
+        formulario.requestSubmit();
+    });
 
-    </main>
+    filtroStatus.addEventListener("change", function () {
+        formulario.requestSubmit();
+    });
 
-</body>
-</html>
+    function alterarData(diferenca) {
+        if (!campoData.value) return;
+
+        const data = new Date(campoData.value + "T12:00:00");
+        data.setDate(data.getDate() + diferenca);
+
+        const ano = data.getFullYear();
+        const mes = String(data.getMonth() + 1).padStart(2, "0");
+        const dia = String(data.getDate()).padStart(2, "0");
+
+        campoData.value = `${ano}-${mes}-${dia}`;
+        formulario.requestSubmit();
+    }
+
+    document.getElementById("dia-anterior").addEventListener(
+        "click", function () {
+            alterarData(-1);
+        }
+    );
+
+    document.getElementById("proximo-dia").addEventListener(
+        "click", function () {
+            alterarData(1);
+        }
+    );
+});
+</script>
+{% endblock %}
