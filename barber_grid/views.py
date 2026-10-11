@@ -18,7 +18,11 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.admin.views.decorators import staff_member_required
 
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 @login_required
 def inicio(request):
@@ -127,53 +131,111 @@ def registro(request):
 
     return render(request, 'barber_grid/registro.html')
 
+
 @login_required
 def agendamento(request, servico_id):
-    servico = Servico.objects.get(id=servico_id)
-    data = request.GET.get("data")
-    agora = timezone.now()
+    servico = get_object_or_404(Servico, id=servico_id)
+
+    data = request.GET.get("data", "")
+    agora = timezone.localtime()
     data_atual = agora.date().strftime("%Y-%m-%d")
+
     if request.method == "POST":
         data = request.POST.get("data")
         horario = request.POST.get("horario")
 
-        cliente = Cliente.objects.get(usuario=request.user)
+        # Impedir que administradores agendem como clientes.
+        if request.user.is_staff:
+            messages.error(
+                request,
+                "Administradores não podem realizar agendamentos por esta página."
+            )
+            return redirect("inicio")
 
-        if Agendamento.objects.filter(data=data, horario=horario).exists():
+        # Validar os dados recebidos.
+        try:
+            data_convertida = datetime.datetime.strptime(
+                data, "%Y-%m-%d"
+            ).date()
 
+            horario_convertido = datetime.datetime.strptime(
+                horario, "%H:%M"
+            ).time()
+
+        except (ValueError, TypeError):
+            messages.error(
+                request,
+                "Data ou horário inválido."
+            )
+            return redirect("agendamento", servico_id=servico_id)
+
+        # Impedir agendamentos em datas passadas.
+        hoje = timezone.localdate()
+
+        if data_convertida < hoje:
+            messages.error(
+                request,
+                "Não é possível agendar para uma data passada."
+            )
+            return redirect("agendamento", servico_id=servico_id)
+
+        # Impedir agendamentos em horários que já passaram.
+        data_horario = datetime.datetime.combine(
+            data_convertida,
+            horario_convertido
+        )
+
+        data_horario = timezone.make_aware(
+            data_horario,
+            timezone.get_current_timezone()
+        )
+
+        if data_horario <= timezone.localtime():
+            messages.error(
+                request,
+                "Não é possível agendar para um horário que já passou."
+            )
+            return redirect("agendamento", servico_id=servico_id)
+
+        # Verificar se o horário já está ocupado.
+        horario_ocupado = Agendamento.objects.filter(
+            data=data_convertida,
+            horario=horario_convertido
+        ).exclude(
+            status="cancelado"
+        ).exists()
+
+        if horario_ocupado:
             messages.error(
                 request,
                 "Este horário já está agendado."
             )
+            return redirect("agendamento", servico_id=servico_id)
 
-            return redirect(
-                "agendamento",
-                servico_id=servico_id
-            )
-
-
-        data_horario = datetime.datetime.strptime(data + " " + horario, "%Y-%m-%d %H:%M")
-        data_horario = timezone.make_aware(data_horario)
-        agora = timezone.now()
-        if data_horario < agora:
+        # Buscar o cadastro do cliente.
+        try:
+            cliente = Cliente.objects.get(usuario=request.user)
+        except Cliente.DoesNotExist:
             messages.error(
                 request,
-                "Agende um horário posterior."
+                "Seu usuário não possui um cadastro de cliente."
             )
+            return redirect("inicio")
 
-            return redirect("agendamento", servico_id=servico_id)
-        
-        
+        # Buscar o barbeiro responsável.
+        barbeiro = get_object_or_404(
+            User,
+            username="barbeirofelipe",
+            is_staff=True
+        )
 
-
-        
-
-
+        # Criar o agendamento.
         Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
-            data=data,
-            horario=horario,
+            barbeiro=barbeiro,
+            data=data_convertida,
+            horario=horario_convertido,
         )
 
         messages.success(
@@ -183,14 +245,16 @@ def agendamento(request, servico_id):
 
         return redirect("usuario_historico")
 
-    print("AGENDAMENTO:", request.method, request.GET, request.POST)
-
     return render(
         request,
         "barber_grid/agendamento.html",
-        {"servico": servico,
-        "data": data, "data_atual": data_atual,}
+        {
+            "servico": servico,
+            "data": data,
+            "data_atual": data_atual,
+        }
     )
+
 
 
 def horarios_disponiveis(request):
@@ -282,6 +346,13 @@ def confirmar_agendamento(request, servico_id):
 
     data = request.GET.get("data")
     horario = request.GET.get("horario")
+
+
+    barbeiro = get_object_or_404(
+        User,
+        username="barbeirofelipe",
+        is_staff=True
+    )
 
     if request.method == "POST":
 
@@ -378,6 +449,7 @@ def confirmar_agendamento(request, servico_id):
         agendamento = Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
+            barbeiro=barbeiro,
             data=data_convertida,
             horario=horario_convertido,
         )
@@ -405,29 +477,83 @@ def historico_agendamentos(request):
     return render(request, 'barber_grid/historico_agendamentos.html', context)
 
 
-def painel_admin(request):
-    return render(request, 'barber_grid/painel_admin.html')
 
+@login_required
+@login_required
+def painel_admin(request):
+    if request.user.username != "barbeirofelipe":
+        messages.error(request, "Acesso permitido apenas ao barbeiro Felipe.")
+        return redirect("inicio")
+
+    data_selecionada = request.GET.get("data", "")
+    status_selecionado = request.GET.get("status", "")
+
+    try:
+        data_agenda = datetime.datetime.strptime(
+            data_selecionada, "%Y-%m-%d"
+        ).date() if data_selecionada else timezone.localdate()
+    except ValueError:
+        data_agenda = timezone.localdate()
+
+    agendamentos = Agendamento.objects.filter(
+        barbeiro=request.user,
+        data=data_agenda
+    ).select_related(
+        "cliente__usuario",
+        "servico",
+        "barbeiro"
+    ).order_by("horario")
+
+    if status_selecionado:
+        agendamentos = agendamentos.filter(
+            status=status_selecionado
+        )
+
+    return render(
+        request,
+        "barber_grid/painel_admin.html",
+        {
+            "agendamentos": agendamentos,
+            "data_agenda": data_agenda.strftime("%Y-%m-%d"),
+            "status_selecionado": status_selecionado,
+        }
+    )
+
+
+@staff_member_required
 def servico(request):
     if request.method == "POST":
-        nome_servico = request.POST.get("nome_servico")
+        nome_servico = (request.POST.get("nome_servico") or "").strip()
         preco = request.POST.get("preco")
         duracao_minutos = request.POST.get("duracao_minutos")
         imagem = request.FILES.get("imagem")
+        ativo = request.POST.get("ativo") == "on"
+
+        if not nome_servico or not preco or not duracao_minutos:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return render(request, 'barber_grid/servico.html')
+
+        try:
+            preco = float(preco)
+            duracao_minutos = int(duracao_minutos)
+
+            if preco < 0 or duracao_minutos <= 0:
+                raise ValueError
+
+        except (ValueError, TypeError):
+            messages.error(request, "Informe um preço e uma duração válidos.")
+            return render(request, 'barber_grid/servico.html')
 
         Servico.objects.create(
             nome_servico=nome_servico,
             preco=preco,
             duracao_minutos=duracao_minutos,
-            imagem=imagem
+            imagem=imagem,
+            ativo=ativo
         )
 
-        messages.success(
-            request,
-            "Serviço adicionado com sucesso!"
-        )
-
-        return redirect("servico")
+        messages.success(request, "Serviço adicionado com sucesso!")
+        return redirect("novo_servico")
 
     return render(request, 'barber_grid/servico.html')
 
@@ -508,44 +634,6 @@ def cancelar_agendamento(request, agendamento_id):
         "sucesso": False
     }, status=405)
 
-@login_required
-def editar_perfil(request):
-    cliente = Cliente.objects.get(usuario=request.user)
-
-    if request.method == "POST":
-        nome = (request.POST.get("nome") or "").strip()
-        email = (request.POST.get("email") or "").strip()
-        telefone = (request.POST.get("telefone") or "").strip()
-        foto = request.FILES.get("foto")
-
-        if foto:
-            cliente.foto_perfil = foto
-        cliente.save()
-
-        if not nome or not email or not telefone:
-            messages.error(request, "Preencha todos os campos.")
-            return render(
-                request,
-                "barber_grid/editar_perfil.html",
-                {"cliente": cliente}
-            )
-
-        request.user.first_name = nome
-        request.user.email = email
-        request.user.username = email
-        request.user.save()
-
-        cliente.telefone = telefone
-        cliente.save()
-
-        messages.success(request, "Perfil atualizado com sucesso.")
-        return redirect("usuario_historico")
-
-    return render(
-        request,
-        "barber_grid/editar_perfil.html",
-        {"cliente": cliente}
-    )
 
 def logout(request):
     if request.method == "POST":
@@ -573,3 +661,301 @@ def solicitar_redefinicao_senha_ajax(request):
             "um link para criar uma nova senha."
         )
     })
+
+
+
+
+@user_passes_test(lambda user: user.is_staff)
+def dados_negocio(request):
+    return render(request, 'barber_grid/dados_negocio.html')
+
+
+@login_required
+
+@login_required
+def editar_perfil(request):
+    if request.user.is_staff:
+        return redirect("editar_perfil_admin")
+
+    cliente = Cliente.objects.filter(usuario=request.user).first()
+
+    if cliente is None:
+        messages.error(
+            request,
+            "Não foi encontrado um perfil de cliente para esta conta."
+        )
+        return redirect("pagina_servicos")
+
+    if request.method == "POST":
+        nome = (request.POST.get("nome") or "").strip()
+        email = (request.POST.get("email") or "").strip()
+        telefone = (request.POST.get("telefone") or "").strip()
+        foto = request.FILES.get("foto")
+
+        if not nome or not email or not telefone:
+            messages.error(request, "Preencha todos os campos.")
+            return render(
+                request,
+                "barber_grid/editar_perfil.html",
+                {"cliente": cliente}
+            )
+
+        if User.objects.filter(email=email).exclude(
+            pk=request.user.pk
+        ).exists():
+            messages.error(request, "Este e-mail já está cadastrado.")
+            return render(
+                request,
+                "barber_grid/editar_perfil.html",
+                {"cliente": cliente}
+            )
+
+        request.user.first_name = nome
+        request.user.email = email
+        request.user.username = email
+        request.user.save()
+
+        cliente.telefone = telefone
+
+        if foto:
+            cliente.foto_perfil = foto
+
+        cliente.save()
+
+        messages.success(request, "Perfil atualizado com sucesso.")
+        return redirect("usuario_historico")
+
+    return render(
+        request,
+        "barber_grid/editar_perfil.html",
+        {"cliente": cliente}
+    )
+
+@login_required
+def alterar_senha(request):
+    if request.method == "POST":
+        formulario = PasswordChangeForm(
+            user=request.user,
+            data=request.POST
+        )
+
+        if formulario.is_valid():
+            usuario = formulario.save()
+            update_session_auth_hash(request, usuario)
+
+            messages.success(
+                request,
+                "Senha alterada com sucesso."
+            )
+
+            if usuario.is_staff:
+                return redirect("editar_perfil_admin")
+
+            return redirect("editar_perfil")
+    else:
+        formulario = PasswordChangeForm(user=request.user)
+
+    return render(
+        request,
+        "barber_grid/alterar_senha.html",
+        {"formulario": formulario}
+    )
+
+@login_required
+def editar_perfil_admin(request):
+    usuario = request.user
+
+    if not usuario.is_staff:
+        messages.error(request, "Acesso permitido apenas ao administrador.")
+        return redirect("inicio")
+
+    cliente = Cliente.objects.filter(usuario=usuario).first()
+
+    if request.method == "POST":
+        nome = (request.POST.get("nome") or "").strip()
+        email = (request.POST.get("email") or "").strip()
+        foto = request.FILES.get("foto")
+
+        if not nome or not email:
+            messages.error(request, "Preencha todos os campos.")
+
+        elif User.objects.filter(email=email).exclude(
+            pk=usuario.pk
+        ).exists():
+            messages.error(request, "Este e-mail já está cadastrado.")
+
+        elif foto and cliente is None:
+            messages.error(
+                request,
+                "Não existe um perfil associado para salvar a foto."
+            )
+
+        else:
+            usuario.first_name = nome
+            usuario.email = email
+            usuario.save()
+
+            if foto and cliente:
+                cliente.foto_perfil = foto
+                cliente.save(update_fields=["foto_perfil"])
+
+            messages.success(request, "Perfil atualizado com sucesso.")
+            return redirect("editar_perfil_admin")
+
+    return render(
+        request,
+        "barber_grid/editar_perfil_admin.html",
+        {
+            "usuario": usuario,
+            "cliente": cliente,
+        }
+    )
+
+@login_required
+def admin_confirmar(request):
+    # Somente a conta do barbeiro Felipe pode acessar.
+    if request.user.username != "barbeirofelipe":
+        messages.error(
+            request,
+            "Acesso permitido apenas ao barbeiro Felipe."
+        )
+        return redirect("inicio")
+
+    if request.method == "POST":
+        agendamento_id = request.POST.get("agendamento_id")
+        acao = request.POST.get("acao")
+
+        agendamento = get_object_or_404(
+            Agendamento,
+            id=agendamento_id,
+            barbeiro=request.user
+        )
+
+        if agendamento.status != "solicitado":
+            messages.error(
+                request,
+                "Este agendamento não está mais aguardando confirmação."
+            )
+            return redirect("admin_confirmar")
+
+        if acao == "confirmar":
+            agendamento.status = "confirmado"
+            agendamento.save(update_fields=["status"])
+            messages.success(
+                request,
+                "Agendamento confirmado com sucesso!"
+            )
+
+        elif acao == "cancelar":
+            agendamento.status = "cancelado"
+            agendamento.save(update_fields=["status"])
+            messages.success(
+                request,
+                "Agendamento cancelado com sucesso!"
+            )
+
+        else:
+            messages.error(request, "Ação inválida.")
+
+        return redirect("admin_confirmar")
+
+    agendamentos = Agendamento.objects.filter(
+        barbeiro=request.user,
+        status="solicitado"
+    ).select_related(
+        "cliente__usuario",
+        "servico",
+        "barbeiro"
+    ).order_by("data", "horario")
+
+    return render(
+        request,
+        "barber_grid/admin_confirmar.html",
+        {"agendamentos": agendamentos}
+    )
+
+@staff_member_required
+def alterar_senha_admin(request):
+    if request.method == "POST":
+        formulario = PasswordChangeForm(
+            user=request.user,
+            data=request.POST
+        )
+
+        if formulario.is_valid():
+            usuario = formulario.save()
+
+            # Mantém o administrador autenticado após trocar a senha.
+            update_session_auth_hash(request, usuario)
+
+            messages.success(
+                request,
+                "Senha alterada com sucesso."
+            )
+
+            return redirect("alterar_senha_admin")
+    else:
+        formulario = PasswordChangeForm(user=request.user)
+
+    return render(
+        request,
+        "barber_grid/alterar_senha_admin.html",
+        {"formulario": formulario}
+    )
+
+@staff_member_required
+def lista_servicos(request):
+    servicos = Servico.objects.all()
+
+    ativo = request.GET.get("ativo")
+
+    if ativo == "true":
+        servicos = servicos.filter(ativo=True)
+    elif ativo == "false":
+        servicos = servicos.filter(ativo=False)
+
+    return render(
+        request,
+        "barber_grid/servicos.html",
+        {"servicos": servicos}
+    )
+
+
+@staff_member_required
+def servico(request):
+    if request.method == "POST":
+        nome_servico = (request.POST.get("nome_servico") or "").strip()
+        preco = request.POST.get("preco")
+        duracao_minutos = request.POST.get("duracao_minutos")
+        imagem = request.FILES.get("imagem")
+        ativo = request.POST.get("ativo") == "on"
+
+        if not nome_servico or not preco or not duracao_minutos:
+            messages.error(request, "Preencha todos os campos obrigatórios.")
+            return render(request, "barber_grid/novo_servico.html")
+
+        try:
+            from decimal import Decimal
+
+            preco = Decimal(preco)
+            duracao_minutos = int(duracao_minutos)
+
+            if preco < 0 or duracao_minutos <= 0:
+                raise ValueError
+
+        except (ValueError, TypeError, ArithmeticError):
+            messages.error(request, "Informe um preço e uma duração válidos.")
+            return render(request, "barber_grid/novo_servico.html")
+
+        Servico.objects.create(
+            nome_servico=nome_servico,
+            preco=preco,
+            duracao_minutos=duracao_minutos,
+            imagem=imagem,
+            ativo=ativo
+        )
+
+        messages.success(request, "Serviço adicionado com sucesso!")
+        return redirect("servico")
+
+    return render(request, "barber_grid/novo_servico.html")
