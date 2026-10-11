@@ -19,11 +19,13 @@ from django.urls import path, include
 
 from django.conf.urls.static import static
 from django.conf import settings
+from barber_grid import views
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin/painel/', views.painel_admin, name='painel_admin'),
     path('', include('barber_grid.urls'))
 
 ]

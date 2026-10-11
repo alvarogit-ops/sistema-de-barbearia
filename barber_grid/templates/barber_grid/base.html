@@ -60,24 +60,28 @@
     <div class="collapse navbar-collapse"
          id="menu">
 
-        <div class="me-auto navbar-nav">
+        
+    <div class="me-auto navbar-nav">
 
-            <a class="nav-link"
-               href="{% url 'inicio' %}">
-                Início
-            </a>
+        <a class="nav-link d-flex align-items-center gap-2"
+        href="{% url 'inicio' %}">
+            <i class="bi bi-house-door"></i>
+            Início
+        </a>
 
-            <a class="nav-link"
-               href="{% url 'pagina_servicos' %}">
-                Agendar
-            </a>
+        <a class="nav-link d-flex align-items-center gap-2"
+        href="{% url 'pagina_servicos' %}">
+            <i class="bi bi-calendar2-plus"></i>
+            Agendar
+        </a>
 
-            <a class="nav-link"
-               href="{% url 'usuario_historico' %}">
-                Minhas reservas
-            </a>
+        <a class="nav-link d-flex align-items-center gap-2"
+        href="{% url 'usuario_historico' %}">
+            <i class="bi bi-calendar-check"></i>
+            Minhas reservas
+        </a>
 
-        </div>
+    </div>
 
     <div class="navbar-nav">
     <div class="dropdown">
