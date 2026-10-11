@@ -28,7 +28,7 @@
 
             <div class="list-group-item">
                 <strong>Dia:</strong>
-                {{ data }}
+                {{ data_obj|date:"d/m/Y" }}
             </div>
 
             <div class="list-group-item">
@@ -78,7 +78,7 @@
 
                 <div class="d-flex gap-2">
 
-                    <a href="{% url 'agendamento' servico_id %}"
+                    <a href="{% url 'agendamento' servico_id %}?data={{ data }}"
                        class="btn btn-outline-secondary">
 
                         Voltar
