@@ -10,17 +10,19 @@
 
     <h1>Agendamento</h1>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+    {% for message in messages %}
+        <div class="alert {% if message.level == 40 %}alert-danger{% else %}alert-info{% endif %}"
+             role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
 
     <div class="mb-4 input-group">
 
         <button type="button"
                 class="btn btn-outline-secondary"
-                id="data-anterior">
+                id="data-anterior"
+                aria-label="Dia anterior">
 
             <i class="bi bi-chevron-left"></i>
 
@@ -29,11 +31,13 @@
         <input class="form-control"
                type="date"
                id="data"
-               value="{{ data_atual }}">
+               min="{{ data_atual }}"
+               value="{{ data|default:data_atual }}">
 
         <button type="button"
                 class="btn btn-outline-secondary"
-                id="data-proxima">
+                id="data-proxima"
+                aria-label="Próximo dia">
 
             <i class="bi bi-chevron-right"></i>
 
@@ -61,63 +65,39 @@
 
         </div>
 
-        <form method="POST">
-
-            {% csrf_token %}
-
-            <input type="hidden"
-                   name="data"
-                   value="{{ data }}">
-
-        </form>
-
     </div>
 
 </div>
 
 <script>
-const div_horarios = document.getElementById("horarios");
+const URL_HORARIOS = "{% url 'horarios_disponiveis' %}";
+const URL_CONFIRMAR = "{% url 'confirmar_agendamento' servico.id %}";
+const SERVICO_ID = "{{ servico.id }}";
+
+const divHorarios = document.getElementById("horarios");
 const campoData = document.getElementById("data");
 const botaoAnterior = document.getElementById("data-anterior");
 const botaoProxima = document.getElementById("data-proxima");
 const cardBarbeiro = document.getElementById("card-barbeiro");
 const mensagemHorarios = document.getElementById("mensagem-horarios");
 
-// Feriados nacionais de data fixa: mês-dia
-const feriados = [
-    "01-01",
-    "04-21",
-    "05-01",
-    "09-07",
-    "10-12",
-    "11-02",
-    "11-15",
-    "11-20",
-    "12-25"
-];
+function mostrarAlerta(tipo, html) {
+    mensagemHorarios.innerHTML =
+        `<div class="alert alert-${tipo}" role="alert">${html}</div>`;
+}
 
 function carregarHorarios() {
     const data = campoData.value;
 
-    div_horarios.innerHTML = "";
+    divHorarios.innerHTML = "";
     mensagemHorarios.innerHTML = "";
     cardBarbeiro.style.display = "none";
 
     if (!data) return;
 
-    const partesData = data.split("-");
-    const mesDia = `${partesData[1]}-${partesData[2]}`;
+    const params = new URLSearchParams({ data: data, servico: SERVICO_ID });
 
-    if (feriados.includes(mesDia)) {
-        mensagemHorarios.innerHTML = `
-            <div class="alert alert-warning" role="alert">
-                Não haverá atendimento neste dia, pois é feriado nacional.
-            </div>
-        `;
-        return;
-    }
-
-    fetch(`/horarios-disponiveis/?data=${data}`)
+    fetch(`${URL_HORARIOS}?${params.toString()}`)
         .then(resposta => {
             if (!resposta.ok) {
                 throw new Error("Não foi possível carregar os horários.");
@@ -125,18 +105,25 @@ function carregarHorarios() {
             return resposta.json();
         })
         .then(dados => {
+            // Feriados vêm do backend (única fonte de verdade).
+            if (dados.feriado) {
+                mostrarAlerta(
+                    "warning",
+                    "Não haverá atendimento neste dia, pois é feriado nacional."
+                );
+                return;
+            }
+
             if (dados.horarios_disponiveis.length === 0) {
-                mensagemHorarios.innerHTML = `
-                    <div class="alert alert-info" role="alert">
-                        Sem horários livres neste dia.
-                        <button
-                            type="button"
-                            id="ver-dia-seguinte"
-                            class="ms-2 btn btn-outline-primary btn-sm">
-                            Ver o dia seguinte
-                        </button>
-                    </div>
-                `;
+                mostrarAlerta(
+                    "info",
+                    `Sem horários livres neste dia.
+                     <button type="button"
+                             id="ver-dia-seguinte"
+                             class="ms-2 btn btn-outline-primary btn-sm">
+                         Ver o dia seguinte
+                     </button>`
+                );
 
                 document.getElementById("ver-dia-seguinte")
                     .addEventListener("click", () => botaoProxima.click());
@@ -147,44 +134,31 @@ function carregarHorarios() {
             cardBarbeiro.style.display = "block";
 
             dados.horarios_disponiveis.forEach(horario => {
-                const card = document.createElement("button");
-                card.type = "button";
-                card.className = "btn btn-outline-primary";
-                card.textContent = horario;
+                const botao = document.createElement("button");
+                botao.type = "button";
+                botao.className = "btn btn-outline-primary";
+                botao.textContent = horario;
 
-                card.addEventListener("click", () => {
+                botao.addEventListener("click", () => {
+                    const destino = new URLSearchParams({
+                        data: data,
+                        horario: horario
+                    });
                     window.location.href =
-                        `/confirmar-agendamento/{{ servico.id }}?data=${data}&horario=${horario}`;
+                        `${URL_CONFIRMAR}?${destino.toString()}`;
                 });
 
-                div_horarios.appendChild(card);
+                divHorarios.appendChild(botao);
             });
         })
         .catch(erro => {
-            mensagemHorarios.innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    Erro ao carregar os horários. Tente novamente.
-                </div>
-            `;
+            mostrarAlerta(
+                "danger",
+                "Erro ao carregar os horários. Tente novamente."
+            );
             console.error(erro);
         });
 }
-
-campoData.addEventListener("change", carregarHorarios);
-
-botaoAnterior.addEventListener("click", () => {
-    const data = new Date(campoData.value + "T12:00:00");
-    data.setDate(data.getDate() - 1);
-    campoData.value = formatarData(data);
-    carregarHorarios();
-});
-
-botaoProxima.addEventListener("click", () => {
-    const data = new Date(campoData.value + "T12:00:00");
-    data.setDate(data.getDate() + 1);
-    campoData.value = formatarData(data);
-    carregarHorarios();
-});
 
 function formatarData(data) {
     const ano = data.getFullYear();
@@ -192,6 +166,25 @@ function formatarData(data) {
     const dia = String(data.getDate()).padStart(2, "0");
     return `${ano}-${mes}-${dia}`;
 }
+
+function mudarDia(diferenca) {
+    if (!campoData.value) return;
+
+    const data = new Date(campoData.value + "T12:00:00");
+    data.setDate(data.getDate() + diferenca);
+
+    const novaData = formatarData(data);
+
+    // Não deixa voltar para antes de hoje.
+    if (campoData.min && novaData < campoData.min) return;
+
+    campoData.value = novaData;
+    carregarHorarios();
+}
+
+campoData.addEventListener("change", carregarHorarios);
+botaoAnterior.addEventListener("click", () => mudarDia(-1));
+botaoProxima.addEventListener("click", () => mudarDia(1));
 
 carregarHorarios();
 </script>
