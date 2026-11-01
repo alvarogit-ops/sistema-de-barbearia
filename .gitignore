@@ -3,6 +3,7 @@
 media/
 venv/
 env/
+.env
 *.pyc/
 __pycache__/
 *.sqlite3

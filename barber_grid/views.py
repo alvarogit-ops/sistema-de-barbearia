@@ -476,6 +476,19 @@ def historico_agendamentos(request):
     }
     return render(request, 'barber_grid/historico_agendamentos.html', context)
 
+@login_required
+def enviado(request, agendamento_id):
+    agendamento_obj = get_object_or_404(
+        Agendamento.objects.select_related("servico"),
+        id=agendamento_id,
+        cliente__usuario=request.user,
+    )
+
+    return render(
+        request,
+        "barber_grid/enviado.html",
+        {"agendamento": agendamento_obj},
+    )
 
 
 @login_required
@@ -755,6 +768,7 @@ def alterar_senha(request):
     else:
         formulario = PasswordChangeForm(user=request.user)
 
+    # alterar_senha.html usa "form"; mantido "formulario" por compatibilidade.
     return render(
         request,
         "barber_grid/alterar_senha.html",

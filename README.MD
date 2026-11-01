@@ -19,6 +19,7 @@
 [🏗️ Arquitetura](#️-arquitetura-mvt) •
 [⚙️ Como executar](#️-como-executar-o-projeto) •
 [🗺️ Roadmap](#️-roadmap) •
+[✅ Definição de Pronto](#-definição-de-pronto) •
 [📚 Documentação](#-documentação--links)
 
 <br>
