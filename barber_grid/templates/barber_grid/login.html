@@ -60,15 +60,10 @@
                             <i class="bi bi-exclamation-circle me-2"></i>
                             {{ message }}
                         </div>
-                    {% elif message.level == 25 %}
-                        <div class="alert alert-success" role="alert">
-                            <i class="bi bi-check-circle me-2"></i>
-                            {{ message }}
-                        </div>
                     {% endif %}
                 {% endfor %}
 
-                <form method="POST" action="{% url 'login' %}">
+                <form method="POST" action="#">
                     {% csrf_token %}
 
                     <div class="mb-3">
@@ -155,11 +150,9 @@
 
             const logo = document.getElementById("imagem_logotipo");
 
-            if (logo) {
-                logo.src = escuro
-                    ? logo.dataset.logoEscuro
-                    : logo.dataset.logoClaro;
-            }
+            logo.src = escuro
+                ? logo.dataset.logoEscuro
+                : logo.dataset.logoClaro;
         }
 
         aplicarTema(temaEscuro.matches);

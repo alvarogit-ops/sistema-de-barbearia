@@ -44,27 +44,7 @@ def env_bool(nome, padrao=False):
 
     return valor.strip().lower() in ("1", "true", "yes", "on")
 
-
-# SECURITY: a chave nunca fica no código nem no repositório.
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
-if not SECRET_KEY:
-    raise ImproperlyConfigured(
-        "Defina SECRET_KEY no arquivo .env (copie de .env.example)."
-    )
-
-# SECURITY: em produção, DEBUG deve ser False (padrão).
-DEBUG = env_bool("DEBUG", False)
-
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.environ.get(
-        "ALLOWED_HOSTS", "localhost,127.0.0.1"
-    ).split(",")
-    if host.strip()
-]
-
-LOGIN_URL = "login"
+LOGIN_URL = "/login"
 
 # Application definition
 
@@ -151,37 +131,21 @@ USE_TZ = True
 # Os arquivos ficam em barber_grid/static/, encontrados automaticamente
 # pelo AppDirectoriesFinder; não é preciso STATICFILES_DIRS.
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # usado por collectstatic (deploy)
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media/' 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Email
-# Em desenvolvimento os e-mails são impressos no terminal.
-# Em produção, defina EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-# e as variáveis EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD.
+# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-EMAIL_BACKEND = os.environ.get(
-    "EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
-)
-EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
-EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
+MAILERS = {
+    'default': {
+        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    },
+}
 
-DEFAULT_FROM_EMAIL = os.environ.get(
-    "DEFAULT_FROM_EMAIL", "noreply@barbergrid.com"
-)
-
-
-# Segurança extra quando DEBUG=False
-
-if not DEBUG:
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
+DEFAULT_FROM_EMAIL = "noreply@barber_grid.com"

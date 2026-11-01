@@ -282,20 +282,6 @@ python manage.py test barber_grid
 
 ---
 
-## ✅ Definição de Pronto
-
-Uma user story (issue do tipo *Feature*) só é considerada **pronta** quando cumpre todos os itens abaixo:
-
-- [ ] Código na branch `main` via *pull request*
-- [ ] Funcionalidade testada manualmente
-- [ ] Todos os critérios de aceitação marcados
-- [ ] Testes automatizados passando (`python manage.py test barber_grid`)
-- [ ] Issue fechada e movida para a coluna `Done` do GitHub Project
-
-Enquanto algum item estiver pendente, a issue permanece em `In Progress` ou `In Review`.
-
----
-
 ## 📚 Documentação & links
 
 - 🎨 **[Protótipo no Figma](https://www.figma.com/design/DEjI9zGjpfAGLJwP4ejRe2/Barber-Scheduling---Prot%C3%B3tipo-de-Alta-Fidelidade?node-id=0-1&t=wsz3jwY1O719cKFE-1)**
@@ -317,7 +303,7 @@ Enquanto algum item estiver pendente, a issue permanece em `In Progress` ou `In 
 | Campo | Detalhes |
 |---|---|
 | **Instituição** | Instituto Federal do Rio Grande do Norte (IFRN) — Campus São Paulo do Potengi |
-| **Curso** | Informática 4V |
+| **Curso** | Tecnologia em Sistemas para Internet |
 | **Disciplina** | Projeto de Desenvolvimento de Sistemas para Internet |
 | **Professora** | Fernanda Lígia |
 | **Orientador** | Diego Cirilo |

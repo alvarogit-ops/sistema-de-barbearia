@@ -8,15 +8,26 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from django.conf.urls.static import static
+from django.conf import settings
+from barber_grid import views
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('barber_grid.urls')),
+    path('admin/painel/', views.painel_admin, name='painel_admin'),
+    path('', include('barber_grid.urls'))
+
 ]
 
-# Em desenvolvimento, serve os arquivos enviados (media). Em produção, o
-# servidor web (nginx etc.) deve servir /media/.
+
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root = settings.MEDIA_ROOT
+)
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT,
+        document_root=settings.MEDIA_ROOT
     )
