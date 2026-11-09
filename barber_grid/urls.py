@@ -21,11 +21,7 @@ urlpatterns = [
         views.pagina_servicos,
         name="pagina_servicos"
     ),
-    path(
-        'historico_agendamentos',
-        views.historico_agendamentos,
-        name="historico_agendamentos"
-    ),
+    #path('historico_agendamentos', views.historico_agendamentos, name="historico_agendamentos"),
     path(
         'usuario_historico',
         views.usuario_historico,
