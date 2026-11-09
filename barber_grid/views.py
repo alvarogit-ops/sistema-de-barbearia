@@ -25,7 +25,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.admin.views.decorators import staff_member_required
 
-@login_required
+
 def inicio(request):
     # Se o usuário for administrador/staff, redireciona para o painel administrativo
     if request.user.is_staff:
