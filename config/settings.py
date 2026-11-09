@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-n_zaq!ft7azegjs%i+g0!j+l=mxorymd)jtb9uq$t@4a_dat$d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sistema-de-barbearia-8bn7.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['sistema-barbearia-vum3.onrender.com', 'localhost', '127.0.0.1']
 
 LOGIN_URL = "/login"
 
