@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-n_zaq!ft7azegjs%i+g0!j+l=mxorymd)jtb9uq$t@4a_dat$d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'sistema-barbearia-vum3.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
 LOGIN_URL = "/login"
 
@@ -72,6 +76,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://sistema-barbearia-vum3.onrender.com',
+]
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
