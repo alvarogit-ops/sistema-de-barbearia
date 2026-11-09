@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber Grid — Manual do Usuário</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Google Fonts (Montserrat & Lato) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-accent: #16191d;
+            --gold-accent: #d4af37;
+            --gold-hover: #b89628;
+            --gold-light: rgba(212, 175, 55, 0.15);
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, .brand-font {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Destaque Dourado */
+        .text-gold {
+            color: var(--gold-accent) !important;
+        }
+
+        .bg-gold {
+            background-color: var(--gold-accent) !important;
+            color: #000 !important;
+        }
+
+        .btn-gold {
+            background-color: var(--gold-accent);
+            color: #000;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--gold-hover);
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        .border-gold {
+            border-color: var(--gold-accent) !important;
+        }
+
+        /* Hero Header */
+        .hero-section {
+            background: linear-gradient(135deg, #0d0f11 0%, #1e2228 100%);
+            border-bottom: 2px solid var(--gold-accent);
+            padding: 3.5rem 0 2.5rem 0;
+        }
+
+        /* Sticky Sidebar */
+        .sticky-nav {
+            position: sticky;
+            top: 2rem;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+        }
+
+        .sidebar-link {
+            border-left: 3px solid transparent;
+            color: var(--bs-body-color);
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: var(--gold-light);
+            border-left-color: var(--gold-accent);
+            color: var(--gold-accent);
+            font-weight: 600;
+        }
+
+        /* Cards e Componentes */
+        .doc-card {
+            border-radius: 12px;
+            border: 1px solid var(--bs-border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .doc-card:hover {
+            border-color: var(--gold-accent);
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--gold-accent);
+            color: #000;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .highlight-search {
+            background-color: #ffd700;
+            color: #000;
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-accent);
+        }
+
+        .badge-solicitado {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        .badge-confirmado {
+            background-color: #198754;
+            color: #fff;
+        }
+
+        .badge-cancelado {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section text-white mb-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center gap-3 mb-2">
+                        <i class="bi bi-scissors fs-1 text-gold"></i>
+                        <h1 class="mb-0 fw-bold">Barber Grid</h1>
+                        <span class="badge bg-gold">Manual v1.0</span>
+                    </div>
+                    <p class="lead text-secondary mb-3">
+                        Guia oficial de utilização do sistema de agendamento e gestão para Barbearias.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <button class="btn btn-outline-light me-2" id="toggleTheme">
+                        <i class="bi bi-sun-fill me-1" id="themeIcon"></i> <span id="themeText">Modo Claro</span>
+                    </button>
+                    <a href="#visao-geral" class="btn btn-gold">
+                        <i class="bi bi-rocket-takeoff me-1"></i> Começar
+                    </a>
+                </div>
+            </div>
+
+            <!-- CAMPO DE PESQUISA INTERATIVA -->
+            <div class="mt-4">
+                <div class="input-group input-group-lg shadow-sm">
+                    <span class="input-group-text bg-body border-gold text-gold">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" id="searchInput" class="form-control border-gold" placeholder="Pesquisar tópicos, dúvidas ou funcionalidades (ex: agendar, cancelar, serviços)...">
+                    <button class="btn btn-gold px-4" type="button" id="clearSearch">Limpar</button>
+                </div>
+                <div id="searchStats" class="form-text mt-2 text-gold d-none"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container pb-5">
+        <div class="row g-4">
+            
+            <!-- SIDEBAR STICKY -->
+            <nav class="col-lg-3 d-none d-lg-block">
+                <div class="sticky-nav p-3 bg-body-tertiary rounded-4 doc-card">
+                    <h6 class="text-uppercase text-gold fw-bold mb-3 px-2">Navegação Rápida</h6>
+                    <div class="nav flex-column nav-pills" id="sidebarMenu">
+                        <a href="#visao-geral" class="sidebar-link active">
+                            <i class="bi bi-info-circle"></i> Visão Geral & Acesso
+                        </a>
+                        <a href="#guia-cliente" class="sidebar-link">
+                            <i class="bi bi-person"></i> Guia do Cliente
+                        </a>
+                        <a href="#guia-admin" class="sidebar-link">
+                            <i class="bi bi-person-badge"></i> Guia do Administrador
+                        </a>
+                        <a href="#especificacoes" class="sidebar-link">
+                            <i class="bi bi-shield-check"></i> Segurança & Specs
+                        </a>
+                        <a href="#faq" class="sidebar-link">
+                            <i class="bi bi-question-circle"></i> Perguntas Frequentes
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- CONTEÚDO DOS ARTIGOS -->
+            <main class="col-lg-9">
+                
+                <!-- SEÇÃO 1: VISÃO GERAL -->
+                <section id="visao-geral" class="searchable-section mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2">
+                        <i class="bi bi-info-circle fs-3 text-gold"></i>
+                        <h2 class="h3 mb-0 fw-bold">1. Visão Geral & Acesso</h2>
+                    </div>
+                    
+                    <p class="lead">
+                        O <strong>Barber Grid</strong> é uma plataforma moderna desenvolvida em Django que conecta clientes e barbeiros, simplificando o processo de agendamento de horários e gestão da barbearia.
+                    </p>
+
+                    <div class="row g-3 my-3">
+                        <div class="col-md-6">
+                            <div class="card doc-card h-100 bg-body-tertiary">
+                                <div class="card-body">
+                                    <h5 class="card-title text-gold"><i class="bi bi-display me-2"></i>Interface Adaptativa</h5>
+                                    <p class="card-text text-secondary">
+                                        O sistema adapta-se automaticamente ao tema do dispositivo (Claro/Escuro) e ajusta o layout perfeitamente para telas de celular, tablet ou computador.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card doc-card h-100 bg-body-tertiary">
+                                <div class="card-body">
+                                    <h5 class="card-title text-gold"><i class="bi bi-clock-history me-2"></i>Horários Dinâmicos</h5>
+                                    <p class="card-text text-secondary">
+                                        Bloqueio automático de horários que já passaram, feriados nacionais, intervalos de almoço e agendamentos conflitantes.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 2: GUIA DO CLIENTE -->
+                <section id="guia-cliente" class="searchable-section mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2">
+                        <i class="bi bi-person fs-3 text-gold"></i>
+                        <h2 class="h3 mb-0 fw-bold">2. Guia do Cliente</h2>
+                    </div>
+
+                    <!-- PASSO 1: CADASTRO -->
+                    <div class="card doc-card mb-4 bg-body-tertiary">
+                        <div class="card-header bg-transparent border-0 pt-3">
+                            <h4 class="h5 fw-bold text-gold"><i class="bi bi-person-plus me-2"></i>Criando uma conta e fazendo login</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex gap-3 mb-3">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <h6>Acesse a tela de Login</h6>
+                                    <p class="text-secondary mb-0">Navegue até a rota <code>/login</code> e clique em <strong>"Criar uma conta"</strong> se for seu primeiro acesso.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <h6>Preencha seus dados</h6>
+                                    <p class="text-secondary mb-0">Informe seu Nome Completo, Telefone de contato, E-mail válido e crie uma Senha segura.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 2: AGENDAMENTO -->
+                    <div class="card doc-card mb-4 bg-body-tertiary">
+                        <div class="card-header bg-transparent border-0 pt-3">
+                            <h4 class="h5 fw-bold text-gold"><i class="bi bi-calendar-plus me-2"></i>Como realizar um agendamento</h4>
+                        </div>
+                        <div class="card-body">
+                            <ol class="list-group list-group-numbered list-group-flush mb-3">
+                                <li class="list-group-item bg-transparent text-secondary">Acesse a aba <strong>Agendar</strong> no menu principal.</li>
+                                <li class="list-group-item bg-transparent text-secondary">Escolha o serviço desejado (Corte, Barba, Combo, etc.).</li>
+                                <li class="list-group-item bg-transparent text-secondary">Selecione o dia desejado no calendário. Apenas dias válidos exibirão horários livres.</li>
+                                <li class="list-group-item bg-transparent text-secondary">Clique no horário disponível desejado.</li>
+                                <li class="list-group-item bg-transparent text-secondary">Adicione observações (opcional) e clique em <strong>Confirmar</strong>.</li>
+                            </ol>
+                            <div class="alert alert-warning d-flex align-items-center gap-2 mb-0" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+                                <div>
+                                    <strong>Atenção:</strong> O agendamento nascerá com o status <span class="badge badge-solicitado">Solicitado</span> e passará para <span class="badge badge-confirmado">Confirmado</span> após a aprovação do barbeiro.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PASSO 3: GERENCIAR RESERVAS -->
+                    <div class="card doc-card mb-4 bg-body-tertiary">
+                        <div class="card-header bg-transparent border-0 pt-3">
+                            <h4 class="h5 fw-bold text-gold"><i class="bi bi-journal-bookmark me-2"></i>Minhas Reservas & Cancelamentos</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-secondary">Na aba <strong>"Minhas reservas"</strong> você encontra duas abas principais:</p>
+                            <ul>
+                                <li><strong>Próximas:</strong> Exibe agendamentos futuros. Você pode clicar no item para ver detalhes ou solicitar o <strong>Cancelamento</strong>.</li>
+                                <li><strong>Histórico:</strong> Registros de atendimentos antigos já concluídos ou cancelados.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 3: GUIA DO ADMINISTRADOR -->
+                <section id="guia-admin" class="searchable-section mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2">
+                        <i class="bi bi-person-badge fs-3 text-gold"></i>
+                        <h2 class="h3 mb-0 fw-bold">3. Guia do Administrador / Barbeiro</h2>
+                    </div>
+
+                    <p class="text-secondary">
+                        Acesso exclusivo para administradores da barbearia (usuário com privilégios de <em>staff</em>).
+                    </p>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="card doc-card h-100 bg-body-tertiary">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-gold"><i class="bi bi-calendar3 me-2"></i>Agenda do Dia</h5>
+                                    <p class="text-secondary">
+                                        No menu <strong>Agenda</strong>, o barbeiro visualiza todos os agendamentos do dia selecionado. É possível filtrar por data ou por status (Solicitado, Confirmado, Cancelado).
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card doc-card h-100 bg-body-tertiary">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-gold"><i class="bi bi-check-circle me-2"></i>A Confirmar</h5>
+                                    <p class="text-secondary">
+                                        Painel dedicado para aceitar ou recusar novas solicitações pendentes de clientes com apenas um clique.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CADASTRO DE SERVIÇOS -->
+                    <div class="card doc-card mb-4 bg-body-tertiary">
+                        <div class="card-header bg-transparent border-0 pt-3">
+                            <h4 class="h5 fw-bold text-gold"><i class="bi bi-scissors me-2"></i>Gestão de Serviços</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-secondary">Em <strong>Cadastros > Serviços</strong>, o barbeiro pode gerenciar o catálogo do estabelecimento:</p>
+                            <ul class="mb-0 text-secondary">
+                                <li><strong>Cadastrar Novo Serviço:</strong> Defina o Nome, Preço (R$), Duração estimada em minutos e faça upload de uma foto ilustrativa.</li>
+                                <li><strong>Status Ativo/Inativo:</strong> Desative temporariamente serviços que não estão sendo oferecidos sem precisar excluí-los do histórico.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 4: ESPECIFICAÇÕES TÉCNICAS -->
+                <section id="especificacoes" class="searchable-section mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2">
+                        <i class="bi bi-shield-check fs-3 text-gold"></i>
+                        <h2 class="h3 mb-0 fw-bold">4. Especificações Técnicas & Segurança</h2>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Recurso</th>
+                                    <th>Tecnologia / Regra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Backend Framework</strong></td>
+                                    <td>Python 3.x + Django Web Framework</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Segurança de Dados</strong></td>
+                                    <td>Proteção CSRF ativada, senhas criptografadas pelo Django Auth System</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Validação de Horários</strong></td>
+                                    <td>Constraint única no Banco de Dados (<code>UniqueConstraint</code>) impedindo múltiplos agendamentos ativos na mesma data e horário.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Comunicação Assíncrona</strong></td>
+                                    <td>Consultas dinâmicas de horários e cancelamentos via Fetch API (AJAX / JSON)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 5: FAQ -->
+                <section id="faq" class="searchable-section mb-5">
+                    <div class="d-flex align-items-center gap-2 mb-3 border-bottom pb-2">
+                        <i class="bi bi-question-circle fs-3 text-gold"></i>
+                        <h2 class="h3 mb-0 fw-bold">5. Perguntas Frequentes (FAQ)</h2>
+                    </div>
+
+                    <div class="accordion doc-card" id="faqAccordion">
+                        <div class="accordion-item bg-body-tertiary">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Esqueci minha senha, como posso recuperar?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Na página de login, clique no link <strong>"Esqueci minha senha"</strong>. Digite o e-mail cadastrado e você receberá um link para redefinição segura de senha.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item bg-body-tertiary">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Posso agendar para um feriado nacional?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Não. O sistema Barber Grid bloqueia automaticamente datas correspondentes a feriados nacionais fixos (como Natal, Dia do Trabalho, etc.) e dias fora do expediente cadastrado.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item bg-body-tertiary">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Como cancelar um agendamento?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Acesse o menu <strong>Minhas reservas</strong>, clique na reserva desejada dentro da aba <em>Próximas</em> e clique no botão <strong>Cancelar agendamento</strong>.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-dark text-white text-center py-4 border-top border-gold mt-auto">
+        <div class="container">
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                <i class="bi bi-scissors text-gold"></i>
+                <span class="fw-bold">Barber Grid</span>
+            </div>
+            <p class="small text-secondary mb-0">Sistema de Gestão para Barbearias — Manual do Usuário © 2026</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPT DE INTERATIVIDADE (TEMA E BUSCA EM TEMPO REAL) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- TEMA CLARO / ESCURO ---
+            const toggleBtn = document.getElementById("toggleTheme");
+            const themeIcon = document.getElementById("themeIcon");
+            const themeText = document.getElementById("themeText");
+            const htmlTag = document.documentElement;
+
+            toggleBtn.addEventListener("click", () => {
+                const currentTheme = htmlTag.getAttribute("data-bs-theme");
+                const newTheme = currentTheme === "dark" ? "light" : "dark";
+                
+                htmlTag.setAttribute("data-bs-theme", newTheme);
+
+                if (newTheme === "light") {
+                    themeIcon.className = "bi bi-moon-fill me-1";
+                    themeText.textContent = "Modo Escuro";
+                } else {
+                    themeIcon.className = "bi bi-sun-fill me-1";
+                    themeText.textContent = "Modo Claro";
+                }
+            });
+
+            // --- BUSCA EM TEMPO REAL ---
+            const searchInput = document.getElementById("searchInput");
+            const clearSearch = document.getElementById("clearSearch");
+            const searchStats = document.getElementById("searchStats");
+            const sections = document.querySelectorAll(".searchable-section");
+
+            function performSearch() {
+                const term = searchInput.value.toLowerCase().trim();
+                let matchesCount = 0;
+
+                if (term === "") {
+                    sections.forEach(sec => sec.classList.remove("d-none"));
+                    searchStats.classList.add("d-none");
+                    return;
+                }
+
+                sections.forEach(sec => {
+                    const text = sec.textContent.toLowerCase();
+                    if (text.includes(term)) {
+                        sec.classList.remove("d-none");
+                        matchesCount++;
+                    } else {
+                        sec.classList.add("d-none");
+                    }
+                });
+
+                searchStats.classList.remove("d-none");
+                searchStats.textContent = `Encontrado(s) ${matchesCount} tópico(s) correspondente(s).`;
+            }
+
+            searchInput.addEventListener("input", performSearch);
+
+            clearSearch.addEventListener("click", () => {
+                searchInput.value = "";
+                performSearch();
+            });
+
+            // --- HIGHLIGHT DE NAVIGATION NA SIDEBAR DA PÁGINA ---
+            const sidebarLinks = document.querySelectorAll(".sidebar-link");
+            window.addEventListener("scroll", () => {
+                let fromTop = window.scrollY + 120;
+
+                sidebarLinks.forEach(link => {
+                    let section = document.querySelector(link.hash);
+                    if (section) {
+                        if (
+                            section.offsetTop <= fromTop &&
+                            section.offsetTop + section.offsetHeight > fromTop
+                        ) {
+                            sidebarLinks.forEach(l => l.classList.remove("active"));
+                            link.classList.add("active");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
