@@ -346,6 +346,12 @@ def horarios_disponiveis(request):
 
 @login_required
 def confirmar_agendamento(request, servico_id):
+    if request.user.is_staff:
+        messages.error(
+            request,
+            "Administradores não podem realizar agendamentos por esta página."
+        )
+        return redirect("inicio")
     servico = get_object_or_404(Servico, id=servico_id)
 
     data = request.GET.get("data")
