@@ -484,12 +484,6 @@ def historico_agendamentos(request):
 
 @staff_member_required
 def painel_admin(request):
-    # O decorator @staff_member_required já garante que o usuário é staff.
-    # Caso queira restringir estritamente ao username "barbeirofelipe", mantemos a checagem abaixo:
-    if request.user.username != "barbeirofelipe":
-        messages.error(request, "Acesso permitido apenas ao barbeiro Felipe.")
-        return redirect("inicio")
-
     data_selecionada = request.GET.get("data", "")
     status_selecionado = request.GET.get("status", "")
     
