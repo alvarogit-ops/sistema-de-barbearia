@@ -346,26 +346,23 @@ def horarios_disponiveis(request):
 
 @login_required
 def confirmar_agendamento(request, servico_id):
+    # ADICIONE ESTA VERIFICAÇÃO LOGO NO INÍCIO:
     if request.user.is_staff:
         messages.error(
             request,
             "Administradores não podem realizar agendamentos por esta página."
         )
-        return redirect("inicio")
-    servico = get_object_or_404(Servico, id=servico_id)
+        return redirect("painel_admin")
 
+    servico = get_object_or_404(Servico, id=servico_id)
     data = request.GET.get("data")
     horario = request.GET.get("horario")
-
-
     barbeiro = get_object_or_404(
         User,
         username="barbeirofelipe",
         is_staff=True
     )
-
     if request.method == "POST":
-
         # Impedir que administradores agendem por esta página.
         if request.user.is_staff:
             messages.error(
@@ -373,64 +370,52 @@ def confirmar_agendamento(request, servico_id):
                 "Administradores não podem realizar agendamentos por esta página."
             )
             return redirect("inicio")
-
         data = request.POST.get("data")
         horario = request.POST.get("horario")
-
         try:
             data_convertida = datetime.datetime.strptime(
                 data, "%Y-%m-%d"
             ).date()
-
             horario_convertido = datetime.datetime.strptime(
                 horario, "%H:%M"
             ).time()
-
         except (ValueError, TypeError):
             messages.error(request, "Data ou horário inválido.")
             return redirect("agendamento", servico_id=servico_id)
-
         # Bloquear datas passadas.
         hoje = timezone.localdate()
-
         if data_convertida < hoje:
             messages.error(
                 request,
                 "Não é possível agendar para uma data passada."
             )
             return redirect("agendamento", servico_id=servico_id)
-
         # Bloquear feriados nacionais fixos.
         eh_feriado = (
             data_convertida.month,
             data_convertida.day
         ) in DIAS_FERIADO
-
         if eh_feriado:
             messages.error(
                 request,
                 "Não é possível agendar em um feriado nacional."
             )
             return redirect("agendamento", servico_id=servico_id)
-
         # Bloquear horários que já passaram.
         data_horario = datetime.datetime.combine(
             data_convertida,
             horario_convertido
         )
-
         data_horario = timezone.make_aware(
             data_horario,
             timezone.get_current_timezone()
         )
-
         if data_horario <= timezone.localtime():
             messages.error(
                 request,
                 "Não é possível agendar para um horário que já passou."
             )
             return redirect("agendamento", servico_id=servico_id)
-
         # Impedir agendamentos duplicados.
         horario_ocupado = Agendamento.objects.filter(
             data=data_convertida,
@@ -438,14 +423,12 @@ def confirmar_agendamento(request, servico_id):
         ).exclude(
             status="cancelado"
         ).exists()
-
         if horario_ocupado:
             messages.error(
                 request,
                 "Este horário já está agendado."
             )
             return redirect("agendamento", servico_id=servico_id)
-
         # Verificar se o usuário possui cadastro de cliente.
         try:
             cliente = Cliente.objects.get(usuario=request.user)
@@ -455,7 +438,6 @@ def confirmar_agendamento(request, servico_id):
                 "Seu usuário não possui um cadastro de cliente."
             )
             return redirect("inicio")
-
         agendamento = Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
@@ -463,12 +445,10 @@ def confirmar_agendamento(request, servico_id):
             data=data_convertida,
             horario=horario_convertido,
         )
-
         return redirect(
             "enviado",
             agendamento_id=agendamento.id
         )
-
     return render(
         request,
         "barber_grid/confirmar-agendamento.html",
