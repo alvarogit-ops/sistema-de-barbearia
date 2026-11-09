@@ -23,15 +23,21 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.admin.views.decorators import staff_member_required
 
 @login_required
 def inicio(request):
+    # Se o usuário for administrador/staff, redireciona para o painel administrativo
+    if request.user.is_staff:
+        return redirect("painel_admin")
+
     proxima_reserva = None
-
-    if not request.user.is_staff:
-        cliente = Cliente.objects.get(usuario=request.user)
+    
+    # Busca o cliente de forma segura para evitar erros caso o registro não exista
+    cliente = Cliente.objects.filter(usuario=request.user).first()
+    
+    if cliente:
         agora = timezone.localtime()
-
         agendamentos = Agendamento.objects.filter(
             cliente=cliente,
             data__gte=agora.date()
@@ -59,6 +65,7 @@ def inicio(request):
         "barber_grid/inicio.html",
         {"proxima_reserva": proxima_reserva}
     )
+    
 @login_required
 def pagina_servicos(request):
     servicos = Servico.objects.all()
@@ -134,8 +141,15 @@ def registro(request):
 
 @login_required
 def agendamento(request, servico_id):
-    servico = get_object_or_404(Servico, id=servico_id)
+    # Impedir que administradores acessem o fluxo de agendamento de clientes
+    if request.user.is_staff:
+        messages.error(
+            request,
+            "Administradores não podem realizar agendamentos por esta página."
+        )
+        return redirect("painel_admin")
 
+    servico = get_object_or_404(Servico, id=servico_id)
     data = request.GET.get("data", "")
     agora = timezone.localtime()
     data_atual = agora.date().strftime("%Y-%m-%d")
@@ -143,14 +157,6 @@ def agendamento(request, servico_id):
     if request.method == "POST":
         data = request.POST.get("data")
         horario = request.POST.get("horario")
-
-        # Impedir que administradores agendem como clientes.
-        if request.user.is_staff:
-            messages.error(
-                request,
-                "Administradores não podem realizar agendamentos por esta página."
-            )
-            return redirect("inicio")
 
         # Validar os dados recebidos.
         try:
@@ -212,10 +218,9 @@ def agendamento(request, servico_id):
             )
             return redirect("agendamento", servico_id=servico_id)
 
-        # Buscar o cadastro do cliente.
-        try:
-            cliente = Cliente.objects.get(usuario=request.user)
-        except Cliente.DoesNotExist:
+        # Buscar o cadastro do cliente de forma segura.
+        cliente = Cliente.objects.filter(usuario=request.user).first()
+        if not cliente:
             messages.error(
                 request,
                 "Seu usuário não possui um cadastro de cliente."
@@ -254,7 +259,6 @@ def agendamento(request, servico_id):
             "data_atual": data_atual,
         }
     )
-
 
 
 def horarios_disponiveis(request):
@@ -478,16 +482,17 @@ def historico_agendamentos(request):
 
 
 
-@login_required
-@login_required
+@staff_member_required
 def painel_admin(request):
+    # O decorator @staff_member_required já garante que o usuário é staff.
+    # Caso queira restringir estritamente ao username "barbeirofelipe", mantemos a checagem abaixo:
     if request.user.username != "barbeirofelipe":
         messages.error(request, "Acesso permitido apenas ao barbeiro Felipe.")
         return redirect("inicio")
 
     data_selecionada = request.GET.get("data", "")
     status_selecionado = request.GET.get("status", "")
-
+    
     try:
         data_agenda = datetime.datetime.strptime(
             data_selecionada, "%Y-%m-%d"
@@ -518,7 +523,6 @@ def painel_admin(request):
             "status_selecionado": status_selecionado,
         }
     )
-
 
 @staff_member_required
 def servico(request):
