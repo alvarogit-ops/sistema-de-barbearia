@@ -346,7 +346,7 @@ def horarios_disponiveis(request):
 
 @login_required
 def confirmar_agendamento(request, servico_id):
-    # ADICIONE ESTA VERIFICAÇÃO LOGO NO INÍCIO:
+    # Impedir que administradores agendem por esta página.
     if request.user.is_staff:
         messages.error(
             request,
@@ -362,14 +362,14 @@ def confirmar_agendamento(request, servico_id):
         username="barbeirofelipe",
         is_staff=True
     )
+
+    # Garante que o cliente possui um perfil criado (evita o erro se o user foi criado sem o profile)
+    cliente, criado = Cliente.objects.get_or_create(
+        usuario=request.user,
+        defaults={'telefone': '00000000000'}  # Valor padrão caso não tenha telefone salvo
+    )
+
     if request.method == "POST":
-        # Impedir que administradores agendem por esta página.
-        if request.user.is_staff:
-            messages.error(
-                request,
-                "Administradores não podem realizar agendamentos por esta página."
-            )
-            return redirect("inicio")
         data = request.POST.get("data")
         horario = request.POST.get("horario")
         try:
@@ -382,6 +382,7 @@ def confirmar_agendamento(request, servico_id):
         except (ValueError, TypeError):
             messages.error(request, "Data ou horário inválido.")
             return redirect("agendamento", servico_id=servico_id)
+        
         # Bloquear datas passadas.
         hoje = timezone.localdate()
         if data_convertida < hoje:
@@ -390,6 +391,7 @@ def confirmar_agendamento(request, servico_id):
                 "Não é possível agendar para uma data passada."
             )
             return redirect("agendamento", servico_id=servico_id)
+        
         # Bloquear feriados nacionais fixos.
         eh_feriado = (
             data_convertida.month,
@@ -401,6 +403,7 @@ def confirmar_agendamento(request, servico_id):
                 "Não é possível agendar em um feriado nacional."
             )
             return redirect("agendamento", servico_id=servico_id)
+        
         # Bloquear horários que já passaram.
         data_horario = datetime.datetime.combine(
             data_convertida,
@@ -416,6 +419,7 @@ def confirmar_agendamento(request, servico_id):
                 "Não é possível agendar para um horário que já passou."
             )
             return redirect("agendamento", servico_id=servico_id)
+        
         # Impedir agendamentos duplicados.
         horario_ocupado = Agendamento.objects.filter(
             data=data_convertida,
@@ -429,15 +433,7 @@ def confirmar_agendamento(request, servico_id):
                 "Este horário já está agendado."
             )
             return redirect("agendamento", servico_id=servico_id)
-        # Verificar se o usuário possui cadastro de cliente.
-        try:
-            cliente = Cliente.objects.get(usuario=request.user)
-        except Cliente.DoesNotExist:
-            messages.error(
-                request,
-                "Seu usuário não possui um cadastro de cliente."
-            )
-            return redirect("inicio")
+
         agendamento = Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
@@ -449,6 +445,7 @@ def confirmar_agendamento(request, servico_id):
             "enviado",
             agendamento_id=agendamento.id
         )
+        
     return render(
         request,
         "barber_grid/confirmar-agendamento.html",
@@ -459,14 +456,6 @@ def confirmar_agendamento(request, servico_id):
             "servico_id": servico_id,
         }
     )
-def historico_agendamentos(request):
-    agendamentos = Agendamento.objects.all()
-    context = {
-        'agendamentos': agendamentos,
-    }
-    return render(request, 'barber_grid/historico_agendamentos.html', context)
-
-
 
 @staff_member_required
 def painel_admin(request):
