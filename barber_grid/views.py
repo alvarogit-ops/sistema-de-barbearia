@@ -31,9 +31,6 @@ def inicio(request):
 
     if request.user.is_authenticated:
         cliente = Cliente.objects.filter(usuario=request.user).first()
-        
-    # Busca o cliente de forma segura para evitar erros caso o registro não exista
-    cliente = Cliente.objects.filter(usuario=request.user).first()
     
     if cliente:
         agora = timezone.localtime()
