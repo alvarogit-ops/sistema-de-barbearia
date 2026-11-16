@@ -25,10 +25,13 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.admin.views.decorators import staff_member_required
 
-
+@login_required
 def inicio(request):
     proxima_reserva = None
-    
+
+    if request.user.is_authenticated:
+        cliente = Cliente.objects.filter(usuario=request.user).first()
+        
     # Busca o cliente de forma segura para evitar erros caso o registro não exista
     cliente = Cliente.objects.filter(usuario=request.user).first()
     
