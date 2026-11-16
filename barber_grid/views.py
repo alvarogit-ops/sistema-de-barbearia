@@ -10,7 +10,6 @@ from datetime import timedelta
 from .models import (Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario, DIAS_FERIADO, )
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as auth_logout
