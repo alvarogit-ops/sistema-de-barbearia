@@ -32,6 +32,7 @@ def inicio(request):
     
     if request.user.is_authenticated:
         cliente = Cliente.objects.filter(usuario=request.user).first()
+        cliente = None
     
     if cliente:
         agora = timezone.localtime()
