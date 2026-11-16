@@ -660,7 +660,8 @@ def editar_perfil(request):
     if request.user.is_staff:
         return redirect("editar_perfil_admin")
 
-    cliente = Cliente.objects.filter(usuario=request.user).first()
+    if request.user.is_authenticated:
+        cliente = Cliente.objects.filter(usuario=request.user).first()
 
     if cliente is None:
         messages.error(
