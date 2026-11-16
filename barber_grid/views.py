@@ -531,34 +531,45 @@ def servico(request):
 
 def usuario_historico(request):
     cliente = None
-    if cliente.user.is_authenticated:
-        cliente = Cliente.objects.get(usuario=request.user)
+    
+    # Se o usuário estiver logado, tenta buscar o cliente. Se não, continua como None.
+    if request.user.is_authenticated:
+        cliente = Cliente.objects.filter(usuario=request.user).first()
 
-    agendamentos = Agendamento.objects.filter(
-        cliente=cliente
-    ).order_by("data", "horario")
+    # Se não houver cliente logado, retorna listas vazias sem quebrar a página
+    if not cliente:
+        proximos = []
+        historico = []
+    else:
+        agendamentos = Agendamento.objects.filter(
+            cliente=cliente
+        ).order_by("data", "horario")
 
-    agora = timezone.localtime()
+        agora = timezone.localtime()
 
-    proximos = []
-    historico = []
+        proximos = []
+        historico = []
 
-    for agendamento in agendamentos:
-        data_horario = datetime.datetime.combine(
-            agendamento.data,
-            agendamento.horario
-        )
+        for agendamento in agendamentos:
+            data_horario = datetime.datetime.combine(
+                agendamento.data,
+                agendamento.horario
+            )
 
-        data_horario = timezone.make_aware(data_horario)
+            data_horario = timezone.make_aware(
+                data_horario, 
+                timezone.get_current_timezone()
+            )
 
-        if data_horario >= agora:
-            proximos.append(agendamento)
-        else:
-            historico.append(agendamento)
+            if data_horario >= agora:
+                proximos.append(agendamento)
+            else:
+                historico.append(agendamento)
 
     context = {
         "proximos": proximos,
         "historico": historico,
+        "cliente": cliente,  # Útil para usar no HTML se quiser mostrar/ocultar coisas
     }
 
     return render(
@@ -566,7 +577,6 @@ def usuario_historico(request):
         "barber_grid/usuario_historico.html",
         context
     )
-
 
 def enviado(request, agendamento_id):
     agendamento = Agendamento.objects.get(id=agendamento_id)
