@@ -530,7 +530,9 @@ def servico(request):
 
 
 def usuario_historico(request):
-    cliente = Cliente.objects.get(usuario=request.user)
+    cliente = None
+    if cliente.user.is_authenticated:
+        cliente = Cliente.objects.get(usuario=request.user)
 
     agendamentos = Agendamento.objects.filter(
         cliente=cliente
