@@ -10,7 +10,7 @@ from datetime import timedelta
 from .models import (Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario, DIAS_FERIADO, )
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import logout as auth_logout
@@ -65,7 +65,7 @@ def inicio(request):
         {"proxima_reserva": proxima_reserva}
     )
     
-@login_required
+
 def pagina_servicos(request):
     servicos = Servico.objects.all()
     context = {
@@ -138,7 +138,7 @@ def registro(request):
     return render(request, 'barber_grid/registro.html')
 
 
-@login_required
+
 def agendamento(request, servico_id):
     # Impedir que administradores acessem o fluxo de agendamento de clientes
     if request.user.is_staff:
@@ -343,7 +343,7 @@ def horarios_disponiveis(request):
         "horarios_disponiveis": horarios_disponiveis
     })
 
-@login_required
+
 def confirmar_agendamento(request, servico_id):
     # Impedir que administradores agendem por esta página.
     if request.user.is_staff:
@@ -529,7 +529,7 @@ def servico(request):
 
     return render(request, 'barber_grid/servico.html')
 
-@login_required
+
 def usuario_historico(request):
     cliente = Cliente.objects.get(usuario=request.user)
 
@@ -566,7 +566,7 @@ def usuario_historico(request):
         context
     )
 
-@login_required
+
 def enviado(request, agendamento_id):
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
@@ -585,7 +585,7 @@ def detalhe_agendamento(request, agendamento_id):
         {"agendamento": agendamento}
     )
 
-@login_required
+
 def cancelar_agendamento(request, agendamento_id):
     if request.method == "POST":
         agendamento = get_object_or_404(
@@ -642,9 +642,9 @@ def dados_negocio(request):
     return render(request, 'barber_grid/dados_negocio.html')
 
 
-@login_required
 
-@login_required
+
+
 def editar_perfil(request):
     if request.user.is_staff:
         return redirect("editar_perfil_admin")
@@ -703,7 +703,7 @@ def editar_perfil(request):
         {"cliente": cliente}
     )
 
-@login_required
+
 def alterar_senha(request):
     if request.method == "POST":
         formulario = PasswordChangeForm(
@@ -733,7 +733,7 @@ def alterar_senha(request):
         {"formulario": formulario}
     )
 
-@login_required
+
 def editar_perfil_admin(request):
     usuario = request.user
 
@@ -783,7 +783,7 @@ def editar_perfil_admin(request):
         }
     )
 
-@login_required
+
 def admin_confirmar(request):
     # Somente a conta do barbeiro Felipe pode acessar.
     if request.user.username != "barbeirofelipe":
