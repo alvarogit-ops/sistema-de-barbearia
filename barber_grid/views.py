@@ -27,10 +27,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 def inicio(request):
-    # Se o usuário for administrador/staff, redireciona para o painel administrativo
-    if request.user.is_staff:
-        return redirect("painel_admin")
-
     proxima_reserva = None
     
     # Busca o cliente de forma segura para evitar erros caso o registro não exista
