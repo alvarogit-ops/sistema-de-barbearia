@@ -269,7 +269,13 @@ def horarios_disponiveis(request):
     inicio_almoco = datetime.time(12, 0)
     fim_almoco = datetime.time(13, 0)
 
-    funcionamento = HorariodeFuncionamento.objects.get(id=1)
+    funcionamento = HorariodeFuncionamento.objects.first()
+    if not funcionamento:
+        return JsonResponse({
+            "data": data,
+            "horarios_disponiveis": [],
+            "erro": "Horário de funcionamento não configurado."
+    })
 
     agora = timezone.localtime()
     hoje = agora.date()
