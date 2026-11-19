@@ -793,24 +793,13 @@ def editar_perfil_admin(request):
     )
 
 
+@staff_member_required
 def admin_confirmar(request):
-    # Somente a conta do barbeiro Felipe pode acessar.
-    if request.user.username != "barbeirofelipe":
-        messages.error(
-            request,
-            "Acesso permitido apenas ao barbeiro Felipe."
-        )
-        return redirect("inicio")
-
     if request.method == "POST":
         agendamento_id = request.POST.get("agendamento_id")
         acao = request.POST.get("acao")
 
-        agendamento = get_object_or_404(
-            Agendamento,
-            id=agendamento_id,
-            barbeiro=request.user
-        )
+        agendamento = get_object_or_404(Agendamento, id=agendamento_id)
 
         if agendamento.status != "solicitado":
             messages.error(
@@ -822,26 +811,17 @@ def admin_confirmar(request):
         if acao == "confirmar":
             agendamento.status = "confirmado"
             agendamento.save(update_fields=["status"])
-            messages.success(
-                request,
-                "Agendamento confirmado com sucesso!"
-            )
-
+            messages.success(request, "Agendamento confirmado com sucesso!")
         elif acao == "cancelar":
             agendamento.status = "cancelado"
             agendamento.save(update_fields=["status"])
-            messages.success(
-                request,
-                "Agendamento cancelado com sucesso!"
-            )
-
+            messages.success(request, "Agendamento cancelado com sucesso!")
         else:
             messages.error(request, "Ação inválida.")
 
         return redirect("admin_confirmar")
 
     agendamentos = Agendamento.objects.filter(
-        barbeiro=request.user,
         status="solicitado"
     ).select_related(
         "cliente__usuario",
