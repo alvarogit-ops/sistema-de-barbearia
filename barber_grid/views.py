@@ -359,16 +359,10 @@ def confirmar_agendamento(request, servico_id):
     servico = get_object_or_404(Servico, id=servico_id)
     data = request.GET.get("data")
     horario = request.GET.get("horario")
-    barbeiro = get_object_or_404(
-        User,
-        username="barbeirofelipe",
-        is_staff=True
-    )
 
-    # Garante que o cliente possui um perfil criado (evita o erro se o user foi criado sem o profile)
     cliente, criado = Cliente.objects.get_or_create(
         usuario=request.user,
-        defaults={'telefone': '00000000000'}  # Valor padrão caso não tenha telefone salvo
+        defaults={'telefone': '00000000000'}
     )
 
     if request.method == "POST":
@@ -439,7 +433,6 @@ def confirmar_agendamento(request, servico_id):
         agendamento = Agendamento.objects.create(
             cliente=cliente,
             servico=servico,
-            barbeiro=barbeiro,
             data=data_convertida,
             horario=horario_convertido,
         )
