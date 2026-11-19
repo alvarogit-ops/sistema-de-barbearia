@@ -9,6 +9,7 @@ import datetime
 from datetime import timedelta
 from .models import (Servico, Cliente, Agendamento, HorariodeFuncionamento, BloqueioHorario, DIAS_FERIADO, )
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -25,6 +26,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.admin.views.decorators import staff_member_required
 
 
+@login_required
 def inicio(request):
 
     proxima_reserva = None
@@ -64,7 +66,7 @@ def inicio(request):
         {"proxima_reserva": proxima_reserva}
     )
     
-
+@login_required
 def pagina_servicos(request):
     servicos = Servico.objects.all()
     context = {
@@ -91,6 +93,7 @@ def login(request):
             
 
     return render(request, 'barber_grid/login.html')
+
 def registro(request):
     if request.method == "POST":
         nome = (request.POST.get("nome") or "").strip()
@@ -137,7 +140,7 @@ def registro(request):
     return render(request, 'barber_grid/registro.html')
 
 
-
+@login_required
 def agendamento(request, servico_id):
     # Impedir que administradores acessem o fluxo de agendamento de clientes
     if request.user.is_staff:
@@ -258,7 +261,7 @@ def agendamento(request, servico_id):
         }
     )
 
-
+@login_required
 def horarios_disponiveis(request):
     horarios_disponiveis = []
     data = request.GET.get("data")
@@ -343,6 +346,7 @@ def horarios_disponiveis(request):
     })
 
 
+@login_required
 def confirmar_agendamento(request, servico_id):
     # Impedir que administradores agendem por esta página.
     if request.user.is_staff:
