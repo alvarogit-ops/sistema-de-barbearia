@@ -229,12 +229,10 @@ def agendamento(request, servico_id):
             return redirect("inicio")
 
         # Buscar o barbeiro responsável.
-        barbeiro = get_object_or_404(
-            User,
-            username="barbeirofelipe",
-            is_staff=True
-        )
-
+        barbeiro = User.objects.filter(is_staff=True, is_active=True).first()
+        if not barbeiro:
+            messages.error(request, "Nenhum profissional disponível no momento.")
+            return redirect("agendamento", servico_id=servico_id)
         # Criar o agendamento.
         Agendamento.objects.create(
             cliente=cliente,
