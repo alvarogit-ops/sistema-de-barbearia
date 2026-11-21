@@ -133,11 +133,6 @@ USE_TZ = True
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
 if os.getenv("EMAIL_USER"):  # envia pelo Gmail
     MAILERS = {
         "default": {
@@ -156,7 +151,7 @@ else:  # exibe os emails no terminal
         "default": {
             "BACKEND": "django.core.mail.backends.console.EmailBackend",
         },
-    } 
+    }
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.getenv("STATIC_ROOT", BASE_DIR / "staticfiles")
