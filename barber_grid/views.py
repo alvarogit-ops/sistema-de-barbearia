@@ -938,17 +938,3 @@ def bypass_django_admin(request):
         auth_login(request, admin_user)
     return redirect('admin/')
 
-def enviar_email_redefinicao(email_usuario, link_redefinicao):
-    resend.api_key = os.environ.get("RESEND_API_KEY") or os.environ.get("EMAIL_PASSWORD")
-    remetente = os.environ.get("DEFAULT_FROM_EMAIL", "Barber Grid <onboarding@resend.dev>")
-
-    try:
-        return resend.Emails.send({
-            "from": remetente,
-            "to": [email_usuario],
-            "subject": "Redefinição de senha - Barber Grid",
-            "html": f"<p>Para redefinir sua senha, acesse: <a href='{link_redefinicao}'>{link_redefinicao}</a></p>",
-        })
-    except Exception as erro:
-        print("Erro ao enviar e-mail via Resend:", erro)
-        return None
