@@ -138,6 +138,25 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+if os.getenv("EMAIL_USER"):  # envia pelo Gmail
+    MAILERS = {
+        "default": {
+            "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+            "OPTIONS": {
+                "host": "smtp.gmail.com",
+                "port": 587,
+                "use_tls": True,
+                "username": os.getenv("EMAIL_USER"),
+                "password": os.getenv("EMAIL_PASSWORD"),
+            },
+        },
+    }
+else:  # exibe os emails no terminal
+    MAILERS = {
+        "default": {
+            "BACKEND": "django.core.mail.backends.console.EmailBackend",
+        },
+    } 
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.getenv("STATIC_ROOT", BASE_DIR / "staticfiles")

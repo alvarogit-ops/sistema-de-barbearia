@@ -20,16 +20,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.admin.views.decorators import staff_member_required
-
+import os
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.admin.views.decorators import staff_member_required
+import resend
 
 @login_required
 def inicio(request):
     if request.user.is_staff or request.user.is_superuser:
         messages.warning(request, "Essa página é exclusiva para clientes.")
-        return redirect("nome_da_url_do_admin")  # ex: "admin:index" ou "painel_barbeiro"
+        return redirect("painel_admin")  # ex: "admin:index" ou "painel_barbeiro"
 
     proxima_reserva = None
     cliente = Cliente.objects.filter(usuario=request.user).first()
@@ -937,3 +938,11 @@ def bypass_django_admin(request):
         auth_login(request, admin_user)
     return redirect('admin/')
 
+def enviar_email_redefinicao(destinatario, link_redefinicao):
+    resend.api_key = os.environ.get("RESEND_API_KEY") or os.environ.get("EMAIL_PASSWORD")
+    return resend.Emails.send({
+        "from": "Barber Grid <onboarding@resend.dev>",
+        "to": [destinatario],
+        "subject": "Redefinição de senha - Barber Grid",
+        "html": f"<p>Para redefinir sua senha, acesse: <a href='{link_redefinicao}'>{link_redefinicao}</a></p>",
+    })
