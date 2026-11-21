@@ -782,14 +782,6 @@ def editar_perfil_admin(request):
 
 @login_required
 def admin_confirmar(request):
-    # Somente a conta do barbeiro Felipe pode acessar.
-    if request.user.username != "barbeirofelipe":
-        messages.error(
-            request,
-            "Acesso permitido apenas ao barbeiro Felipe."
-        )
-        return redirect("inicio")
-
     if request.method == "POST":
         agendamento_id = request.POST.get("agendamento_id")
         acao = request.POST.get("acao")
