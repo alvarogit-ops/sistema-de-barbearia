@@ -940,7 +940,7 @@ def bypass_django_admin(request):
 
 def enviar_email_redefinicao(email_usuario, link_redefinicao):
     resend.api_key = os.environ.get("RESEND_API_KEY") or os.environ.get("EMAIL_PASSWORD")
-    remetente = os.environ.get("DEFAULT_FROM_EMAIL", "Barber Grid <noreply@barbergrid.app>")
+    remetente = os.environ.get("DEFAULT_FROM_EMAIL", "Barber Grid <onboarding@resend.dev>")
 
     try:
         return resend.Emails.send({
