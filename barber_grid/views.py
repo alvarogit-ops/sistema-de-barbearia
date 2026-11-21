@@ -28,14 +28,13 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 @login_required
 def inicio(request):
+    if request.user.is_staff or request.user.is_superuser:
+        messages.warning(request, "Essa página é exclusiva para clientes.")
+        return redirect("nome_da_url_do_admin")  # ex: "admin:index" ou "painel_barbeiro"
 
     proxima_reserva = None
-    cliente = None
-    
-    if request.user.is_authenticated:
-        cliente = Cliente.objects.filter(usuario=request.user).first()
-       
-    
+    cliente = Cliente.objects.filter(usuario=request.user).first()
+
     if cliente:
         agora = timezone.localtime()
         agendamentos = Agendamento.objects.filter(
@@ -50,7 +49,6 @@ def inicio(request):
                 agendamento.data,
                 agendamento.horario
             )
-
             data_horario = timezone.make_aware(
                 data_horario,
                 timezone.get_current_timezone()
@@ -65,7 +63,6 @@ def inicio(request):
         "barber_grid/inicio.html",
         {"proxima_reserva": proxima_reserva}
     )
-    
 @login_required
 def pagina_servicos(request):
     servicos = Servico.objects.all()
