@@ -86,15 +86,10 @@ urlpatterns = [
 
     # Recuperação de senha
     path(
-        'esqueci-senha/',
-        auth_views.PasswordResetView.as_view(
-            template_name='barber_grid/esqueci_senha.html',
-            email_template_name='barber_grid/email_redefinir_senha.html',
-            subject_template_name='barber_grid/assunto_redefinir_senha.txt',
-            success_url='/esqueci-senha/enviado/'
-        ),
-        name='esqueci_senha'
-    ),
+    'esqueci-senha/',
+    views.esqueci_senha,
+    name='esqueci_senha'
+),
 
     path(
         'esqueci-senha/enviado/',

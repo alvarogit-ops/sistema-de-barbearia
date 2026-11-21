@@ -25,6 +25,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.admin.views.decorators import staff_member_required
 import resend
+from django.core.mail import send_mail
 
 @login_required
 def inicio(request):
@@ -939,16 +940,17 @@ def bypass_django_admin(request):
     return redirect('admin/')
 
 def enviar_email_redefinicao(email_usuario, link_redefinicao):
-    resend.api_key = os.environ.get("RESEND_API_KEY") or os.environ.get("EMAIL_PASSWORD")
-    remetente = os.environ.get("DEFAULT_FROM_EMAIL", "Barber Grid <onboarding@resend.dev>")
+    remetente = os.getenv("DEFAULT_FROM_EMAIL") or os.getenv("EMAIL_USER") or "webmaster@localhost"
+    mensagem = f"Para redefinir sua senha, acesse:\n{link_redefinicao}"
 
     try:
-        return resend.Emails.send({
-            "from": remetente,
-            "to": [email_usuario],
-            "subject": "Redefinição de senha - Barber Grid",
-            "html": f"<p>Para redefinir sua senha, acesse: <a href='{link_redefinicao}'>{link_redefinicao}</a></p>",
-        })
+        return send_mail(
+            subject="Redefinição de senha - Barber Grid",
+            message=mensagem,
+            from_email=remetente,
+            recipient_list=[email_usuario],
+            fail_silently=False,
+        )
     except Exception as erro:
-        print("Erro ao enviar e-mail via Resend:", erro)
+        print("Erro ao enviar e-mail:", erro)
         return None
