@@ -1,6 +1,6 @@
 {% extends 'barber_grid/base_admin.html' %}
 
-{% block title %}Serviços | Barber Grid{% endblock %}
+{% block title %}Serviços | {{ negocio.nome|default:'Barber Grid' }}{% endblock %}
 
 {% block content %}
 <div class="container my-4">
@@ -34,8 +34,7 @@
 
         <a href="{% url 'novo_servico' %}?novo=1"
            class="btn btn-primary">
-            <i class="bi bi-plus-lg"></i>
-            Novo serviço
+            <i class="bi bi-plus-lg"></i>   Novo serviço
         </a>
 
     </div>
@@ -43,31 +42,56 @@
     <div class="list-group">
 
         {% for servico in servicos %}
-            <a
-                href="{% url 'servico' %}?editar={{ servico.pk }}"
-                class="d-flex align-items-center gap-3 list-group-item list-group-item-action">
+            <div class="d-flex align-items-center gap-3 list-group-item list-group-item-action">
 
-                <i class="bi bi-scissors fs-2 text-secondary"></i>
+                <a
+                    href="{% url 'editar_servico' servico.pk %}"
+                    class="d-flex align-items-center gap-3 flex-grow-1 text-decoration-none text-reset">
 
-                <div class="me-auto">
-                    <div class="fw-semibold">
-                        {{ servico.nome_servico }}
+                    <i class="bi bi-scissors fs-2 text-secondary"></i>
+
+                    <div class="me-auto">
+                        <div class="fw-semibold">
+                            {{ servico.nome_servico }}
+                        </div>
+
+                        <small class="text-secondary">
+                            {{ servico.duracao_minutos }} min
+                            ·
+                            R$ {{ servico.preco|floatformat:2 }}
+                        </small>
                     </div>
 
-                    <small class="text-secondary">
-                        {{ servico.duracao_minutos }} min
-                        ·
-                        R$ {{ servico.preco|floatformat:2 }}
-                    </small>
+                    {% if servico.ativo %}
+                        <span class="badge bg-success">Ativo</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inativo</span>
+                    {% endif %}
+
+                </a>
+
+                <div class="d-flex align-items-center gap-2">
+                    <a
+                        href="{% url 'editar_servico' servico.pk %}"
+                        class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-pencil me-1"></i>
+                        Editar
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="{% url 'excluir_servico' servico.pk %}"
+                        class="d-inline m-0"
+                        onsubmit="return confirm('Tem certeza que deseja apagar &quot;{{ servico.nome_servico|escapejs }}&quot;?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash me-1"></i>
+                            Apagar
+                        </button>
+                    </form>
                 </div>
 
-                {% if servico.ativo %}
-                    <span class="badge bg-success">Ativo</span>
-                {% else %}
-                    <span class="badge bg-secondary">Inativo</span>
-                {% endif %}
-
-            </a>
+            </div>
 
         {% empty %}
             <div class="list-group-item text-center py-4">

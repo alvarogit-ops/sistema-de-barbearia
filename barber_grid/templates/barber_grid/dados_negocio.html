@@ -1,6 +1,6 @@
 {% extends 'barber_grid/base_admin.html' %}
 
-{% block title %}Dados do negócio | Barber Grid{% endblock %}
+{% block title %}Dados do negócio | {{ negocio.nome|default:'Barber Grid' }}{% endblock %}
 
 {% block content %}
 <div class="container my-4">
@@ -9,6 +9,7 @@
 
             <h2 class="mb-4">Dados do negócio</h2>
 
+
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
@@ -16,7 +17,6 @@
                     <label for="nome" class="form-label">
                         Nome da barbearia
                     </label>
-
                     <input
                         type="text"
                         id="nome"
@@ -24,6 +24,7 @@
                         class="form-control"
                         maxlength="100"
                         placeholder="Ex.: Barber Grid"
+                        value="{{ negocio.nome|default:'Barber Grid' }}"
                         required
                     >
                 </div>
@@ -32,21 +33,29 @@
                     <label for="descricao" class="form-label">
                         Descrição
                     </label>
-
                     <textarea
                         id="descricao"
                         name="descricao"
                         rows="3"
                         class="form-control"
                         placeholder="Descreva os serviços e diferenciais da barbearia."
-                    ></textarea>
+                    >{{ negocio.descricao|default:'' }}</textarea>
                 </div>
 
                 <div class="mb-3">
                     <label for="logo" class="form-label">
                         Logo da barbearia
                     </label>
-
+                    {% if negocio and negocio.logo %}
+                        <div class="mb-2">
+                            <img
+                                src="{{ negocio.logo.url }}"
+                                alt="Logo de {{ negocio.nome|default:'Barber Grid' }}"
+                                style="height: 48px; width: auto; object-fit: contain; background: transparent;"
+                            >
+                            <div class="form-text">Logo atual</div>
+                        </div>
+                    {% endif %}
                     <input
                         type="file"
                         id="logo"
@@ -54,9 +63,84 @@
                         class="form-control"
                         accept="image/*"
                     >
-
                     <div class="form-text">
                         Selecione uma imagem para representar sua barbearia.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagem_titulo" class="form-label">
+                        Imagem do título da barbearia (fundo transparente)
+                    </label>
+                    {% if negocio and negocio.imagem_titulo %}
+                        <div class="mb-2">
+                            <img
+                                src="{{ negocio.imagem_titulo.url }}"
+                                alt="Título de {{ negocio.nome|default:'Barber Grid' }}"
+                                style="height: 36px; width: auto; object-fit: contain; background: transparent;"
+                            >
+                            <div class="form-text">Imagem do título atual</div>
+                        </div>
+                    {% endif %}
+                    <input
+                        type="file"
+                        id="imagem_titulo"
+                        name="imagem_titulo"
+                        class="form-control"
+                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                    >
+                    <div class="form-text">
+                        Envie uma imagem com fundo transparente (ex.: PNG) para exibir no topo no lugar do texto do título.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="icone" class="form-label">
+                        Ícone do logotipo (favicon)
+                    </label>
+                    {% if negocio and negocio.icone %}
+                        <div class="mb-2">
+                            <img
+                                src="{{ negocio.icone.url }}"
+                                alt="Ícone de {{ negocio.nome|default:'Barber Grid' }}"
+                                style="height: 32px; width: auto; object-fit: contain; background: transparent;"
+                            >
+                            <div class="form-text">Ícone atual</div>
+                        </div>
+                    {% endif %}
+                    <input
+                        type="file"
+                        id="icone"
+                        name="icone"
+                        class="form-control"
+                        accept="image/*"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label for="imagem_fundo" class="form-label">
+                        Fundo de imagem
+                    </label>
+                    {% if negocio and negocio.imagem_fundo %}
+                        <div class="mb-2">
+                            <img
+                                src="{{ negocio.imagem_fundo.url }}"
+                                alt="Fundo de {{ negocio.nome|default:'Barber Grid' }}"
+                                class="rounded border"
+                                style="height: 90px; width: auto; object-fit: cover;"
+                            >
+                            <div class="form-text">Imagem de fundo atual</div>
+                        </div>
+                    {% endif %}
+                    <input
+                        type="file"
+                        id="imagem_fundo"
+                        name="imagem_fundo"
+                        class="form-control"
+                        accept="image/*"
+                    >
+                    <div class="form-text">
+                        Imagem que ocupará o fundo do card principal.
                     </div>
                 </div>
 
@@ -66,10 +150,7 @@
                         Salvar
                     </button>
 
-                    <button
-                        type="reset"
-                        class="btn btn-outline-secondary"
-                    >
+                    <button type="reset" class="btn btn-outline-secondary">
                         Limpar formulário
                     </button>
                 </div>
@@ -80,3 +161,4 @@
     </div>
 </div>
 {% endblock %}
+

@@ -4,101 +4,164 @@
 
 {% block content %}
 <div class="container my-4">
-    <div class="justify-content-center row">
-        <div class="col-lg-6 col-md-8">
-            <div class="card">
-                <div class="card-body">
+  <div class="justify-content-center row">
+    <div class="col-lg-6 col-md-8">
+      <div class="card">
+        <div class="card-body">
 
-                    <h2 class="mb-4">Alterar senha</h2>
+          <h2 class="mb-4">Alterar senha</h2>
 
-                    <form method="POST">
-                        {% csrf_token %}
+          <form method="POST">
+            {% csrf_token %}
 
-                        {% if form.errors %}
-                            <div class="alert alert-danger">
-                                Não foi possível alterar a senha.
-                                Verifique os campos abaixo.
-                            </div>
-                        {% endif %}
+            {% if formulario.errors %}
+              <div class="alert alert-danger">
+                Não foi possível alterar a senha.
+                Verifique os campos abaixo.
+              </div>
+            {% endif %}
 
-                        <div class="mb-3">
-                            <label class="form-label" for="id_old_password">
-                                Senha atual
-                            </label>
-                            <input
-                                required
-                                id="id_old_password"
-                                name="old_password"
-                                class="form-control"
-                                type="password"
-                                autocomplete="current-password"
-                            >
-                            {% for error in form.old_password.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
+            {% for error in formulario.non_field_errors %}
+              <div class="alert alert-danger">
+                {{ error }}
+              </div>
+            {% endfor %}
 
-                        <div class="mb-3">
-                            <label class="form-label" for="id_new_password1">
-                                Nova senha
-                            </label>
-                            <input
-                                required
-                                id="id_new_password1"
-                                name="new_password1"
-                                class="form-control"
-                                type="password"
-                                autocomplete="new-password"
-                            >
-                            {% if form.new_password1.help_text %}
-                                <div class="form-text">
-                                    {{ form.new_password1.help_text|safe }}
-                                </div>
-                            {% endif %}
-                            {% for error in form.new_password1.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label" for="id_new_password2">
-                                Confirme a nova senha
-                            </label>
-                            <input
-                                required
-                                id="id_new_password2"
-                                name="new_password2"
-                                class="form-control"
-                                type="password"
-                                autocomplete="new-password"
-                            >
-                            {% for error in form.new_password2.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="d-flex gap-2 flex-wrap">
-                            <a href="{% url 'editar_perfil' %}"
-                               class="btn btn-outline-secondary">
-                                Cancelar
-                            </a>
-
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-check-lg me-1"></i>
-                                Salvar nova senha
-                            </button>
-                        </div>
-
-                    </form>
+            <div class="mb-3">
+              <label class="form-label" for="id_old_password">
+                Senha atual
+              </label>
+              <div class="input-group">
+                <input
+                  required
+                  id="id_old_password"
+                  name="old_password"
+                  class="form-control"
+                  type="password"
+                  autocomplete="current-password"
+                >
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-toggle-senha"
+                  data-target="id_old_password"
+                  aria-label="Mostrar senha"
+                  title="Mostrar senha"
+                >
+                  <i class="bi bi-eye-slash"></i>
+                </button>
+              </div>
+              {% for error in formulario.old_password.errors %}
+                <div class="text-danger small mt-1">
+                  {{ error }}
                 </div>
+              {% endfor %}
             </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="id_new_password1">
+                Nova senha
+              </label>
+              <div class="input-group">
+                <input
+                  required
+                  id="id_new_password1"
+                  name="new_password1"
+                  class="form-control"
+                  type="password"
+                  autocomplete="new-password"
+                >
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-toggle-senha"
+                  data-target="id_new_password1"
+                  aria-label="Mostrar senha"
+                  title="Mostrar senha"
+                >
+                  <i class="bi bi-eye-slash"></i>
+                </button>
+              </div>
+              {% if formulario.new_password1.help_text %}
+                <div class="form-text">
+                  {{ formulario.new_password1.help_text|safe }}
+                </div>
+              {% endif %}
+              {% for error in formulario.new_password1.errors %}
+                <div class="text-danger small mt-1">
+                  {{ error }}
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="id_new_password2">
+                Confirme a nova senha
+              </label>
+              <div class="input-group">
+                <input
+                  required
+                  id="id_new_password2"
+                  name="new_password2"
+                  class="form-control"
+                  type="password"
+                  autocomplete="new-password"
+                >
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-toggle-senha"
+                  data-target="id_new_password2"
+                  aria-label="Mostrar senha"
+                  title="Mostrar senha"
+                >
+                  <i class="bi bi-eye-slash"></i>
+                </button>
+              </div>
+              {% for error in formulario.new_password2.errors %}
+                <div class="text-danger small mt-1">
+                  {{ error }}
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap">
+              <a href="{% url 'editar_perfil' %}" class="btn btn-outline-secondary">
+                Cancelar
+              </a>
+
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-lg me-1"></i>
+                Salvar nova senha
+              </button>
+            </div>
+          </form>
+
         </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-toggle-senha").forEach(function (botao) {
+      botao.addEventListener("click", function () {
+        const targetId = botao.getAttribute("data-target");
+        const campo = document.getElementById(targetId);
+        const icone = botao.querySelector("i");
+
+        if (!campo) return;
+
+        const vaiMostrar = campo.getAttribute("type") === "password";
+        campo.setAttribute("type", vaiMostrar ? "text" : "password");
+
+        if (icone) {
+          icone.classList.toggle("bi-eye", vaiMostrar);
+          icone.classList.toggle("bi-eye-slash", !vaiMostrar);
+        }
+
+        botao.setAttribute("aria-label", vaiMostrar ? "Ocultar senha" : "Mostrar senha");
+        botao.setAttribute("title", vaiMostrar ? "Ocultar senha" : "Mostrar senha");
+      });
+    });
+  });
+</script>
 {% endblock %}

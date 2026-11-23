@@ -19,9 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-chave-local")
 
+
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "barbergrid.chilecentral.cloudapp.azure.com,localhost,127.0.0.1").split(",")
 
 LOGIN_URL = "/login"
 
@@ -59,6 +60,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+		'barber_grid.context_processors.dados_negocio_context',
             ],
         },
     },
@@ -78,7 +80,7 @@ if os.getenv("DB_ENGINE") == "mysql":  # MariaDB
             "NAME": os.getenv("DB_NAME"),
             "USER": os.getenv("DB_USER"),
             "PASSWORD": os.getenv("DB_PASSWORD"),
-            "HOST": "localhost",
+            "HOST": os.getenv("DB_HOST", "db"),
             "PORT": "3306",
         }
     }
@@ -133,12 +135,23 @@ USE_TZ = True
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+
+
+
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'OPTIONS': {
+            'host': 'smtp.resend.com',
+            'port': 465,
+            'username': 'resend',
+            'password': os.environ.get('EMAIL_PASSWORD'),
+            'use_ssl': True,
+        },
     },
 }
 
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Barber Grid <onboarding@resend.dev>')
 STATIC_URL = "static/"
 STATIC_ROOT = os.getenv("STATIC_ROOT", BASE_DIR / "staticfiles")
 

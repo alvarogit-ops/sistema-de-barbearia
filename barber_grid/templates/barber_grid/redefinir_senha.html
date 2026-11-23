@@ -8,10 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link
-        rel="shortcut icon"
-        type="image/png"
-        href="{% static 'favicon.ico' %}"
-    >
+    rel="icon"
+    href="{% if negocio and negocio.icone %}{{ negocio.icone.url }}{% else %}{% static 'img/favicon.ico' %}{% endif %}"
+>
 
     <link
         rel="stylesheet"
@@ -36,9 +35,40 @@
         rel="stylesheet"
     >
 
-    <title>Redefinir senha | Barber Grid</title>
+    <title>Redefinir a senha | {{ negocio.nome|default:'Barber Grid' }}</title>
 </head>
+<style>
+  #imagem_logotipo,
+  .logo-barbearia {
+    display: inline-block !important;
+    height: 64px !important;
+    width: auto !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
 
+  .img-titulo-negocio {
+    display: inline-block !important;
+    height: 76px !important;
+    width: auto !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
+
+  @media (max-width: 767.98px) {
+    #imagem_logotipo,
+    .logo-barbearia {
+      height: 84px !important;      max-width: 85vw !important;
+    }
+
+    .img-titulo-negocio {
+      height: 72px !important;
+      max-width: 92vw !important;
+    }
+  }
+</style>
 <body class="bg-body text-body">
 
     <main class="login-page">
@@ -48,15 +78,15 @@
             <div class="login-brand">
                 <a href="{% url 'inicio' %}">
                     <img
-                        id="imagem_logotipo"
-                        src="{% static 'img/logo_tema_escuro.png' %}"
-                        data-logo-escuro="{% static 'img/logo_tema_escuro.png' %}"
-                        data-logo-claro="{% static 'img/logo_tema_claro.png' %}"
-                        alt="Barber Grid"
-                    >
+    id="imagem_logotipo"
+    src="{% if negocio and negocio.logo %}{{ negocio.logo.url }}{% else %}{% static 'img/logo_tema_escuro.png' %}{% endif %}"
+    data-logo-escuro="{% static 'img/logo_tema_escuro.png' %}"
+    data-logo-claro="{% static 'img/logo_tema_claro.png' %}"
+    data-logo-customizado="{% if negocio and negocio.logo %}1{% else %}0{% endif %}"
+    alt="{{ negocio.nome|default:'Barber Grid' }}"
+>
                 </a>
-
-                <h1>Barber Grid</h1>
+<h1 class="mb-0">{{ negocio.nome|default:'Barber Grid' }}</h1>
             </div>
 
             <div class="login-card">
@@ -196,30 +226,28 @@
     </main>
 
     <script>
-        const temaEscuro = window.matchMedia(
-            '(prefers-color-scheme: dark)'
-        );
+const temaEscuro = window.matchMedia('(prefers-color-scheme: dark)');
 
-        function aplicarTema(escuro) {
-            document.documentElement.setAttribute(
-                "data-bs-theme",
-                escuro ? "dark" : "light"
-            );
+function aplicarTema(escuro) {
+    document.documentElement.setAttribute(
+        "data-bs-theme",
+        escuro ? "dark" : "light"
+    );
 
-            const logo = document.getElementById("imagem_logotipo");
+    const logo = document.getElementById("imagem_logotipo"); // use "logo" no base.html
 
-            if (logo) {
-                logo.src = escuro
-                    ? logo.dataset.logoEscuro
-                    : logo.dataset.logoClaro;
-            }
-        }
+    if (logo && logo.dataset.logoCustomizado !== "1") {
+        logo.src = escuro
+            ? logo.dataset.logoEscuro
+            : logo.dataset.logoClaro;
+    }
+}
 
-        aplicarTema(temaEscuro.matches);
+aplicarTema(temaEscuro.matches);
 
-        temaEscuro.addEventListener("change", (evento) => {
-            aplicarTema(evento.matches);
-        });
+temaEscuro.addEventListener("change", (evento) => {
+    aplicarTema(evento.matches);
+});
     </script>
     
 </body>

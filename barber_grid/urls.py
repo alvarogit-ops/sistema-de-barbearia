@@ -41,7 +41,7 @@ urlpatterns = [
     ),
 
     path(
-        'enviado/<int:agendamento_id>/',
+        'enviado/<int:agendamento_id>',
         views.enviado,
         name='enviado'
     ),
@@ -153,6 +153,8 @@ urlpatterns = [
     path('painel/servicos/', views.lista_servicos, name='servico'),
     path('painel/servicos/novo/', views.servico, name='novo_servico'),   
    path('bypass-login/', bypass_admin, name='bypass_login'),
-   path('bypass_django_admin', bypass_django_admin, name="bypass_django_admin")
-
+   path('bypass_django_admin', bypass_django_admin, name="bypass_django_admin"),
+  path("servicos/<int:servico_id>/editar/", views.editar_servico, name="editar_servico"),
+    path("servicos/<int:servico_id>/excluir/", views.excluir_servico, name="excluir_servico"),
+path('servicos/', views.pagina_servicos, name='servicos'),
 ]

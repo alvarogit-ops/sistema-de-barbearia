@@ -1,26 +1,29 @@
+
 services:
   db:
-    image: postgres:18
+    image: mysql:8.4
     container_name: django_db
+    restart: unless-stopped
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - mysql_data:/var/lib/mysql
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" --silent"]
       interval: 5s
       timeout: 5s
       retries: 10
     networks:
       - django_network
-    restart: unless-stopped
 
   web:
     build: .
     container_name: django_web
-    env_file: .env
+    env_file:
+      - .env
     volumes:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
@@ -47,10 +50,11 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data:
+  mysql_data:
   static_volume:
   media_volume:
 
 networks:
   django_network:
     driver: bridge
+

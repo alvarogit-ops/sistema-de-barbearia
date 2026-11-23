@@ -1,14 +1,23 @@
 {% extends 'barber_grid/base.html' %}
 
-{% block title %}Serviços | Barber Grid{% endblock %}
+{% block title %}Serviços | {{ negocio.nome|default:'Barber Grid' }}{% endblock %}
 
 {% block content %}
 
 <div class="my-4 container">
 
-    <h2 class="mb-4">
-        Qual serviço?
-    </h2>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <h2 class="mb-0">
+            Qual serviço?
+        </h2>
+
+        {% if user.is_staff %}
+            <a href="{% url 'novo_servico' %}" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-lg me-1"></i>
+                Novo serviço
+            </a>
+        {% endif %}
+    </div>
 
     <div class="g-4 row row-cols-lg-3 row-cols-md-2 row-cols-1">
 
@@ -16,54 +25,77 @@
 
             <div class="col">
 
-                <a class="h-100 text-decoration-none card"
-                   href="{% url 'agendamento' servico.id %}">
+                <div class="h-100 card d-flex flex-column">
 
-                    <div class="text-center bg-body-tertiary py-4">
+                    <a class="text-decoration-none text-reset flex-grow-1 d-flex flex-column"
+                       href="{% url 'agendamento' servico.id %}">
 
-                        {% if servico.imagem %}
+                        <div class="text-center bg-body-tertiary py-4">
 
-                            <img
-                                src="{{ servico.imagem.url }}"
-                                alt="{{ servico.nome_servico }}"
-                                class="w-100"
-                                style="height: 240px; object-fit: cover;"
-                            >
+                            {% if servico.imagem %}
 
-                        {% else %}
+                                <img
+                                    src="{{ servico.imagem.url }}"
+                                    alt="{{ servico.nome_servico }}"
+                                    class="w-100"
+                                    style="height: 240px; object-fit: cover;"
+                                >
 
-                            <i class="bi bi-scissors display-4 text-secondary"></i>
+                            {% else %}
 
-                        {% endif %}
+                                <i class="bi bi-scissors display-4 text-secondary"></i>
 
-                    </div>
+                            {% endif %}
 
-                    <div class="card-body">
-
-                        <div class="card-title h5">
-                            {{ servico.nome_servico }}
                         </div>
 
-                        <p class="text-secondary card-text">
-                            Serviço de barbearia.
-                        </p>
+                        <div class="card-body">
+                            <div class="card-title h5">
+                                {{ servico.nome_servico }}
+                            </div>
 
-                    </div>
+                            <p class="text-secondary card-text">
+                                Serviço de barbearia.
+                            </p>
+                        </div>
 
-                    <div class="d-flex justify-content-between card-footer">
+                        <div class="d-flex justify-content-between card-footer mt-auto">
 
-                        <span>
-                            <i class="bi bi-clock"></i>
-                            {{ servico.duracao_minutos }} min
-                        </span>
+                            <span>
+                                <i class="bi bi-clock"></i>
+                                {{ servico.duracao_minutos }} min
+                            </span>
 
-                        <strong>
-                            R$ {{ servico.preco }}
-                        </strong>
+                            <strong>
+                                R$ {{ servico.preco }}
+                            </strong>
 
-                    </div>
+                        </div>
 
-                </a>
+                    </a>
+
+                    {% if user.is_staff %}
+                        <div class="card-footer bg-transparent border-top d-flex justify-content-end gap-2">
+                            <a href="{% url 'editar_servico' servico.id %}"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-pencil me-1"></i>
+                                Editar
+                            </a>
+
+                            <form method="POST"
+                                  action="{% url 'excluir_servico' servico.id %}"
+                                  class="d-inline m-0"
+                                  onsubmit="return confirm('Tem certeza que deseja apagar &quot;{{ servico.nome_servico|escapejs }}&quot;?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash me-1"></i>
+                                    Apagar
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+
+                </div>
 
             </div>
 

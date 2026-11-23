@@ -1,0 +1,115 @@
+{% extends 'barber_grid/base.html' %}
+
+{% block title %}
+Início | Barber Grid
+{% endblock %}
+
+{% block content %}
+
+<div class="my-4 container">
+
+    <div class="g-4 row">
+
+        <div class="col-md-5">
+
+            <div class="text-center h-100 card">
+
+                <div class="card-body">
+    {% if negocio and negocio.logo %}
+        <img
+            src="{{ negocio.logo.url }}"
+            alt="{{ negocio.nome|default:'Barber Grid' }}"
+            class="mb-2 object-fit-contain"
+            style="max-height: 72px;"
+        >
+    {% else %}
+        <i class="bi bi-scissors display-1"></i>
+    {% endif %}
+
+    <h4 class="mt-3">{{ negocio.nome|default:'Barber Grid' }}</h4>
+
+    <p class="text-secondary">
+        Agende seu próximo horário com facilidade.[cite: 8]
+    </p>
+</div>
+
+        </div>
+
+
+        <div class="col-md-7">
+
+            <h2>
+                Olá,  {{ request.user.first_name }}
+            </h2>
+
+            <h5 class="mt-4">
+                Sua próxima reserva
+            </h5>
+
+
+            {% if proxima_reserva %}
+
+                <div class="mb-3 list-group">
+
+                    <a class="d-flex align-items-center gap-3 list-group-item list-group-item-action"
+                       href="{% url 'usuario_historico' %}">
+
+                        <div class="text-center">
+
+                            <div class="fw-bold">
+                                {{ proxima_reserva.horario }}
+                            </div>
+
+                            <small class="text-secondary">
+                                {{ proxima_reserva.data }}
+                            </small>
+
+                        </div>
+
+
+                        <div class="me-auto">
+
+                            <div class="fw-semibold">
+                                {{ proxima_reserva.servico.nome_servico }}
+                            </div>
+
+                            <small class="text-secondary">
+                                {{ }}
+                            </small>
+
+                        </div>
+
+
+                        <span class="badge {% if proxima_reserva.status == 'confirmado' %}bg-success{% elif proxima_reserva.status == 'cancelado' %}bg-danger{% else %}bg-warning text-dark{% endif %}">
+                        {{ proxima_reserva.get_status_display }}
+                        </span>
+
+                    </a>
+
+                </div>
+
+            {% else %}
+
+                <div class="mb-3 alert alert-info">
+                    Você não tem reservas.
+                </div>
+
+            {% endif %}
+
+
+            <a href="{% url 'pagina_servicos' %}"
+               class="btn btn-primary btn-lg">
+
+                <i class="bi bi-calendar-plus"></i>
+
+                Agendar
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

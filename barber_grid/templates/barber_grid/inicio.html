@@ -14,21 +14,24 @@ Início | Barber Grid
 
             <div class="text-center h-100 card">
 
-                <div class="card-body">
+              <div class="card-body position-relative text-white d-flex flex-column justify-content-center align-items-center text-center"
+     {% if negocio and negocio.imagem_fundo %}
+         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ negocio.imagem_fundo.url }}'); background-size: cover; background-position: center; min-height: 160px;"
+     {% endif %}>
+    <div class="position-relative z-1">
+        {% if not negocio or not negocio.imagem_fundo %}
+            <i class="bi bi-scissors display-1 text-white"></i>
+        {% endif %}
+        {# Coloque aqui o texto que deve ficar por cima em branco #}
+    </div>
+</div>
 
-                    <i class="bi bi-scissors display-1"></i>
+    <h4 class="mt-3">{{ negocio.nome|default:'Barber Grid' }}</h4>
 
-                    <h4 class="mt-3">
-                        Barber Grid
-                    </h4>
-
-                    <p class="text-secondary">
-                        Agende seu próximo horário com facilidade.
-                    </p>
-
-                </div>
-
-            </div>
+    <p class="text-secondary">
+        Agende seu próximo horário com facilidade.
+    </p>
+</div>
 
         </div>
 
@@ -71,7 +74,6 @@ Início | Barber Grid
                             </div>
 
                             <small class="text-secondary">
-                                Barbeiro Felipe
                             </small>
 
                         </div>

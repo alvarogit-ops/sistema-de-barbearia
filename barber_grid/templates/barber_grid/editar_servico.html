@@ -1,0 +1,140 @@
+{% extends 'barber_grid/base_admin.html' %}
+
+{% block title %}Editar serviço | {{ negocio.nome|default:'Barber Grid' }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+            <div class="mb-4">
+                <h2 class="fw-bold mb-1">Editar serviço</h2>
+                <p class="text-muted mb-0">
+                    Atualize os dados do serviço selecionado.
+                </p>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="nome_servico" class="form-label">
+                                Nome do serviço
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nome_servico"
+                                name="nome_servico"
+                                class="form-control"
+                                maxlength="80"
+                                placeholder="Ex.: Corte masculino"
+                                value="{{ request.POST.nome_servico|default:servico.nome_servico }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="duracao_minutos" class="form-label">
+                                    Duração estimada (minutos)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="duracao_minutos"
+                                    name="duracao_minutos"
+                                    class="form-control"
+                                    min="1"
+                                    placeholder="Ex.: 30"
+                                    value="{{ request.POST.duracao_minutos|default:servico.duracao_minutos }}"
+                                    required
+                                >
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="preco" class="form-label">
+                                    Preço (R$)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="preco"
+                                    name="preco"
+                                    class="form-control"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="Ex.: 35,00"
+                                    value="{{ request.POST.preco|default:servico.preco }}"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="imagem" class="form-label">
+                                Imagem do serviço
+                            </label>
+
+                            {% if servico.imagem %}
+                                <div class="mb-2">
+                                    <img
+                                        src="{{ servico.imagem.url }}"
+                                        alt="{{ servico.nome_servico }}"
+                                        class="rounded border"
+                                        style="width: 240px; max-width: 100%; height: 160px; object-fit: cover;"
+                                    >
+                                    <div class="form-text">Imagem atual</div>
+                                </div>
+                            {% endif %}
+
+                            <input
+                                type="file"
+                                id="imagem"
+                                name="imagem"
+                                class="form-control"
+                                accept="image/*"
+                            >
+
+                            <div class="form-text">
+                                Envie uma nova imagem apenas se quiser substituir a atual.
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-flex justify-content-between flex-wrap gap-2">
+                            <a
+                                href="{% url 'servicos' %}"
+                                class="btn btn-outline-secondary"
+                            >
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Voltar
+                            </a>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg me-1"></i>
+                                Salvar alterações
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

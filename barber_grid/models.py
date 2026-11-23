@@ -102,7 +102,7 @@ class Agendamento(models.Model):
     barbeiro = models.ForeignKey(
     User,
     on_delete=models.PROTECT,
-    related_name="agendamentos_como_barbeiro"
+    related_name="agendamentos_como_barbeiro", null=True, blank=True
 )
 
     class Meta:
@@ -114,4 +114,14 @@ class Agendamento(models.Model):
         )
     ]
 
+
+class DadosNegocio(models.Model):
+    nome = models.CharField(max_length=100, default="Barber Grid")
+    descricao = models.TextField(blank=True, default="")
+    imagem_titulo = models.ImageField(upload_to="negocio/", blank=True, null=True)
+    logo = models.ImageField(upload_to="negocio/", blank=True, null=True)
+    icone = models.ImageField(upload_to="negocio/", blank=True, null=True)
+    imagem_fundo = models.ImageField(upload_to="negocio/", blank=True, null=True)
+    def __str__(self):
+        return self.nome
 

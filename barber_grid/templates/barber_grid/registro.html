@@ -1,18 +1,16 @@
 
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link
-        rel="shortcut icon"
-        type="image/png"
-        href="{% static 'favicon.ico' %}"
-    >
-
+<link
+    rel="icon"
+    href="{% if negocio and negocio.icone %}{{ negocio.icone.url }}{% else %}{% static 'img/favicon.ico' %}{% endif %}"
+>
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -36,9 +34,39 @@
         rel="stylesheet"
     >
 
-    <title>Criar conta | Barber Grid</title>
+   <title>Criar conta | {{ negocio.nome|default:'Barber Grid' }}</title>
 </head>
+<style>
+  #imagem_logotipo,
+  .logo-barbearia {
+    display: inline-block !important;
+    height: 64px !important;
+    width: auto !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  } .img-titulo-negocio {
+    display: inline-block !important;
+    height: 76px !important;
+    width: auto !important;
+    max-width: none !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
 
+  @media (max-width: 767.98px) {
+    #imagem_logotipo,
+    .logo-barbearia {
+      height: 84px !important;
+      max-width: 85vw !important;
+    }
+
+    .img-titulo-negocio {
+      height: 72px !important;
+      max-width: 92vw !important;
+    }
+  }
+</style>
 <body class="bg-body text-body">
 
     <main class="login-page">
@@ -47,16 +75,25 @@
 
             <div class="login-brand">
                 <a href="{% url 'inicio' %}">
-                    <img
-                        id="imagem_logotipo"
-                        src="{% static 'img/logo_tema_escuro.png' %}"
-                        data-logo-escuro="{% static 'img/logo_tema_escuro.png' %}"
-                        data-logo-claro="{% static 'img/logo_tema_claro.png' %}"
-                        alt="Barber Grid"
-                    >
+                   <img
+    id="imagem_logotipo"
+    src="{% if negocio.logo %}{{ negocio.logo.url }}{% else %}{% static 'img/logo_tema_escuro.png' %}{% endif %}"
+    alt="{{ negocio.nome|default:'Barber Grid' }}"
+    class="img-fluid"
+    style="max-height: 48px; background: transparent;"
+>
                 </a>
 
-                <h1>Barber Grid</h1>
+                <h1 class="mb-0">
+  {% if negocio.imagem_titulo %}
+    <img src="{{ negocio.imagem_titulo.url }}"
+         alt="{{ negocio.nome|default:'Barber Grid' }}"
+         class="img-titulo-negocio"
+         style="max-height: 48px; background: transparent;">
+  {% else %}
+    {{ negocio.nome|default:'Barber Grid' }}
+  {% endif %}
+</h1>
             </div>
 
             <div class="login-card">
@@ -167,7 +204,15 @@
                                 placeholder="Crie uma senha"
                                 autocomplete="new-password"
                                 required
-                            >
+                            ><button
+                  type="button"
+                  class="btn btn-outline-secondary btn-toggle-senha"
+                  data-target="id_new_password2"
+                  aria-label="Mostrar senha"
+                  title="Mostrar senha"
+                >
+                  <i class="bi bi-eye-slash"></i>
+                </button>
                         </div>
                     </div>
 
@@ -204,32 +249,28 @@
     </main>
 
     <script>
-        const temaEscuro = window.matchMedia(
-            '(prefers-color-scheme: dark)'
-        );
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-toggle-senha").forEach(function (botao) {
+      botao.addEventListener("click", function () {
+        const targetId = botao.getAttribute("data-target");
+        const campo = document.getElementById(targetId);
+        const icone = botao.querySelector("i");
 
-        function aplicarTema(escuro) {
-            document.documentElement.setAttribute(
-                "data-bs-theme",
-                escuro ? "dark" : "light"
-            );
+        if (!campo) return;
 
-            const logo = document.getElementById("imagem_logotipo");
+        const vaiMostrar = campo.getAttribute("type") === "password";
+        campo.setAttribute("type", vaiMostrar ? "text" : "password");
 
-            if (logo) {
-                logo.src = escuro
-                    ? logo.dataset.logoEscuro
-                    : logo.dataset.logoClaro;
-            }
+        if (icone) {
+          icone.classList.toggle("bi-eye", vaiMostrar);
+          icone.classList.toggle("bi-eye-slash", !vaiMostrar);
         }
 
-        aplicarTema(temaEscuro.matches);
-
-        temaEscuro.addEventListener("change", (evento) => {
-            aplicarTema(evento.matches);
-        });
-
-    
+        botao.setAttribute("aria-label", vaiMostrar ? "Ocultar senha" : "Mostrar senha");
+        botao.setAttribute("title", vaiMostrar ? "Ocultar senha" : "Mostrar senha");
+      });
+    });
+  });
        document.addEventListener("DOMContentLoaded", function () {
     const inputTelefone = document.getElementById("telefone");
     

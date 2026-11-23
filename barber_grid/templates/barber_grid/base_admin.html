@@ -1,15 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}Administração | Barber Grid{% endblock %}</title>
+    <title>{% block title %}Administração | {{ negocio.nome|default:'Barber Grid' }}{% endblock %}</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
+    <link
+    rel="icon"
+    href="{% if negocio and negocio.icone %}{{ negocio.icone.url }}{% else %}{% static 'img/favicon.ico' %}{% endif %}"
+>
     <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -26,18 +29,28 @@
 
         <a class="navbar-brand d-flex align-items-center"
            href="{% url 'painel_admin' %}">
-
-            <img
-                height="32"
-                class="me-2"
-                id="logo"
-                src="{% static 'img/logo_tema_escuro.png' %}"
-                data-logo-escuro="{% static 'img/logo_tema_escuro.png' %}"
-                data-logo-claro="{% static 'img/logo_tema_claro.png' %}"
-                alt="Barber Grid">
-
-            <h1 class="mb-0">Barber Grid</h1>
-        </a>
+<img
+    height="32"
+    class="me-2"
+    id="logo"
+    src="{% if negocio and negocio.logo %}{{ negocio.logo.url }}{% else %}{% static 'img/logo_tema_escuro.png' %}{% endif %}"
+    data-logo-escuro="{% static 'img/logo_tema_escuro.png' %}"
+    data-logo-claro="{% static 'img/logo_tema_claro.png' %}"
+    data-logo-customizado="{% if negocio and negocio.logo %}1{% else %}0{% endif %}"
+    alt="{{ negocio.nome|default:'Barber Grid' }}"
+>
+{% if negocio and negocio.imagem_titulo %}
+    <img
+        src="{{ negocio.imagem_titulo.url }}"
+        alt="{{ negocio.nome|default:'Barber Grid' }}"
+        class="d-inline-block align-middle"
+        style="height: 32px; width: auto; object-fit: contain; background: transparent;"
+    >
+{% elif negocio and negocio.nome %}
+    <span class="fw-semibold fs-5 mb-0">{{ negocio.nome }}</span>
+{% else %}
+    <span class="fw-semibold fs-5 mb-0">Barber Grid</span>
+{% endif %}        </a>
 
         <button
             class="navbar-toggler"
@@ -244,30 +257,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    const temaEscuro = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-    );
-
-    function aplicarTema(escuro) {
-        document.documentElement.setAttribute(
-            "data-bs-theme",
-            escuro ? "dark" : "light"
-        );
-
-        const logo = document.getElementById("logo");
-
-        if (logo) {
-            logo.src = escuro
-                ? logo.dataset.logoEscuro
-                : logo.dataset.logoClaro;
-        }
-    }
-
-    aplicarTema(temaEscuro.matches);
-
-    temaEscuro.addEventListener("change", (evento) => {
-        aplicarTema(evento.matches);
-    });
 </script>
 
 </body>

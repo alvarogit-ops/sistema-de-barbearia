@@ -10,19 +10,6 @@
         Agendamentos a confirmar
     </h2>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
-                 role="alert">
-                {{ message }}
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="alert"
-                        aria-label="Fechar"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-
     <div class="list-group">
 
         {% for agendamento in agendamentos %}
