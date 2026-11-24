@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="dark">
@@ -11,58 +10,32 @@
     rel="icon"
     href="{% if negocio and negocio.icone %}{{ negocio.icone.url }}{% else %}{% static 'img/favicon.ico' %}{% endif %}"
 >
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    >
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-    <link rel="stylesheet"
-          href="{% static 'css/estilo.css' %}">
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilo.css' %}"
+    >
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
-    <title>Entrar | {{ negocio.nome|default:'Barber Grid' }}</title>
+   <title>Entrar | {{ negocio.nome|default:'Barber Grid' }}</title>
 </head>
-<style>
-  #imagem_logotipo,
-  .logo-barbearia {
-    display: inline-block !important;
-    height: 64px !important;
-    width: auto !important;
-    max-width: none !important;
-    object-fit: contain !important;
-    background: transparent !important;
-  }
 
-  .img-titulo-negocio {
-    display: inline-block !important;
-    height: 76px !important;
-    width: auto !important;
-    max-width: none !important;
-    object-fit: contain !important;
-    background: transparent !important;
-  }
-
-  @media (max-width: 767.98px) {
-    #imagem_logotipo,
-    .logo-barbearia {
-      height: 84px !important;
-      max-width: 85vw !important;
-    }
-
-    .img-titulo-negocio {
-      height: 72px !important;
-      max-width: 92vw !important;
-    }
-  }
-
-</style>
 <body class="bg-body text-body">
 
     <main class="login-page">
@@ -71,23 +44,26 @@
 
             <div class="login-brand">
                 <a href="{% url 'inicio' %}">
-  <img
-        id="imagem_logotipo"
-        src="{% if negocio.logo %}{{ negocio.logo.url }}{% else %}{% static 'img/logo_tema_escuro.png' %}{% endif %}"
-        alt="{{ negocio.nome|default:'Barber Grid' }}"
-        class="logo-barbearia"
-    >
-</a>
- <h1 class="mb-0">
+                    <img
+    id="imagem_logotipo"
+    src="{% if negocio.logo %}{{ negocio.logo.url }}{% else %}{% static 'img/logo_tema_escuro.png' %}{% endif %}"
+    alt="{{ negocio.nome|default:'Barber Grid' }}"
+    class="img-fluid"
+    style="max-height: 48px; background: transparent;"
+>
+                </a>
+
+                <h1 class="mb-0">
   {% if negocio.imagem_titulo %}
     <img src="{{ negocio.imagem_titulo.url }}"
          alt="{{ negocio.nome|default:'Barber Grid' }}"
-         class="img-titulo-negocio">
+         class="img-fluid"
+         style="max-height: 48px; background: transparent;">
   {% else %}
     {{ negocio.nome|default:'Barber Grid' }}
   {% endif %}
-</h1>           
-</div>
+</h1>
+            </div>
 
             <div class="login-card">
 
@@ -149,15 +125,6 @@
                                 autocomplete="current-password"
                                 required
                             >
-<button
-      class="btn btn-outline-secondary"
-      type="button"
-      id="toggleSenha"
-      aria-label="Mostrar senha"
-      title="Mostrar senha"
-    >
-      <i class="bi bi-eye" id="iconeSenha"></i>
-    </button>
                         </div>
                     </div>
 
@@ -193,28 +160,6 @@
     </main>
 
     <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const botao = document.getElementById("toggleSenha");
-    const campoSenha = document.getElementById("senha");
-    const icone = document.getElementById("iconeSenha");
-
-    if (!botao || !campoSenha) return;
-
-    botao.addEventListener("click", function () {
-      const estaOculta = campoSenha.getAttribute("type") === "password";
-      const vaiMostrar = estaOculta;
-
-      campoSenha.setAttribute("type", vaiMostrar ? "text" : "password");
-
-      if (icone) {
-        icone.classList.toggle("bi-eye", vaiMostrar);
-        icone.classList.toggle("bi-eye-slash", !vaiMostrar);
-      }
-
-      botao.setAttribute("aria-label", vaiMostrar ? "Ocultar senha" : "Mostrar senha");
-      botao.setAttribute("title", vaiMostrar ? "Ocultar senha" : "Mostrar senha");
-    });
-  });
     </script>
 
 </body>
